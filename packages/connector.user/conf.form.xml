@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<generator>
+	<form>
+		<field>
+			<label>Moteur User (Nouser, Roduser, ...)</label>
+			<name>moteuruser</name>
+			<default>Roduser</default>
+		</field>
+	</form>
+</generator>

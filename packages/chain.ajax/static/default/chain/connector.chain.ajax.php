@@ -72,6 +72,14 @@ $tabconnector[count($tabconnector)-1]['aliasiniter']="instanceDroit";
 $tabconnector[count($tabconnector)-1]['name']="access";
 
 
+//connector user
+$tabconnector[]=array();
+$tabconnector[count($tabconnector)-1]['classtoiniter']=false;
+$tabconnector[count($tabconnector)-1]['vartoiniter']=true;
+$tabconnector[count($tabconnector)-1]['aliasiniter']="user";
+$tabconnector[count($tabconnector)-1]['name']="user";
+
+
 //connector auth
 $tabconnector[]=array();
 $tabconnector[count($tabconnector)-1]['classtoiniter']=true;

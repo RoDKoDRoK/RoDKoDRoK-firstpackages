@@ -1,7 +1,7 @@
 <?php
 
 $descripter['name']="RoD User";
-$descripter['description']="Gestion des users du site";
+$descripter['description']="Interfaces gestion des users du site";
 
 $descripter['version']="0.0.1-1.0";
 
@@ -18,6 +18,7 @@ $descripter['depend'][]="connector.message";
 $descripter['depend'][]="connector.variable";
 $descripter['depend'][]="connector.content";
 $descripter['depend'][]="connector.droit";
+$descripter['depend'][]="connector.user";
 
 
 ?>

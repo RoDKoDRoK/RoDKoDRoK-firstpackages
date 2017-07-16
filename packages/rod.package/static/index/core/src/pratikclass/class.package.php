@@ -1617,6 +1617,7 @@ class PratikPackage extends ClassIniter
 			if($filesizeoldsql!=$filesizenewsql)
 			{
 				//kill db generator
+				$sqltype=$this->getExtSql();
 				$chemin_db_generator_tpl="package/".$packagecodename."/generator/generator.db.destroyer.__INSTANCE__.".$sqltype.".tpl";
 				if(isset($this->db) && $this->db && file_exists($chemin_db_generator_tpl))
 				{
@@ -1688,6 +1689,7 @@ class PratikPackage extends ClassIniter
 				}
 				
 				//load db generator
+				$sqltype=$this->getExtSql();
 				$chemin_db_generator_tpl="package/".$packagecodename."/generator/generator.db.deployer.__INSTANCE__.".$sqltype.".tpl";
 				if(isset($this->db) && $this->db && file_exists($chemin_db_generator_tpl))
 				{
@@ -1934,6 +1936,12 @@ class PratikPackage extends ClassIniter
 			//include postdeployer generator
 			if(file_exists("package/".$packagecodename."/generator/generator.postdeployer.php"))
 				include "package/".$packagecodename."/generator/generator.postdeployer.php";
+			
+			
+			//kill old files which are not in the updated package yet (and put last conflict file instead if exists)
+			//a file of $tabisinpackage for the package not in $tabdeployedfiles and a conflictfile for the package not in $tabdeployedfiles ==> tabisinpackage unset or conflictfile unset, kill file (or last conflict replace or reorganize conflict => see destroy) 
+			//$tabdeployedfiles
+			
 			
 			//reload initer
 			$this->reloadIniter();

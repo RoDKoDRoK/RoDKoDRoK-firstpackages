@@ -25,68 +25,16 @@ class AccessRoddroit
 		}
 		else if($this->uid!="none")
 		{
-			$result=$this->db->query_one_result("select * from user where iduser='".$this->uid."'");
+			$result=$this->db->query_one_result("select * from user_has_droit where iduser='".$this->uid."'");
 			if($result)
 			{
-				$this->droit=$result['droit'];
-				return $result['droit'];
+				$this->droit=$result['nomcodedroit'];
+				return $result['nomcodedroit'];
 			}
 		}
 		
 		$this->droit="public";
 		return $this->droit;
-	}
-	
-	
-	function checkUserLogin($login,$pwd)
-	{
-		if($login!="" && $pwd!="")
-		{
-			$result=$this->db->query_one_result("select * from user where (login_mail='".$login."' or pseudo='".$login."') and pwd='".md5($pwd)."'");
-			if($result)
-			{
-				return $result;
-			}
-		}
-		
-		return null;
-	}
-	
-	
-	
-	
-	function getUserToken($login,$pwd,$typetoken="ws")
-	{
-		if($login!="" && $pwd!="")
-		{
-			$result=$this->db->query_one_result("select * from user where (login_mail='".$login."' or pseudo='".$login."') and pwd='".md5($pwd)."'");
-			if($result)
-			{
-				$newtoken=$this->generateRandomString();
-				$this->db->query("update `token` set token='".$newtoken."' where iduser='".$result['iduser']."' and typetoken='".$typetoken."'");
-				
-				return $newtoken;
-			}
-		}
-		
-		return "";
-	}
-	
-	
-	
-	
-	function checkUserToken($token,$uid,$typetoken="ws")
-	{
-		if($token!="" && $typetoken!="")
-		{
-			$result=$this->db->query_one_result("select * from `token`,`user` where `token`.iduser=`user`.iduser and `token`.iduser='".$uid."' and token='".$_POST['token']."' and typetoken='".$typetoken."'");
-			if($result)
-			{
-				return $result;
-			}
-		}
-		
-		return null;
 	}
 	
 	
@@ -181,18 +129,23 @@ class AccessRoddroit
 		}
 		
 	}
-
 	
 	
-	private function generateRandomString($length = 50) {
-		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$charactersLength = strlen($characters);
-		$randomString = '';
-		for ($i = 0; $i < $length; $i++) {
-			$randomString .= $characters[rand(0, $charactersLength - 1)];
-		}
-		return $randomString;
+	function addDroitUser($iduser,$nomcodedroit="public")
+	{
+		$this->db->query("DELETE FROM `user_has_droit` WHERE iduser='".$iduser."';");
+		$this->db->query("INSERT INTO `user_has_droit` (iduser_has_droit,iduser,nomcodedroit) VALUES (NULL,'".$iduser."','".$nomcodedroit."');");
+		
 	}
+	
+	function delDroitUser($iduser,$nomcodedroit="all")
+	{
+		if($nomcodedroit=="all")
+			$this->db->query("DELETE FROM `user_has_droit` WHERE iduser='".$iduser."';");
+		else
+			$this->db->query("DELETE FROM `user_has_droit` WHERE iduser='".$iduser."' and nomcodedroit='".$nomcodedroit."';");
+	}
+
 }
 
 ?>

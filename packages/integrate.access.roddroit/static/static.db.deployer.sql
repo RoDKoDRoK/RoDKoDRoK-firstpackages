@@ -35,6 +35,14 @@ CREATE  TABLE IF NOT EXISTS `elmt_has_droit` (
 ENGINE = MyISAM;
 
 
+CREATE  TABLE IF NOT EXISTS `user_has_droit` (
+  `iduser_has_droit` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `iduser` BIGINT UNSIGNED NOT NULL ,
+  `iddroit` BIGINT UNSIGNED NOT NULL ,
+  `nomcodedroit` VARCHAR(255) NULL ,
+  PRIMARY KEY (`iduser_has_droit`,`iduser`,`iddroit`,`nomcodedroit`) )
+ENGINE = MyISAM;
+
 
 
 

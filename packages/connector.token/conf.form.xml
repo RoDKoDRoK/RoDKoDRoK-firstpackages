@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<generator>
+	<form>
+		<field>
+			<label>Moteur User Token (Notoken, Rodtoken, ...)</label>
+			<name>moteurusertoken</name>
+			<default>Rodtoken</default>
+		</field>
+	</form>
+</generator>

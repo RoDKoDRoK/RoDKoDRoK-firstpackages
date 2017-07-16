@@ -6,6 +6,16 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
 
 
+-- tables gestion droit
+
+DROP TABLE IF EXISTS `droit` ;
+
+
+DROP TABLE IF EXISTS `elmt_has_droit` ;
+
+
+DROP TABLE IF EXISTS `user_has_droit` ;
+
 
 
 

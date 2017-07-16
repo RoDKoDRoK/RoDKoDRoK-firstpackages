@@ -24,31 +24,6 @@ class AccessNodroit
 	}
 	
 	
-	function checkUserLogin($login,$pwd)
-	{
-		
-		return null;
-	}
-	
-	
-	
-	
-	function getUserToken($login,$pwd,$typetoken="ws")
-	{
-		
-		return "";
-	}
-	
-	
-	
-	
-	function checkUserToken($token,$uid,$typetoken="ws")
-	{
-		
-		return null;
-	}
-	
-	
 	
 	function hasAccessTo($elmttoaccess,$typeelmttoaccess="page")
 	{
@@ -84,8 +59,16 @@ class AccessNodroit
 		
 		
 	}
-
 	
+	function addDroitUser($iduser,$nomcodedroit="public")
+	{
+		
+	}
+	
+	function delDroitUser($iduser,$nomcodedroit="all")
+	{
+		
+	}
 
 }
 

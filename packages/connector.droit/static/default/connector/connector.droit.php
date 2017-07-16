@@ -13,7 +13,9 @@ class ConnectorDroit extends Connector
 	function initInstance()
 	{
 		//instance conf
-		$instanceDroit=$this->initer['instanceAuth']->instanceDroit;
+		$this->initer['instanceDroit']->uid=$this->user->uid;
+		
+		$instanceDroit=$this->initer['instanceDroit'];
 		
 		$instanceDroit->getDroitUser();
 		
