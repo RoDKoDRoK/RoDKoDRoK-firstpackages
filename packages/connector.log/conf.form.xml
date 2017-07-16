@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<generator>
+	<form>
+		<field>
+			<label>Moteur Log (Nolog, Roddblog, Rodfilelog, ...)</label>
+			<name>moteurlog</name>
+			<default>Nolog</default>
+		</field>
+	</form>
+</generator>

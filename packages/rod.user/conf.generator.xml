@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<generator>
+
+	<instance>
+		<name>user</name>
+		
+		<userdroits>
+			<droit>moderateur</droit>
+		</userdroits>
+		
+		<usercolumns>
+			<column>
+				<nom>Description</nom>
+				<type>TEXT</type>
+				<default>Je suis ...</default>
+				<suggestlist>none</suggestlist>
+			</column>
+		</usercolumns>
+		
+		<options>
+			<socialnetwork>off</socialnetwork>
+		</options>
+		
+		<droits>
+			<edit>admin</edit>
+			<view>user</view>
+			<wsedit>admin</wsedit>
+			<wsview>user</wsview>
+		</droits>
+		
+		<socialnetworkrelations>
+			<relation>ami</relation>
+			<relation>follower</relation>
+			<relation>example</relation>
+		</socialnetworkrelations>
+		
+		
+	</instance>
+	
+</generator>

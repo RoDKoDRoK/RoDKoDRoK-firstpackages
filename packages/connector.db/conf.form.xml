@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<generator>
+	<form>
+		<field>
+			<label>Moteur DB (Nodb, Mysql, ...)</label>
+			<name>moteurbd</name>
+			<default>Mysql</default>
+		</field>
+		<field>
+			<label>Host</label>
+			<name>host</name>
+			<default>localhost</default>
+		</field>
+		<field>
+			<label>Login</label>
+			<name>login</name>
+			<default>root</default>
+		</field>
+		<field>
+			<label>Password</label>
+			<name>pwd</name>
+			<default></default>
+		</field>
+		<field>
+			<label>Nom database (il faut la creer au prealable dans votre sgbd)</label>
+			<name>schema</name>
+			<default>rodkodrokdb</default>
+		</field>
+	</form>
+</generator>

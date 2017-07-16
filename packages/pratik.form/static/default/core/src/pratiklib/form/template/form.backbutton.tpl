@@ -1,0 +1,1 @@
+<input type="button" name="backbutton" value="Retour" onclick="window.location.href='{$backlink}';" />

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+	<form>
+		<field>
+			<label>Mail de contact</label>
+			<name>contactmail</name>
+			<default></default>
+		</field>
+	</form>
+</package>

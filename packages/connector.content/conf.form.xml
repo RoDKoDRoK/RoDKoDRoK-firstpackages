@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<generator>
+	<form>
+		<field>
+			<label>Moteur AJAX (JQuery, ...)</label>
+			<name>moteurajax</name>
+			<default>JQuery</default>
+		</field>
+		<field>
+			<label>Moteur WYSIWYG (Noeditor, CKEditor, ...)</label>
+			<name>moteurwysiwyg</name>
+			<default>Noeditor</default>
+		</field>
+	</form>
+</generator>

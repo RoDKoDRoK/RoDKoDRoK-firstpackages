@@ -1,0 +1,30 @@
+
+/* css window */
+
+#initwindow .window
+{
+	position:absolute;
+	border:3px solid #999999;
+	top:200px;
+	left:22%;
+	width:50%;
+	min-height:200px;
+	z-index:9999;
+	background:#dddddd;
+	color:#333333;
+	padding:25px;
+}
+
+#initwindow #widewindow
+{
+	left:12%;
+	width:70%;
+	min-height:300px;
+}
+
+#initwindow #smallwindow
+{
+	left:30%;
+	width:450px;
+	min-height:100px;
+}

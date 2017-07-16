@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<generator>
+	<form>
+		<field>
+			<label>Sender</label>
+			<name>sender</name>
+			<default>RodKodRok The CSMF</default>
+		</field>
+		<field>
+			<label>Sender mail</label>
+			<name>sendermail</name>
+			<default>noreply@rodkodrok.com</default>
+		</field>
+	</form>
+</generator>

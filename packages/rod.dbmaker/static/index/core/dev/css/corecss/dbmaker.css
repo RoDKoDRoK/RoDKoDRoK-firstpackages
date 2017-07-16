@@ -1,0 +1,66 @@
+
+.hiddenelmt
+{
+	display:none;
+}
+
+.linelist
+{
+	width:100%;
+	background:#dddddd;
+	margin-top:5px;
+}
+
+.linelist a
+{
+	float:right;
+	padding:5px;
+}
+
+.elmt
+{
+	margin-top:5px;
+	padding:2px;
+}
+
+.elmt .label
+{
+	float:left;
+	width:250px;
+	min-height:25px;
+}
+
+.elmt .value
+{
+	min-height:25px;
+}
+
+
+/* form */
+.lineform
+{
+	width:100%;
+	background:#dddddd;
+	margin-top:25px;
+}
+
+.lineform .labelform
+{
+	margin-left:30px;
+}
+
+.lineform .champsform input[type=text]
+{
+	width:100%;
+}
+
+.buttonzone
+{
+	margin-top:25px;
+}
+
+.buttonzone .headerform,
+.buttonzone .contentform
+{
+	display:inline;
+}

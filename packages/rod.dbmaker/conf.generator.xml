@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<generator>
+
+	<instance>
+		<type>table</type>
+		<name>news</name>
+		
+		<columns>
+			<column>
+				<nom>titre</nom>
+				<type>varchar</type>
+				<default></default>
+				<suggestlist>none</suggestlist>
+			</column>
+			<column>
+				<nom>texte</nom>
+				<type>text</type>
+				<default></default>
+				<suggestlist>none</suggestlist>
+			</column>
+			<column>
+				<nom>date</nom>
+				<type>date</type>
+				<default>NULL</default>
+				<suggestlist>none</suggestlist>
+			</column>
+		</columns>
+		
+		<options>
+			<hastranslation>on</hastranslation>
+			<hasauthor>on</hasauthor>
+			<hasdest>off</hasdest>
+			<historique>on</historique>
+			<comment>on</comment>
+			<like>off</like>
+		</options>
+		
+		<droits>
+			<edit>admin</edit>
+			<view>public</view>
+			<wsedit>admin</wsedit>
+			<wsview>user</wsview>
+		</droits>
+		
+	</instance>
+	
+	
+	
+	<instance>
+		<type>table</type>
+		<name>tags</name>
+		
+		<columns>
+			<column>
+				<nom>titre</nom>
+				<type>char</type>
+				<default></default>
+				<suggestlist>none</suggestlist>
+			</column>
+			<column>
+				<nom>texte</nom>
+				<type>text</type>
+				<default></default>
+				<suggestlist>none</suggestlist>
+			</column>
+			<column>
+				<nom>date</nom>
+				<type>date</type>
+				<default>NULL</default>
+				<suggestlist>none</suggestlist>
+			</column>
+		</columns>
+		
+		<options>
+			<hastranslation>on</hastranslation>
+			<hasauthor>on</hasauthor>
+			<hasdest>off</hasdest>
+			<historique>off</historique>
+			<comment>off</comment>
+			<like>off</like>
+			<signal>off</signal>
+		</options>
+		
+		<droits>
+			<edit>admin</edit>
+			<view>public</view>
+			<wsedit>admin</wsedit>
+			<wsview>user</wsview>
+		</droits>
+		
+	</instance>
+	
+	
+	<instance>
+		<type>link</type>
+		<name>news_has_tags</name>
+		
+		<firsttable>news</firsttable>
+		<secondtable>tags</secondtable>
+		
+		<droits>
+			<edit>admin</edit>
+			<view>public</view>
+			<wsedit>admin</wsedit>
+			<wsview>user</wsview>
+		</droits>
+		
+	</instance>
+	
+	
+	
+</generator>

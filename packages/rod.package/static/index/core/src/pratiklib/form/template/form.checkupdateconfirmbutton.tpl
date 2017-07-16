@@ -1,0 +1,1 @@
+<input type="submit" name="checkupdatesubmit" value="Start Checking Updates" />

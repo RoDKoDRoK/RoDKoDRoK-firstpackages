@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<generator>
+	<form>
+		<field>
+			<label>Langue par defaut (fr_fr, en_us, ...)</label>
+			<name>defaultlang</name>
+			<default>fr_fr</default>
+		</field>
+	</form>
+</generator>

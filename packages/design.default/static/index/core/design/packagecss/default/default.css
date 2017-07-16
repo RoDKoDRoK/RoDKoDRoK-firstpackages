@@ -1,0 +1,130 @@
+/* main css */
+
+body
+{
+	font-family:Tahoma, Arial, Console;
+	background:#899DBF;
+	color:#23334F;
+}
+
+#bigban
+{
+	text-align:center;
+	width:99%;
+}
+
+#bigimg
+{
+	float:left;
+}
+
+#bigtexte
+{
+	height:150px;
+	padding-top:50px;
+}
+
+#bigtitle
+{
+	font-size:64px;
+}
+
+#subbigtitle
+{
+	font-size:22px;
+}
+
+#content
+{
+	background:#dddddd;
+	min-height:200px;
+}
+
+.message
+{
+	background:#C6C026;
+}
+
+/* menus */
+#mainmenu
+{
+	height:35px;
+	background:#2A385E;
+	font-size:25px;
+}
+
+
+#mainmenu .menu
+{
+	display:inline;
+	padding:15px;
+}
+
+#mainmenu .menu a
+{
+	text-decoration:none;
+	color:#cccccc;
+}
+
+#mainmenu .menu a:hover
+{
+	color:#ffffff;
+	font-weight:bold;
+}
+
+
+
+#mainmenu .ssmenu a
+{
+	background:#2A385E;
+}
+
+
+
+
+
+#footermenu
+{
+	height:135px;
+	background:#2A385E;
+	font-size:25px;
+}
+
+
+#footermenu .menu
+{
+	display:inline;
+	padding:15px;
+}
+
+#footermenu .menu a
+{
+	text-decoration:none;
+	color:#cccccc;
+}
+
+#footermenu .menu a:hover
+{
+	color:#ffffff;
+	font-weight:bold;
+}
+
+
+
+
+/* login */
+#userinfo, #auth
+{
+	width:220px;
+	height:285px;
+	background:url('img/triangle.png') no-repeat;
+	text-align:right;
+	color:#dddddd;
+	padding:3px;
+}
+
+
+
+
+
+

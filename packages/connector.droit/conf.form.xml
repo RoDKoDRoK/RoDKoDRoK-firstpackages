@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<generator>
+	<form>
+		<field>
+			<label>Moteur Droit (Nodroit, Roddroit, ...)</label>
+			<name>moteurdroit</name>
+			<default>Roddroit</default>
+		</field>
+	</form>
+</generator>

@@ -1,0 +1,1 @@
+{include file="core/src/pratiklib/mail/template/$contentmailtpl.brut.tpl"}

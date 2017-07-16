@@ -1,0 +1,16 @@
+.paragraphe
+{
+	font-size:12px;
+	padding:3px;
+	margin:5px;
+}
+
+.paragraphe a
+{
+	color:#D32027;
+}
+
+.paragraphe a:hover
+{
+	color:orange;
+}

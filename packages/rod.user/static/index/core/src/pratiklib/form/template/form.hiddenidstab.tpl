@@ -1,0 +1,1 @@
+<input type="hidden" name="id" value="{literal}{$data[cptdata].id}{/literal}" />

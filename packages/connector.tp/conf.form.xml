@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<generator>
+	<form>
+		<field>
+			<label>Moteur Template (Smarty, ...)</label>
+			<name>moteurtpl</name>
+			<default>Smarty</default>
+		</field>
+	</form>
+</generator>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+	<form>
+		<field>
+			<label>Moteur de cache (Nocache, Rodcache, Rodcachedb, ...)</label>
+			<name>moteurcache</name>
+			<default>Nocache</default>
+		</field>
+	</form>
+</package>

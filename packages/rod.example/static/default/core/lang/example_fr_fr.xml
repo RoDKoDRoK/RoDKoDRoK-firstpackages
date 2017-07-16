@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fr_fr>
+	<main_connexion>Connexion</main_connexion>
+	<main_mail>Mail</main_mail>
+	<main_pwd>Mot de passe</main_pwd>
+	
+	<main_connected>Connecté</main_connected>
+	<main_cookie>Rester connecté</main_cookie>
+	
+	<main_mur>News</main_mur>
+	<main_profil>Profil</main_profil>
+	<main_search>Rechercher</main_search>
+	<main_create>Publier</main_create>
+	
+	
+	<mail_ok>Mail envoyé</mail_ok>
+	<mail_echec>Erreur envoi de mail</mail_echec>
+	
+	
+</fr_fr>

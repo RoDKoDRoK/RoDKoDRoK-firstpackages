@@ -1,0 +1,34 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+
+
+
+-- tables gestion package
+
+CREATE  TABLE IF NOT EXISTS `package` (
+  `idpackage` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `nomcodepackage` VARCHAR(255) NULL ,
+  `nompackage` VARCHAR(255) NULL ,
+  `groupepackage` VARCHAR(255) NULL ,
+  `description` TEXT NULL ,
+  `version` VARCHAR(50) NULL ,
+  `indeployer` INT UNSIGNED NOT NULL ,
+  `deployed` INT UNSIGNED NOT NULL ,
+  `toupdate` INT UNSIGNED NOT NULL ,
+  PRIMARY KEY (`idpackage`,`nomcodepackage`) )
+ENGINE = MyISAM;
+
+
+
+CREATE  TABLE IF NOT EXISTS `package_depends_on` (
+  `nomcodepackage` VARCHAR(255) NULL ,
+  `nomcodedepend` VARCHAR(255) NULL ,
+  PRIMARY KEY (`nomcodepackage`,`nomcodedepend`) )
+ENGINE = MyISAM;
+
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
