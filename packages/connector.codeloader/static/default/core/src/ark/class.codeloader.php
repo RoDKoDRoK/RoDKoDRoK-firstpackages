@@ -68,24 +68,6 @@ class CodeLoader extends ClassIniter
 				$tabreturnedfromevent=$pratikevent->execEvent("oncodeload",$params);
 		}
 		
-		/*
-		//TO PUT IN VIRTUALTASKS AND TO PUT IN DB EVENTEXECTASK !!!!!
-		//thread load in tab
-		$cheminthreadtoload=$this->arkitect->get("thread.".$this->chainconnector).$this->arkitect->get("ext.src")."/".$code.$this->arkitect->get("ext.thread").$code;
-		if(!file_exists($cheminthreadtoload))
-			$cheminthreadtoload=$this->arkitect->get("thread.".$this->chainconnector).$this->arkitect->get("ext.src")."/".$code;
-		$tabcodefilethread=array();
-		if(is_dir($cheminthreadtoload))
-			$tabcodefilethread=$this->loader->charg_dossier_dans_tab($cheminthreadtoload);
-		
-		//control load in tab
-		$controlcour="";
-		if(isset($this->control))
-			$controlcour=$this->control;
-		$chemincontroltoload=$this->arkitect->get("thread.".$this->chainconnector).$this->arkitect->get("ext.src")."/".$code.$this->arkitect->get("ext.control").$code."/".$controlcour.".".$code;
-		$tabcodefilecontrol=array($chemincontroltoload);
-		*/
-		
 		//merge returned
 		$tabcodefile=$tabcodefilecommon;
 		if(isset($tabreturnedfromevent) && is_array($tabreturnedfromevent))

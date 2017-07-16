@@ -23,12 +23,12 @@ class ConnectorHeaderfooter extends Connector
 	function preexec()
 	{
 		//header et footer to load for the tpl
-		if(file_exists($this->arkitect->get("design.headerfooter").$this->arkitect->get("ext.class")."/class.".$this->initer['header'].".php"))
-			include_once $this->arkitect->get("design.headerfooter").$this->arkitect->get("ext.class")."/class.".$this->initer['header'].".php";
+		if(file_exists($this->arkitect->get("design.headerfooter").$this->arkitect->get("ext.designclass")."/class.".$this->initer['header'].".php"))
+			include_once $this->arkitect->get("design.headerfooter").$this->arkitect->get("ext.designclass")."/class.".$this->initer['header'].".php";
 		if(file_exists($this->arkitect->get("design.headerfooter").$this->arkitect->get("ext.control")."/".$this->initer['header'].".php"))
 			include_once $this->arkitect->get("design.headerfooter").$this->arkitect->get("ext.control")."/".$this->initer['header'].".php";
-		if(file_exists($this->arkitect->get("design.headerfooter").$this->arkitect->get("ext.class")."/class.".$this->initer['footer'].".php"))
-			include_once $this->arkitect->get("design.headerfooter").$this->arkitect->get("ext.class")."/class.".$this->initer['footer'].".php";
+		if(file_exists($this->arkitect->get("design.headerfooter").$this->arkitect->get("ext.designclass")."/class.".$this->initer['footer'].".php"))
+			include_once $this->arkitect->get("design.headerfooter").$this->arkitect->get("ext.designclass")."/class.".$this->initer['footer'].".php";
 		if(file_exists($this->arkitect->get("design.headerfooter").$this->arkitect->get("ext.control")."/".$this->initer['footer'].".php"))
 			include_once $this->arkitect->get("design.headerfooter").$this->arkitect->get("ext.control")."/".$this->initer['footer'].".php";
 

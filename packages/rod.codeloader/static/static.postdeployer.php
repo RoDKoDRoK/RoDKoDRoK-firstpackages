@@ -12,8 +12,8 @@ if(isset($this->includer) && $this->includer->include_pratikclass("codesrc"))
 	$instanceCodeSrc=new PratikCodesrc($this->initer);
 	
 	//codesrc
-	$instanceCodeSrc->addCodeSrc('class','class','class','phpclass');
-	$instanceCodeSrc->addCodeSrcToChain('class','all','1');
+	$instanceCodeSrc->addCodeSrc('class.php','class.php','class.php','phpclass');
+	$instanceCodeSrc->addCodeSrcToChain('class.php','all','1');
 	
 }
 

@@ -65,8 +65,8 @@ class ConnectorTp extends Connector
 		
 		if(!file_exists($tpltouse))
 		{
-			$this->log->pushtolog("Error template - check your configuration file (core/conf/conf.tp.php)");
-			echo "Error template - check your configuration file (core/conf/conf.tp.php)";
+			$this->log->pushtolog("Error template - check your configuration file (core/conf/conf/conf.tp.php)");
+			echo "Error template - check your configuration file (core/conf/conf/conf.tp.php)";
 			exit;
 		}
 		else
