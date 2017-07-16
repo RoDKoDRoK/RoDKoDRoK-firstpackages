@@ -13,7 +13,7 @@ class EventIntegratorOnchainload extends EventIntegrator
 	
 	function execEvent($params=array())
 	{
-		parent::execEvent($params);
+		return parent::execEvent($params);
 	}
 	
 	

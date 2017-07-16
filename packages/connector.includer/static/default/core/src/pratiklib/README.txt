@@ -1,0 +1,1 @@
+Dans ce dossier se trouvent les fichiers utilisés par les pratikclass : classes supplémentaires pour effectuer des actions spéciales (exemple : envoi de mail, création de formulaires, etc...).

@@ -22,19 +22,19 @@
 
 <div id="site">
 <!-- //tpl header -->
-{if file_exists("core/design/template/$header.tpl") }
-	{include file="core/design/template/$header.tpl"}
+{if file_exists("{$arkitectoutput.tplpath_designheaderfooter}/$header.tpl") }
+	{include file="{$arkitectoutput.tplpath_designheaderfooter}/$header.tpl"}
 {/if}
 <!-- //...tpl header -->
 
 <div id="maincontent">
 	<div id="message">{$message}</div>
-	<div id="content">{include file="core/dev/template/$page.tpl"}</div>
+	<div id="content">{include file="{$arkitectoutput.tplpath_threadmainindex}/$page.tpl"}</div>
 </div>
 
 <!-- //tpl footer -->
-{if file_exists("core/design/template/$footer.tpl") }
-	{include file="core/design/template/$footer.tpl"}
+{if file_exists("{$arkitectoutput.tplpath_designheaderfooter}/$footer.tpl") }
+	{include file="{$arkitectoutput.tplpath_designheaderfooter}/$footer.tpl"}
 {/if}
 <!-- //...tpl footer -->
 </div>

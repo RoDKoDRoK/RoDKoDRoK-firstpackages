@@ -11,6 +11,16 @@ class PratikParams extends ClassIniter
 	}
 	
 	
+	function getIniterPrerequis()
+	{
+		$prerequis=array();
+		
+		$prerequis[]="db";
+		
+		return $prerequis;
+	}
+	
+	
 	function getParams($idelmt,$typeelmt)
 	{
 		$params=array();

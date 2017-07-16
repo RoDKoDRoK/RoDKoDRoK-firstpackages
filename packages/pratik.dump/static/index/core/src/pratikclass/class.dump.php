@@ -50,7 +50,7 @@ class PratikDump extends ClassIniter
 	
 	function getDumpOutputExt()
 	{
-		$dumpoutput=$this->conf['outputdump'];
+		$dumpoutput=$this->instanceConf->get('outputdump');
 		
 		$dumpoutputext="sql";
 		switch($dumpoutput)

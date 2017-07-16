@@ -50,11 +50,23 @@ class PratikMirror extends ClassIniter
 	}
 	
 	
-	function getMirrorLink($mirrorname="")
+	function getMirrorLink($mirrorname="",$distantpathtomirror="")
 	{
 		if($mirrorname=="")
 			return "";
 		
+		//cas mirror distant
+		if($distantpathtomirror!="")
+		{
+			$link="";
+			
+			$link.=$distantpathtomirror."/";
+			$link.=$mirrorname."/";
+			
+			return $link;
+		}
+		
+		//cas mirror local
 		$mirrorname=str_replace(" ","_",$mirrorname);
 		
 		//check if mirrorname is specified in conf with a generic name

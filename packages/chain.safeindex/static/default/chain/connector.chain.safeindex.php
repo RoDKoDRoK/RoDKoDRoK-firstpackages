@@ -5,13 +5,22 @@
 $tabconnector=array();
 
 
-//connector classloader
+//connector arkitectoutput
 $tabconnector[]=array();
 $tabconnector[count($tabconnector)-1]['classtoiniter']=false;
+$tabconnector[count($tabconnector)-1]['vartoiniter']=true;
+$tabconnector[count($tabconnector)-1]['aliasiniter']="arkitectoutput";
+$tabconnector[count($tabconnector)-1]['outputaction']="toprint-self-var";
+$tabconnector[count($tabconnector)-1]['name']="arkitectoutput";
+
+
+//connector codeloader (for class core)
+$tabconnector[]=array();
+$tabconnector[count($tabconnector)-1]['classtoiniter']=true;
 $tabconnector[count($tabconnector)-1]['vartoiniter']=false;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="none";
 $tabconnector[count($tabconnector)-1]['outputaction']="none";
-$tabconnector[count($tabconnector)-1]['name']="classloader";
+$tabconnector[count($tabconnector)-1]['name']="codeloader";
 
 
 //connector conf
@@ -19,6 +28,7 @@ $tabconnector[]=array();
 $tabconnector[count($tabconnector)-1]['classtoiniter']=true;
 $tabconnector[count($tabconnector)-1]['vartoiniter']=true;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="conf";
+$tabconnector[count($tabconnector)-1]['outputaction']="toprint-self-var";
 $tabconnector[count($tabconnector)-1]['name']="conf";
 
 
@@ -55,6 +65,17 @@ $tabconnector[count($tabconnector)-1]['classtoiniter']=true;
 $tabconnector[count($tabconnector)-1]['vartoiniter']=false;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="includer";
 $tabconnector[count($tabconnector)-1]['name']="includer";
+
+
+
+//connector codeloader (for class core and others with event onCodeLoad)
+$tabconnector[]=array();
+$tabconnector[count($tabconnector)-1]['classtoiniter']=true;
+$tabconnector[count($tabconnector)-1]['vartoiniter']=false;
+$tabconnector[count($tabconnector)-1]['aliasiniter']="none";
+$tabconnector[count($tabconnector)-1]['outputaction']="none";
+$tabconnector[count($tabconnector)-1]['name']="codeloader";
+
 
 
 
@@ -126,7 +147,7 @@ $tabconnector[count($tabconnector)-1]['classtoiniter']=false;
 $tabconnector[count($tabconnector)-1]['vartoiniter']=true;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="page";
 $tabconnector[count($tabconnector)-1]['outputaction']="toprint-content:3-subtpl:maincontentindex";
-$tabconnector[count($tabconnector)-1]['name']="pageindex";
+$tabconnector[count($tabconnector)-1]['name']="pagemainindex";
 
 
 //connector lang
@@ -138,22 +159,14 @@ $tabconnector[count($tabconnector)-1]['name']="lang";
 
 
 
-//connector css
+
+//connector codeloader (for css and js)
 $tabconnector[]=array();
-$tabconnector[count($tabconnector)-1]['classtoiniter']=false;
+$tabconnector[count($tabconnector)-1]['classtoiniter']=true;
 $tabconnector[count($tabconnector)-1]['vartoiniter']=true;
-$tabconnector[count($tabconnector)-1]['aliasiniter']="css";
+$tabconnector[count($tabconnector)-1]['aliasiniter']="cssandjs";
 $tabconnector[count($tabconnector)-1]['outputaction']="toprint-header:3-var";
-$tabconnector[count($tabconnector)-1]['name']="css";
-
-
-//connector js
-$tabconnector[]=array();
-$tabconnector[count($tabconnector)-1]['classtoiniter']=false;
-$tabconnector[count($tabconnector)-1]['vartoiniter']=true;
-$tabconnector[count($tabconnector)-1]['aliasiniter']="js";
-$tabconnector[count($tabconnector)-1]['outputaction']="toprint-header:4-var";
-$tabconnector[count($tabconnector)-1]['name']="js";
+$tabconnector[count($tabconnector)-1]['name']="codeloader";
 
 
 //connector message
@@ -163,6 +176,17 @@ $tabconnector[count($tabconnector)-1]['vartoiniter']=true;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="message";
 $tabconnector[count($tabconnector)-1]['outputaction']="toprint-content:2-var";
 $tabconnector[count($tabconnector)-1]['name']="message";
+
+
+
+
+//connector event
+$tabconnector[]=array();
+$tabconnector[count($tabconnector)-1]['classtoiniter']=false;
+$tabconnector[count($tabconnector)-1]['vartoiniter']=false;
+$tabconnector[count($tabconnector)-1]['aliasiniter']="event";
+$tabconnector[count($tabconnector)-1]['name']="event";
+
 
 
 
@@ -212,12 +236,12 @@ $tabconnector[count($tabconnector)-1]['aliasiniter']="tpl";
 $tabconnector[count($tabconnector)-1]['name']="tp";
 
 
-//connector main content
+//connector thread index (main content)
 $tabconnector[]=array();
 $tabconnector[count($tabconnector)-1]['classtoiniter']=false;
 $tabconnector[count($tabconnector)-1]['vartoiniter']=false;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="none";
-$tabconnector[count($tabconnector)-1]['name']="maincontentindex";
+$tabconnector[count($tabconnector)-1]['name']="threadmainindex";
 
 
 

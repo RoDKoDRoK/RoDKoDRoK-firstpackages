@@ -3,7 +3,7 @@
 $descripter['name']="Connector Tp";
 $descripter['description']="Gestion du template";
 
-$descripter['version']="0.0.1-1.0";
+$descripter['version']="0.3.x-1.0";
 
 $descripter['groupe']="Connector";
 

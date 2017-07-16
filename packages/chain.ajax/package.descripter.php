@@ -3,7 +3,7 @@
 $descripter['name']="Chain Ajax";
 $descripter['description']="Chain execution ajax";
 
-$descripter['version']="0.0.x-1.3";
+$descripter['version']="0.3.x-1.0";
 
 $descripter['groupe']="Chain";
 

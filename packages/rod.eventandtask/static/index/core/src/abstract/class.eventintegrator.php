@@ -16,6 +16,8 @@ class EventIntegrator extends ClassIniter
 	
 	function execEvent($params=array())
 	{
+		$tabreturnedevent=array();
+		
 		if(isset($this->includer) && $this->includer->include_pratikclass("Event"))
 		{
 			$instanceEvent=new PratikEvent($this->initer);
@@ -40,12 +42,13 @@ class EventIntegrator extends ClassIniter
 				{
 					eval("\$instanceTask=new ".$nomcodetaskclass."(\$this->initer);");
 					if($instanceTask->checkTaskIsExecutable($paramscour) && $this->checkEventCanExecuteTask($paramscour))
-						$instanceTask->execTask($paramscour);
+						$tabreturnedevent[]=$instanceTask->execTask($paramscour);
 				}
 			}
 			
 		}
 		
+		return $tabreturnedevent;
 	}
 	
 	

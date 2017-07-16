@@ -3,7 +3,7 @@
 $descripter['name']="Pratik Dump";
 $descripter['description']="Classes pour gestion de dump";
 
-$descripter['version']="0.0.x-1.0";
+$descripter['version']="0.3.x-1.0";
 
 $descripter['groupe']="Pratik";
 

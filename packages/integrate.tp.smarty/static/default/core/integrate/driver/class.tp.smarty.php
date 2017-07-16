@@ -28,9 +28,31 @@ class TemplateSmarty
 	
 	function remplir_template($destination,$contenu)
 	{
+		//prepare contenu
+		if(is_array($contenu))
+		{
+			//clean . and space in keys replaced by _
+			$contenu=$this->cleanKeysOfPhpArraysForSmarty($contenu);
+		}
+		
 		// 2. Recensement dans smarty
 		$this->oSmarty->assign($destination, $contenu);
 
+	}
+	
+	private function cleanKeysOfPhpArraysForSmarty($contenu)
+	{
+		$tmpcontenu = array();
+		foreach($contenu as $key => $value)
+		{
+			if(is_array($value))
+				$value=$this->cleanKeysOfPhpArraysForSmarty($value);
+			
+			$key = str_replace('.','_',$key);
+			$key = str_replace(' ','_',$key);
+			$tmpcontenu[$key] = $value;
+		}
+		return $tmpcontenu;
 	}
 	
 	function affich_template($tpl="index.tpl")

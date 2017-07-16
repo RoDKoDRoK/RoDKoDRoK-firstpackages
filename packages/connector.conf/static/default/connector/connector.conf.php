@@ -13,7 +13,7 @@ class ConnectorConf extends Connector
 	function initInstance()
 	{
 		//instance conf
-		$instanceConf=new Conf();
+		$instanceConf=new Conf($this->initer);
 		
 		
 		//set instance before return

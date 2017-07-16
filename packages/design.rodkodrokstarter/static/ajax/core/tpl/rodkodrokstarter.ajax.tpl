@@ -15,5 +15,5 @@
 {/if}
 </div>
 <div class="contentajax">
-{include file="core/dev/js/ajax/template/$page.tpl"}
+{include file="{$arkitectoutput.tplpath_threadsubajax}/$page.tpl"}
 </div>

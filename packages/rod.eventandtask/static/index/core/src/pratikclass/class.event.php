@@ -10,6 +10,15 @@ class PratikEvent extends ClassIniter
 	}
 	
 	
+	function getIniterPrerequis()
+	{
+		$prerequis=array();
+		
+		$prerequis[]="db";
+		
+		return $prerequis;
+	}
+	
 	
 	function execEvent($eventtype="",$params=array())
 	{
@@ -19,20 +28,32 @@ class PratikEvent extends ClassIniter
 		$eventtype=strtolower($eventtype);
 		$eventtypeclass=ucfirst($eventtype);
 		
+		//params from db
+		if(isset($this->includer) && $this->includer->include_pratikclass("Params"))
+		{
+			//$instanceParams=new PratikParams($this->initer);
+			$instanceParams=$this->instanciator->newInstance("PratikParams",$this->initer);
+			if($instanceParams)
+			{
+				$paramseventfromdb=$instanceParams->getParams($eventtype,"event");
+				$params=array_merge($params,$paramseventfromdb);
+			}
+		}
+		
 		//exec eventintegrator selected with eventtype
 		if(file_exists("core/integrate/event/eventintegrator.".$eventtype.".php"))
 		{
 			include_once "core/integrate/event/eventintegrator.".$eventtype.".php";
 			eval("\$instanceEventIntegrator=new EventIntegrator".$eventtypeclass."(\$this->initer);");
 			$instanceEventIntegrator->setNomcodeevent($eventtype);
-			$returned.=$instanceEventIntegrator->execEvent($params);
+			$returned=$instanceEventIntegrator->execEvent($params);
 		}
 		else if(file_exists("core/integrate/event/eventintegrator.php"))
 		{
 			include_once "core/integrate/event/eventintegrator.php";
 			$instanceEventIntegrator=new EventIntegrator($this->initer);
 			$instanceEventIntegrator->setNomcodeevent($eventtype);
-			$returned.=$instanceEventIntegrator->execEvent($params);
+			$returned=$instanceEventIntegrator->execEvent($params);
 		}
 		else
 		{
@@ -57,7 +78,7 @@ class PratikEvent extends ClassIniter
 	
 	
 	
-	function addTaskToEvent($nomcodeevent,$nomcodetask,$ordre="")
+	function addTaskToEvent($nomcodetask,$nomcodeevent,$ordre="")
 	{
 		//prepare data
 		$nomcodeevent=strtolower($nomcodeevent);
@@ -82,12 +103,12 @@ class PratikEvent extends ClassIniter
 			return;
 		
 		//insert
-		$this->db->query("INSERT INTO `eventexectask` VALUES (NULL,'".$nomcodetask."','".$nomcodeevent."','".$ordre."');");
+		$this->db->query("INSERT INTO `eventexectask` VALUES (NULL,'".$nomcodeevent."','".$nomcodetask."','".$ordre."');");
 	}
 	
 	
 	
-	function delTaskFromEvent($nomcodeevent,$nomcodetask,$ordre="")
+	function delTaskFromEvent($nomcodetask,$nomcodeevent,$ordre="")
 	{
 		//prepare data
 		$nomcodeevent=strtolower($nomcodeevent);

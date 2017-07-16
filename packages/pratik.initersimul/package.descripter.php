@@ -3,7 +3,7 @@
 $descripter['name']="Pratik Initer Simul";
 $descripter['description']="Classes pour simuler la génération de l'initer";
 
-$descripter['version']="0.0.x-1.0";
+$descripter['version']="0.3.x-1.0";
 
 $descripter['groupe']="Pratik";
 
