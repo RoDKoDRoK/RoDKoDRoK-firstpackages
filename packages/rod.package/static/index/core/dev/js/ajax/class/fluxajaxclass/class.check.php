@@ -1,6 +1,6 @@
 <?php
 
-class CheckUpdate extends ClassIniter
+class Check extends ClassIniter
 {
 	
 
@@ -15,13 +15,14 @@ class CheckUpdate extends ClassIniter
 	{
 		$form=array();
 		
-		$update=$this->instanceVar->varpost("checkupdate");
+		//$check=$this->instanceVar->varpost("check");
 		
 		$preform=array();
 		
 		$preform['classicform']=true;
 		
 		$preform['checkupdateconfirmbutton']=true;
+		$preform['checkreverseconfirmbutton']=true;
 		
 		//preform reload option
 		$preform['lineform'][]=array();
@@ -43,12 +44,30 @@ class CheckUpdate extends ClassIniter
 	
 	
 	
+	function data_loader()
+	{
+		$data=array();
+		
+		//check updates or reverse
+		$data['check']=$this->instanceVar->varpost("check");
+		
+		return $data;
+	}
+	
+	
+	
 	function windowcontent_loader()
 	{
 		$content="";
 		
-		//check updates
-		$content.=$this->instanceLang->getTranslation("Check updates for all packages ?");
+		$check=$this->instanceVar->varpost("check");
+		
+		$tochecktext="updates";
+		if($check=="reverse")
+			$tochecktext="reverse";
+			
+		//check updates or reverse
+		$content.=$this->instanceLang->getTranslation("Check ".$tochecktext." for all packages ?");
 		
 		return $content;
 	}
@@ -57,8 +76,14 @@ class CheckUpdate extends ClassIniter
 	function windowtitle_loader()
 	{
 		$content="";
-
-		$content.="<h2>".$this->instanceLang->getTranslation("Check updates")."</h2>";
+		
+		$check=$this->instanceVar->varpost("check");
+		
+		$tochecktext="updates";
+		if($check=="reverse")
+			$tochecktext="reverse";
+		
+		$content.="<h2>".$this->instanceLang->getTranslation("Check ".$tochecktext)."</h2>";
 	
 		return $content;
 	}

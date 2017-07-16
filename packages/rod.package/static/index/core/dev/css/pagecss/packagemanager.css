@@ -9,6 +9,7 @@
 .rowzone
 {
 	width:100%;
+	min-height:170px;
 }
 
 .colzone
@@ -88,7 +89,12 @@
 	background:#A69332;
 }
 
-.checkupdatebutton
+.buttonzone .reversebutton input
+{
+	background:#AAAAAA;
+}
+
+.checkbutton
 {
 	float:right;
 }

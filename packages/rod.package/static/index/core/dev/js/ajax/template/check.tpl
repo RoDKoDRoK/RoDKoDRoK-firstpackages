@@ -15,7 +15,13 @@
 
 
 	<div class="buttonzone">
-		{$form.checkupdateconfirmbutton}
+		{if isset($data.check) && $data.check == 'update' }
+			{$form.checkupdateconfirmbutton}
+		{else}
+			{if isset($data.check) && $data.check == 'reverse' }
+				{$form.checkreverseconfirmbutton}
+			{/if}
+		{/if}
 	</div>
 
 {$form.classicform__close}

@@ -7,8 +7,11 @@ echo $this->showIniter();
 */
 
 
-$instanceAjax=new CheckUpdate($this->initer);
+$instanceAjax=new OlderVersion($this->initer);
 
+
+$data=$instanceAjax->data_loader();
+$this->tpl->remplir_template("data",$data);
 
 $form=$instanceAjax->form_loader();
 $this->tpl->remplir_template("form",$form);

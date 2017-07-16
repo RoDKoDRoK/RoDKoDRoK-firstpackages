@@ -3,7 +3,8 @@
 
 <div class="packagemanagerpage">
 
-<div class="checkupdatebutton">{eval var=$form.checkupdatebutton}</div>
+<div class="checkbutton">{eval var=$form.checkupdatebutton}</div>
+<div class="checkbutton">{eval var=$form.checkreversebutton}</div>
 <div class="paragraphe">{$content}</div>
 <br />
 {$pager}
@@ -48,6 +49,23 @@
 						<div class="destroybutton">{eval var=$form.totaldestroybutton}</div>
 					{else}
 						<div class="deploybutton">{eval var=$form.downloadanddeploybutton}</div>
+					{/if}
+				{/if}
+			{/if}
+			{if $data[cptdata].deployed == '1'}
+				{if $data[cptdata].reverse == '1'}
+					<div class="reversebutton">{eval var=$form.reversebutton}</div>
+				{/if}
+				{if $data[cptdata].localreverse == '1'}
+					<div class="reversebutton">{eval var=$form.localreversebutton}</div>
+				{/if}
+			{else}
+				{if $data[cptdata].todownload == '1'}
+					{if $data[cptdata].reverse == '1'}
+						<div class="reversebutton">{eval var=$form.downloadolderversionanddeploybutton}</div>
+					{/if}
+					{if $data[cptdata].localreverse == '1'}
+						<div class="reversebutton">{eval var=$form.deploylocalolderversionbutton}</div>
 					{/if}
 				{/if}
 			{/if}

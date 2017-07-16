@@ -37,22 +37,22 @@ class PratikPackage extends ClassIniter
 			$classpackagename.=ucfirst(strtolower($classnamecour));
 		
 		
-		if(file_exists("package/".$packagecodename))
+		if(file_exists($this->folderdestpackage.$packagecodename))
 		{
 			//tab deployed files
 			$tabdeployedfiles=array();
 		
 			//include descripter
 			$this->initer['descripter']=array();
-			if(file_exists("package/".$packagecodename."/package.descripter.php"))
-				include "package/".$packagecodename."/package.descripter.php";
+			if(file_exists($this->folderdestpackage.$packagecodename."/package.descripter.php"))
+				include $this->folderdestpackage.$packagecodename."/package.descripter.php";
 			if(isset($descripter))
 				$this->initer['descripter']=$descripter;
 			
 			//load conf package
 			$confstatic=null;
-			if(file_exists("package/".$packagecodename."/conf.static.xml"))
-				$confstatic=simplexml_load_file("package/".$packagecodename."/conf.static.xml");
+			if(file_exists($this->folderdestpackage.$packagecodename."/conf.static.xml"))
+				$confstatic=simplexml_load_file($this->folderdestpackage.$packagecodename."/conf.static.xml");
 			$this->initer['confstatic']=$confstatic;
 			
 			//load conf form package
@@ -66,13 +66,13 @@ class PratikPackage extends ClassIniter
 			
 			
 			//include predeployer static
-			if(file_exists("package/".$packagecodename."/class/class.static.php"))
+			if(file_exists($this->folderdestpackage.$packagecodename."/class/class.static.php"))
 			{
-				include "package/".$packagecodename."/class/class.static.php";
+				include $this->folderdestpackage.$packagecodename."/class/class.static.php";
 				eval("\$instanceStatic=new ".$classpackagename."Static(\$this->initer);");
 			}
-			if(file_exists("package/".$packagecodename."/static/static.predeployer.php"))
-				include "package/".$packagecodename."/static/static.predeployer.php";
+			if(file_exists($this->folderdestpackage.$packagecodename."/static/static.predeployer.php"))
+				include $this->folderdestpackage.$packagecodename."/static/static.predeployer.php";
 			
 			//reload initer
 			$this->reloadIniter();
@@ -80,7 +80,7 @@ class PratikPackage extends ClassIniter
 			
 			//load db static
 			$sqltype=$this->getExtSql();
-			$chemin_db_static="package/".$packagecodename."/static/static.db.deployer.".$sqltype;
+			$chemin_db_static=$this->folderdestpackage.$packagecodename."/static/static.db.deployer.".$sqltype;
 			if(isset($this->db) && $this->db && file_exists($chemin_db_static))
 			{
 				//sql exec
@@ -92,7 +92,7 @@ class PratikPackage extends ClassIniter
 				}
 				
 				//filename creation
-				$namefilecour=str_replace("package/".$packagecodename."/static/","core/files/db/".$packagecodename.".",$chemin_db_static);
+				$namefilecour=str_replace($this->folderdestpackage.$packagecodename."/static/","core/files/db/".$packagecodename.".",$chemin_db_static);
 				
 				//conflict resolution "keep" mode
 				if($this->conflictresolution=="keep")
@@ -162,10 +162,10 @@ class PratikPackage extends ClassIniter
 						$folder=substr($filecour,0,strrpos($filecour,"/"));
 						$file=substr($filecour,strrpos($filecour,"/"),strlen($filecour)-0-strrpos($filecour,"/"));
 					
-						if($folder=="package/".$packagecodename."/static/".$chaincour)
+						if($folder==$this->folderdestpackage.$packagecodename."/static/".$chaincour)
 							continue;
 						
-						$folder=str_replace("package/".$packagecodename."/static/".$chaincour."/","",$folder);
+						$folder=str_replace($this->folderdestpackage.$packagecodename."/static/".$chaincour."/","",$folder);
 					
 						if(!is_dir($folder))
 							mkdir($folder,0777,true);
@@ -222,8 +222,8 @@ class PratikPackage extends ClassIniter
 			}
 			
 			//include postdeployer static
-			if(file_exists("package/".$packagecodename."/static/static.postdeployer.php"))
-				include "package/".$packagecodename."/static/static.postdeployer.php";
+			if(file_exists($this->folderdestpackage.$packagecodename."/static/static.postdeployer.php"))
+				include $this->folderdestpackage.$packagecodename."/static/static.postdeployer.php";
 			
 			//reload initer
 			$this->reloadIniter();
@@ -233,8 +233,8 @@ class PratikPackage extends ClassIniter
 			
 			//load conf package generator
 			$confgenerator=null;
-			if(file_exists("package/".$packagecodename."/conf.generator.xml"))
-				$confgenerator=simplexml_load_file("package/".$packagecodename."/conf.generator.xml");
+			if(file_exists($this->folderdestpackage.$packagecodename."/conf.generator.xml"))
+				$confgenerator=simplexml_load_file($this->folderdestpackage.$packagecodename."/conf.generator.xml");
 			$this->initer['confgenerator']=$confgenerator;
 			
 			//reload initer
@@ -242,20 +242,20 @@ class PratikPackage extends ClassIniter
 			
 			//include predeployer generator
 			$instanceGenerator=new PackageGenerator($this->initer);
-			if(file_exists("package/".$packagecodename."/class/class.generator.php"))
+			if(file_exists($this->folderdestpackage.$packagecodename."/class/class.generator.php"))
 			{
-				include "package/".$packagecodename."/class/class.generator.php";
+				include $this->folderdestpackage.$packagecodename."/class/class.generator.php";
 				eval("\$instanceGenerator=new ".$classpackagename."Generator(\$this->initer);");
 			}
-			if(file_exists("package/".$packagecodename."/generator/generator.predeployer.php"))
-				include "package/".$packagecodename."/generator/generator.predeployer.php";
+			if(file_exists($this->folderdestpackage.$packagecodename."/generator/generator.predeployer.php"))
+				include $this->folderdestpackage.$packagecodename."/generator/generator.predeployer.php";
 			
 			//reload initer
 			$this->reloadIniter();
 			
 			
 			//load db generator
-			$chemin_db_generator_tpl="package/".$packagecodename."/generator/generator.db.deployer.__INSTANCE__.".$sqltype.".tpl";
+			$chemin_db_generator_tpl=$this->folderdestpackage.$packagecodename."/generator/generator.db.deployer.__INSTANCE__.".$sqltype.".tpl";
 			if(isset($this->db) && $this->db && file_exists($chemin_db_generator_tpl))
 			{
 				//pour chaque instance à générer
@@ -266,7 +266,7 @@ class PratikPackage extends ClassIniter
 					$tpl=$instanceTpl->tpselected;
 					
 					//include generator conf tpl
-					$tabgeneratorconftpl=$this->loader->charg_generatorconftpl_dans_tab("package/".$packagecodename."/generator");
+					$tabgeneratorconftpl=$this->loader->charg_generatorconftpl_dans_tab($this->folderdestpackage.$packagecodename."/generator");
 					$tpl->remplir_template("generatorconf",$tabgeneratorconftpl);
 					
 					//include generator file cour
@@ -285,7 +285,7 @@ class PratikPackage extends ClassIniter
 					
 					$namefilecour=str_replace("__INSTANCE__",$instance->name,$chemin_db_generator_tpl);
 					$namefilecour=substr($namefilecour,0,-4);
-					$namefilecour=str_replace("package/".$packagecodename."/generator/","core/files/db/".$packagecodename.".",$namefilecour);
+					$namefilecour=str_replace($this->folderdestpackage.$packagecodename."/generator/","core/files/db/".$packagecodename.".",$namefilecour);
 					
 					//conflict resolution "keep" mode
 					if($this->conflictresolution=="keep")
@@ -369,11 +369,11 @@ class PratikPackage extends ClassIniter
 						$folder=substr($filecour,0,strrpos($filecour,"/"));
 						$file=substr($filecour,strrpos($filecour,"/"),strlen($filecour)-4-strrpos($filecour,"/"));
 					
-						if($folder=="package/".$packagecodename."/generator/".$chaincour)
+						if($folder==$this->folderdestpackage.$packagecodename."/generator/".$chaincour)
 							continue;
 						
 						
-						$folder=str_replace("package/".$packagecodename."/generator/".$chaincour."/","",$folder);
+						$folder=str_replace($this->folderdestpackage.$packagecodename."/generator/".$chaincour."/","",$folder);
 					
 						if(!is_dir($folder))
 							mkdir($folder,0777,true);
@@ -430,7 +430,7 @@ class PratikPackage extends ClassIniter
 								$tpl=$instanceTpl->tpselected;
 								
 								//include generator conf tpl
-								$tabgeneratorconftpl=$this->loader->charg_generatorconftpl_dans_tab("package/".$packagecodename."/generator");
+								$tabgeneratorconftpl=$this->loader->charg_generatorconftpl_dans_tab($this->folderdestpackage.$packagecodename."/generator");
 								$tpl->remplir_template("generatorconf",$tabgeneratorconftpl);
 								
 								//include generator file cour
@@ -468,8 +468,8 @@ class PratikPackage extends ClassIniter
 			}
 			
 			//include postdeployer generator
-			if(file_exists("package/".$packagecodename."/generator/generator.postdeployer.php"))
-				include "package/".$packagecodename."/generator/generator.postdeployer.php";
+			if(file_exists($this->folderdestpackage.$packagecodename."/generator/generator.postdeployer.php"))
+				include $this->folderdestpackage.$packagecodename."/generator/generator.postdeployer.php";
 			
 			//reload initer
 			$this->reloadIniter();
@@ -495,19 +495,19 @@ class PratikPackage extends ClassIniter
 		foreach($tabclassname as $classnamecour)
 			$classpackagename.=ucfirst(strtolower($classnamecour));
 			
-		if(file_exists("package/".$packagecodename))
+		if(file_exists($this->folderdestpackage.$packagecodename))
 		{		
 			//include descripter
 			$this->initer['descripter']=array();
-			if(file_exists("package/".$packagecodename."/package.descripter.php"))
-				include "package/".$packagecodename."/package.descripter.php";
+			if(file_exists($this->folderdestpackage.$packagecodename."/package.descripter.php"))
+				include $this->folderdestpackage.$packagecodename."/package.descripter.php";
 			if(isset($descripter))
 				$this->initer['descripter']=$descripter;
 			
 			//load conf package
 			$confstatic=null;
-			if(file_exists("package/".$packagecodename."/conf.static.xml"))
-				$confstatic=simplexml_load_file("package/".$packagecodename."/conf.static.xml");
+			if(file_exists($this->folderdestpackage.$packagecodename."/conf.static.xml"))
+				$confstatic=simplexml_load_file($this->folderdestpackage.$packagecodename."/conf.static.xml");
 			$this->initer['confstatic']=$confstatic;
 			
 			//get conf form saved (already present in $this->conf)
@@ -520,13 +520,13 @@ class PratikPackage extends ClassIniter
 			
 			//include predestroyer static
 			$instanceStatic=null;
-			if(file_exists("package/".$packagecodename."/class/class.static.php"))
+			if(file_exists($this->folderdestpackage.$packagecodename."/class/class.static.php"))
 			{
-				include "package/".$packagecodename."/class/class.static.php";
+				include $this->folderdestpackage.$packagecodename."/class/class.static.php";
 				eval("\$instanceStatic=new ".$classpackagename."Static(\$this->initer);");
 			}
-			if(file_exists("package/".$packagecodename."/static/static.predestroyer.php"))
-				include "package/".$packagecodename."/static/static.predestroyer.php";
+			if(file_exists($this->folderdestpackage.$packagecodename."/static/static.predestroyer.php"))
+				include $this->folderdestpackage.$packagecodename."/static/static.predestroyer.php";
 			
 			//reload initer
 			$this->reloadIniter();
@@ -534,7 +534,7 @@ class PratikPackage extends ClassIniter
 			
 			//kill db static
 			$sqltype=$this->getExtSql();
-			if(isset($this->db) && $this->db && file_exists("package/".$packagecodename."/static/static.db.destroyer.".$sqltype))
+			if(isset($this->db) && $this->db && file_exists($this->folderdestpackage.$packagecodename."/static/static.db.destroyer.".$sqltype))
 			{
 				//start dump
 				$dumper=null;
@@ -547,7 +547,7 @@ class PratikPackage extends ClassIniter
 				}
 				
 				//get sql file
-				$sqltoload=file_get_contents("package/".$packagecodename."/static/static.db.destroyer.".$sqltype);
+				$sqltoload=file_get_contents($this->folderdestpackage.$packagecodename."/static/static.db.destroyer.".$sqltype);
 				$tabsqltoload=explode(";",$sqltoload);
 				foreach($tabsqltoload as $sqlcour)
 				{
@@ -573,7 +573,7 @@ class PratikPackage extends ClassIniter
 			//kill files static
 			foreach($this->initer['chaintab'] as $chaincour)
 			{
-				$tabfilestoload=$this->loader->charg_dossier_dans_tab("package/".$packagecodename."/static/".$chaincour);
+				$tabfilestoload=$this->loader->charg_dossier_dans_tab($this->folderdestpackage.$packagecodename."/static/".$chaincour);
 				
 				if($tabfilestoload)
 					foreach($tabfilestoload as $filecour)
@@ -581,10 +581,10 @@ class PratikPackage extends ClassIniter
 						$folder=substr($filecour,0,strrpos($filecour,"/"));
 						$file=substr($filecour,strrpos($filecour,"/"),strlen($filecour)-0-strrpos($filecour,"/"));
 					
-						if($folder=="package/".$packagecodename."/static/".$chaincour)
+						if($folder==$this->folderdestpackage.$packagecodename."/static/".$chaincour)
 							continue;
 						
-						$folder=str_replace("package/".$packagecodename."/static/".$chaincour."/","",$folder);
+						$folder=str_replace($this->folderdestpackage.$packagecodename."/static/".$chaincour."/","",$folder);
 						
 						if(file_exists($folder.$file))
 						{
@@ -681,8 +681,8 @@ class PratikPackage extends ClassIniter
 			
 				
 			//include postdestroyer static
-			if(file_exists("package/".$packagecodename."/static/static.postdestroyer.php"))
-				include "package/".$packagecodename."/static/static.postdestroyer.php";
+			if(file_exists($this->folderdestpackage.$packagecodename."/static/static.postdestroyer.php"))
+				include $this->folderdestpackage.$packagecodename."/static/static.postdestroyer.php";
 			
 			//reload initer
 			$this->reloadIniter();
@@ -692,8 +692,8 @@ class PratikPackage extends ClassIniter
 			
 			//load conf package generator
 			$confgenerator=null;
-			if(file_exists("package/".$packagecodename."/conf.generator.xml"))
-				$confgenerator=simplexml_load_file("package/".$packagecodename."/conf.generator.xml");
+			if(file_exists($this->folderdestpackage.$packagecodename."/conf.generator.xml"))
+				$confgenerator=simplexml_load_file($this->folderdestpackage.$packagecodename."/conf.generator.xml");
 			$this->initer['confgenerator']=$confgenerator;
 			
 			//reload initer
@@ -701,13 +701,13 @@ class PratikPackage extends ClassIniter
 			
 			//include predestroyer generator
 			$instanceGenerator=null;
-			if(file_exists("package/".$packagecodename."/class/class.generator.php"))
+			if(file_exists($this->folderdestpackage.$packagecodename."/class/class.generator.php"))
 			{
-				include "package/".$packagecodename."/class/class.generator.php";
+				include $this->folderdestpackage.$packagecodename."/class/class.generator.php";
 				eval("\$instanceGenerator=new ".$classpackagename."Generator(\$this->initer);");
 			}
-			if(file_exists("package/".$packagecodename."/generator/generator.predestroyer.php"))
-				include "package/".$packagecodename."/generator/generator.predestroyer.php";
+			if(file_exists($this->folderdestpackage.$packagecodename."/generator/generator.predestroyer.php"))
+				include $this->folderdestpackage.$packagecodename."/generator/generator.predestroyer.php";
 			
 			//reload initer
 			$this->reloadIniter();
@@ -715,7 +715,7 @@ class PratikPackage extends ClassIniter
 			
 			
 			//kill db generator
-			$chemin_db_generator_tpl="package/".$packagecodename."/generator/generator.db.destroyer.__INSTANCE__.".$sqltype.".tpl";
+			$chemin_db_generator_tpl=$this->folderdestpackage.$packagecodename."/generator/generator.db.destroyer.__INSTANCE__.".$sqltype.".tpl";
 			if(isset($this->db) && $this->db && file_exists($chemin_db_generator_tpl))
 			{
 				//start dump
@@ -736,7 +736,7 @@ class PratikPackage extends ClassIniter
 					$tpl=$instanceTpl->tpselected;
 					
 					//include generator conf tpl
-					$tabgeneratorconftpl=$this->loader->charg_generatorconftpl_dans_tab("package/".$packagecodename."/generator");
+					$tabgeneratorconftpl=$this->loader->charg_generatorconftpl_dans_tab($this->folderdestpackage.$packagecodename."/generator");
 					$tpl->remplir_template("generatorconf",$tabgeneratorconftpl);
 					
 					//include generator file cour
@@ -791,7 +791,7 @@ class PratikPackage extends ClassIniter
 			//kill files generator
 			foreach($this->initer['chaintab'] as $chaincour)
 			{
-				$tabfilestoload=$this->loader->charg_dossier_dans_tab("package/".$packagecodename."/generator/".$chaincour);
+				$tabfilestoload=$this->loader->charg_dossier_dans_tab($this->folderdestpackage.$packagecodename."/generator/".$chaincour);
 				
 				if($tabfilestoload)
 					foreach($tabfilestoload as $filecour)
@@ -799,10 +799,10 @@ class PratikPackage extends ClassIniter
 						$folder=substr($filecour,0,strrpos($filecour,"/"));
 						$file=substr($filecour,strrpos($filecour,"/"),strlen($filecour)-4-strrpos($filecour,"/"));
 					
-						if($folder=="package/".$packagecodename."/generator/".$chaincour)
+						if($folder==$this->folderdestpackage.$packagecodename."/generator/".$chaincour)
 							continue;
 									
-						$folder=str_replace("package/".$packagecodename."/generator/".$chaincour."/","",$folder);
+						$folder=str_replace($this->folderdestpackage.$packagecodename."/generator/".$chaincour."/","",$folder);
 							
 
 						//pour chaque instance à générer
@@ -908,8 +908,8 @@ class PratikPackage extends ClassIniter
 			
 			
 			//include postdestroyer generator
-			if(file_exists("package/".$packagecodename."/generator/generator.postdestroyer.php"))
-				include "package/".$packagecodename."/generator/generator.postdestroyer.php";
+			if(file_exists($this->folderdestpackage.$packagecodename."/generator/generator.postdestroyer.php"))
+				include $this->folderdestpackage.$packagecodename."/generator/generator.postdestroyer.php";
 			
 			//reload initer
 			$this->reloadIniter();
@@ -938,13 +938,15 @@ class PratikPackage extends ClassIniter
 		$preform['destroyconfirmbutton']=true;
 		$preform['updateconfirmbutton']=true;
 		$preform['totaldestroyconfirmbutton']=true;
+		$preform['reverseconfirmbutton']=true;
+		$preform['localreverseconfirmbutton']=true;
 		
 		$preform['hiddencodename']=true;
 		
 		$confform=null;
-		if(file_exists("package/".$packagecodename."/conf.form.xml"))
+		if(file_exists($this->folderdestpackage.$packagecodename."/conf.form.xml"))
 		{
-			$confform=simplexml_load_file("package/".$packagecodename."/conf.form.xml");
+			$confform=simplexml_load_file($this->folderdestpackage.$packagecodename."/conf.form.xml");
 		
 			$form=$confform->form;
 			foreach($form->field as $field)
@@ -986,40 +988,40 @@ class PratikPackage extends ClassIniter
 	}
 	
 	
-	function getPackageFromRoDKoDRoKCom($packagecodename="example",$update="")
+	function getPackageFromRoDKoDRoKCom($packagecodename="example",$update="",$status="",$olderversionzipfilename="")
 	{
-		if(file_exists("package/".$packagecodename) && $update)
+		if(file_exists($this->folderdestpackage.$packagecodename) && $update)
 		{
 			//keep some old files before starting update
 			if($update)
 			{
-				if(file_exists("package/".$packagecodename."/conf.static.xml"))
-					copy("package/".$packagecodename."/conf.static.xml",$this->folderdestarchives.$packagecodename.".conf.static.xml");
-				if(file_exists("package/".$packagecodename."/conf.generator.xml"))
-					copy("package/".$packagecodename."/conf.generator.xml",$this->folderdestarchives.$packagecodename.".conf.generator.xml");
-				if(file_exists("package/".$packagecodename."/static/static.db.deployer.sql"))
-					copy("package/".$packagecodename."/static/static.db.deployer.sql",$this->folderdestarchives.$packagecodename.".static.db.deployer.sql");
-				if(file_exists("package/".$packagecodename."/generator/generator.db.deployer.__INSTANCE__.sql.tpl"))
-					copy("package/".$packagecodename."/generator/generator.db.deployer.__INSTANCE__.sql.tpl",$this->folderdestarchives.$packagecodename.".generator.db.deployer.__INSTANCE__.sql.tpl");
+				if(file_exists($this->folderdestpackage.$packagecodename."/conf.static.xml"))
+					copy($this->folderdestpackage.$packagecodename."/conf.static.xml",$this->folderdestarchives.$packagecodename.".conf.static.xml");
+				if(file_exists($this->folderdestpackage.$packagecodename."/conf.generator.xml"))
+					copy($this->folderdestpackage.$packagecodename."/conf.generator.xml",$this->folderdestarchives.$packagecodename.".conf.generator.xml");
+				if(file_exists($this->folderdestpackage.$packagecodename."/static/static.db.deployer.sql"))
+					copy($this->folderdestpackage.$packagecodename."/static/static.db.deployer.sql",$this->folderdestarchives.$packagecodename.".static.db.deployer.sql");
+				if(file_exists($this->folderdestpackage.$packagecodename."/generator/generator.db.deployer.__INSTANCE__.sql.tpl"))
+					copy($this->folderdestpackage.$packagecodename."/generator/generator.db.deployer.__INSTANCE__.sql.tpl",$this->folderdestarchives.$packagecodename.".generator.db.deployer.__INSTANCE__.sql.tpl");
 				
 			}
 			
 			//zip and archive old package with date in filename
-			if($this->zipAndArchivePackage($packagecodename))
+			if($this->getDeployedReverse($packagecodename) || $this->zipAndArchivePackage($packagecodename))
 			{
 				//kill old package
-				$dir = "package/".$packagecodename;
+				$dir = $this->folderdestpackage.$packagecodename;
 				$this->rrmdir($dir);
 			}
 		}
 		
-		if(!file_exists("package/".$packagecodename))
+		if(!file_exists($this->folderdestpackage.$packagecodename))
 		{
 			//upload package zip from url
 			$force=false;
 			if($update)
 				$force=true;
-			$downloaded=$this->downloadPackageFromUrl($packagecodename,$force);
+			$downloaded=$this->downloadPackageFromUrl($packagecodename,$force,$status,$olderversionzipfilename);
 			
 			//dezip package
 			if($downloaded)
@@ -1034,8 +1036,8 @@ class PratikPackage extends ClassIniter
 						$descripter['version']="";
 						$descripter['groupe']="";
 						
-						if(file_exists("package/".$packagecodename."/package.descripter.php"))
-							include "package/".$packagecodename."/package.descripter.php";
+						if(file_exists($this->folderdestpackage.$packagecodename."/package.descripter.php"))
+							include $this->folderdestpackage.$packagecodename."/package.descripter.php";
 						
 						
 						//update dans la db
@@ -1060,10 +1062,25 @@ class PratikPackage extends ClassIniter
 	
 	
 	
-	function downloadPackageFromUrl($packagecodename="example",$force=false)
+	function downloadPackageFromUrl($packagecodename="example",$force=false,$status="",$olderversionzipfilename="")
 	{
 		$folderdest=$this->folderdestdownload;
 		$filename=$packagecodename.".zip";
+		
+		$srcfilename=$filename;
+		if($status!="")
+			$srcfilename.="-".$status;
+		
+		$subfolderdest="packages";
+		
+		if($olderversionzipfilename!="")
+		{
+			$srcfilename=$olderversionzipfilename;
+			if(substr($srcfilename,-4)!=".zip")
+				$srcfilename.=".zip";
+			
+			$subfolderdest="coldpackages/".$packagecodename;
+		}
 		
 		//folder packages downloaded
 		if(!is_dir($folderdest))
@@ -1076,13 +1093,21 @@ class PratikPackage extends ClassIniter
 			else
 				return true;
 		
-		//search download mirror and upload new file
+		//search download mirror and gat path new file
 		$filelink="";
 		if(class_exists("PratikDownloader") || (isset($this->includer) && $this->includer->include_pratikclass("Downloader")))
 		{
 			$donwloader=new PratikDownloader($this->initer);
-			$filelink=$donwloader->getFileLink($filename,"packages");
+			$filelink=$donwloader->getFileLink($srcfilename,$subfolderdest);
 		}
+		//search local archive if file not found before
+		if($filelink=="")
+		{
+			if(file_exists($this->folderdestarchives.$packagecodename."/".$srcfilename)){
+				$filelink=$this->folderdestarchives.$packagecodename."/".$srcfilename;
+			}
+		}
+		//download file
 		if($filelink!="")
 		{
 			$filedata=file_get_contents($filelink);
@@ -1162,6 +1187,10 @@ class PratikPackage extends ClassIniter
 		
 		if(file_exists($folderpackage.$packagecodename))
 		{
+			//prepare destination
+			if(!file_exists($folderdestzipandarchive.$packagecodename))
+				mkdir($folderdestzipandarchive.$packagecodename,0777);
+			
 			//zip
 			
 			// Get real path for our folder
@@ -1169,7 +1198,7 @@ class PratikPackage extends ClassIniter
 
 			// Initialize archive object
 			$zip = new ZipArchive();
-			$zip->open($folderdestzipandarchive.$filename, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+			$zip->open($folderdestzipandarchive.$packagecodename."/".$filename, ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
 			// Create recursive directory iterator
 			/** @var SplFileInfo[] $files */
@@ -1335,31 +1364,31 @@ class PratikPackage extends ClassIniter
 			$classpackagename.=ucfirst(strtolower($classnamecour));
 		
 		
-		if(file_exists("package/".$packagecodename))
+		if(file_exists($this->folderdestpackage.$packagecodename))
 		{
 			//tab deployed files
 			$tabdeployedfiles=array();
 		
 			//include descripter
 			$this->initer['descripter']=array();
-			if(file_exists("package/".$packagecodename."/package.descripter.php"))
-				include "package/".$packagecodename."/package.descripter.php";
+			if(file_exists($this->folderdestpackage.$packagecodename."/package.descripter.php"))
+				include $this->folderdestpackage.$packagecodename."/package.descripter.php";
 			if(isset($descripter))
 				$this->initer['descripter']=$descripter;
 			
 			//check if you keep old conf
 			if(isset($this->initer['descripter']['update']['keepconfstatic']) && $this->initer['descripter']['update']['keepconfstatic'])
 			{
-				if(file_exists("package/".$packagecodename."/conf.static.xml"))
-					unlink("package/".$packagecodename."/conf.static.xml");
+				if(file_exists($this->folderdestpackage.$packagecodename."/conf.static.xml"))
+					unlink($this->folderdestpackage.$packagecodename."/conf.static.xml");
 				rename($this->folderdestarchives.$packagecodename.".conf.static.xml","package/".$packagecodename."/conf.static.xml");
 			}
 			if(file_exists($this->folderdestarchives.$packagecodename.".conf.static.xml"))
 				unlink($this->folderdestarchives.$packagecodename.".conf.static.xml");
 			//load conf package
 			$confstatic=null;
-			if(file_exists("package/".$packagecodename."/conf.static.xml"))
-				$confstatic=simplexml_load_file("package/".$packagecodename."/conf.static.xml");
+			if(file_exists($this->folderdestpackage.$packagecodename."/conf.static.xml"))
+				$confstatic=simplexml_load_file($this->folderdestpackage.$packagecodename."/conf.static.xml");
 			$this->initer['confstatic']=$confstatic;
 			
 			//load conf form package
@@ -1373,13 +1402,13 @@ class PratikPackage extends ClassIniter
 			
 			
 			//include predeployer static
-			if(file_exists("package/".$packagecodename."/class/class.static.php"))
+			if(file_exists($this->folderdestpackage.$packagecodename."/class/class.static.php"))
 			{
-				include "package/".$packagecodename."/class/class.static.php";
+				include $this->folderdestpackage.$packagecodename."/class/class.static.php";
 				eval("\$instanceStatic=new ".$classpackagename."Static(\$this->initer);");
 			}
-			if(file_exists("package/".$packagecodename."/static/static.predeployer.php"))
-				include "package/".$packagecodename."/static/static.predeployer.php";
+			if(file_exists($this->folderdestpackage.$packagecodename."/static/static.predeployer.php"))
+				include $this->folderdestpackage.$packagecodename."/static/static.predeployer.php";
 			
 			//reload initer
 			$this->reloadIniter();
@@ -1391,14 +1420,14 @@ class PratikPackage extends ClassIniter
 			if(file_exists($this->folderdestarchives.$packagecodename.".static.db.deployer.sql"))
 			{
 				$filesizeoldsql=filesize($this->folderdestarchives.$packagecodename.".static.db.deployer.sql");
-				$filesizenewsql=filesize("package/".$packagecodename."/static/static.db.deployer.sql");
+				$filesizenewsql=filesize($this->folderdestpackage.$packagecodename."/static/static.db.deployer.sql");
 				unlink($this->folderdestarchives.$packagecodename.".static.db.deployer.sql");
 			}
 			if($filesizeoldsql!=$filesizenewsql)
 			{
 				//kill db static
 				$sqltype=$this->getExtSql();
-				if(isset($this->db) && $this->db && file_exists("package/".$packagecodename."/static/static.db.destroyer.".$sqltype))
+				if(isset($this->db) && $this->db && file_exists($this->folderdestpackage.$packagecodename."/static/static.db.destroyer.".$sqltype))
 				{
 					//start dump
 					$dumper=null;
@@ -1411,7 +1440,7 @@ class PratikPackage extends ClassIniter
 					}
 					
 					//get sql file
-					$sqltoload=file_get_contents("package/".$packagecodename."/static/static.db.destroyer.".$sqltype);
+					$sqltoload=file_get_contents($this->folderdestpackage.$packagecodename."/static/static.db.destroyer.".$sqltype);
 					$tabsqltoload=explode(";",$sqltoload);
 					foreach($tabsqltoload as $sqlcour)
 					{
@@ -1436,7 +1465,7 @@ class PratikPackage extends ClassIniter
 				
 				//load db static
 				$sqltype=$this->getExtSql();
-				$chemin_db_static="package/".$packagecodename."/static/static.db.deployer.".$sqltype;
+				$chemin_db_static=$this->folderdestpackage.$packagecodename."/static/static.db.deployer.".$sqltype;
 				if(isset($this->db) && $this->db && file_exists($chemin_db_static))
 				{
 					//sql exec
@@ -1448,7 +1477,7 @@ class PratikPackage extends ClassIniter
 					}
 					
 					//filename creation
-					$namefilecour=str_replace("package/".$packagecodename."/static/","core/files/db/".$packagecodename.".",$chemin_db_static);
+					$namefilecour=str_replace($this->folderdestpackage.$packagecodename."/static/","core/files/db/".$packagecodename.".",$chemin_db_static);
 					
 					//conflict resolution "reverse" mode
 					if($this->conflictresolution!=null)
@@ -1532,7 +1561,7 @@ class PratikPackage extends ClassIniter
 			//load files static
 			foreach($this->initer['chaintab'] as $chaincour)
 			{
-				$tabfilestoload=$this->loader->charg_dossier_dans_tab("package/".$packagecodename."/static/".$chaincour);
+				$tabfilestoload=$this->loader->charg_dossier_dans_tab($this->folderdestpackage.$packagecodename."/static/".$chaincour);
 				
 				if(isset($tabfilestoload))
 					foreach($tabfilestoload as $filecour)
@@ -1540,10 +1569,10 @@ class PratikPackage extends ClassIniter
 						$folder=substr($filecour,0,strrpos($filecour,"/"));
 						$file=substr($filecour,strrpos($filecour,"/"),strlen($filecour)-0-strrpos($filecour,"/"));
 					
-						if($folder=="package/".$packagecodename."/static/".$chaincour)
+						if($folder==$this->folderdestpackage.$packagecodename."/static/".$chaincour)
 							continue;
 						
-						$folder=str_replace("package/".$packagecodename."/static/".$chaincour."/","",$folder);
+						$folder=str_replace($this->folderdestpackage.$packagecodename."/static/".$chaincour."/","",$folder);
 					
 						if(!is_dir($folder))
 							mkdir($folder,0777,true);
@@ -1619,8 +1648,8 @@ class PratikPackage extends ClassIniter
 			}
 			
 			//include postdeployer static
-			if(file_exists("package/".$packagecodename."/static/static.postdeployer.php"))
-				include "package/".$packagecodename."/static/static.postdeployer.php";
+			if(file_exists($this->folderdestpackage.$packagecodename."/static/static.postdeployer.php"))
+				include $this->folderdestpackage.$packagecodename."/static/static.postdeployer.php";
 			
 			//reload initer
 			$this->reloadIniter();
@@ -1631,14 +1660,14 @@ class PratikPackage extends ClassIniter
 			//check if you keep old conf
 			if(isset($this->initer['descripter']['update']['keepconfgenerator']) && $this->initer['descripter']['update']['keepconfgenerator'])
 			{
-				if(file_exists("package/".$packagecodename."/conf.generator.xml"))
-					unlink("package/".$packagecodename."/conf.generator.xml");
+				if(file_exists($this->folderdestpackage.$packagecodename."/conf.generator.xml"))
+					unlink($this->folderdestpackage.$packagecodename."/conf.generator.xml");
 				rename($this->folderdestarchives.$packagecodename.".conf.generator.xml","package/".$packagecodename."/conf.generator.xml");
 			}
 			//load conf package generator
 			$confgenerator=null;
-			if(file_exists("package/".$packagecodename."/conf.generator.xml"))
-				$confgenerator=simplexml_load_file("package/".$packagecodename."/conf.generator.xml");
+			if(file_exists($this->folderdestpackage.$packagecodename."/conf.generator.xml"))
+				$confgenerator=simplexml_load_file($this->folderdestpackage.$packagecodename."/conf.generator.xml");
 			$this->initer['confgenerator']=$confgenerator;
 			
 			//reload initer
@@ -1646,13 +1675,13 @@ class PratikPackage extends ClassIniter
 			
 			//include predeployer generator
 			$instanceGenerator=new PackageGenerator($this->initer);
-			if(file_exists("package/".$packagecodename."/class/class.generator.php"))
+			if(file_exists($this->folderdestpackage.$packagecodename."/class/class.generator.php"))
 			{
-				include "package/".$packagecodename."/class/class.generator.php";
+				include $this->folderdestpackage.$packagecodename."/class/class.generator.php";
 				eval("\$instanceGenerator=new ".$classpackagename."Generator(\$this->initer);");
 			}
-			if(file_exists("package/".$packagecodename."/generator/generator.predeployer.php"))
-				include "package/".$packagecodename."/generator/generator.predeployer.php";
+			if(file_exists($this->folderdestpackage.$packagecodename."/generator/generator.predeployer.php"))
+				include $this->folderdestpackage.$packagecodename."/generator/generator.predeployer.php";
 			
 			//reload initer
 			$this->reloadIniter();
@@ -1664,7 +1693,7 @@ class PratikPackage extends ClassIniter
 			if(file_exists($this->folderdestarchives.$packagecodename.".conf.generator.xml"))
 			{
 				$filesizeoldsql=filesize($this->folderdestarchives.$packagecodename.".conf.generator.xml");
-				$filesizenewsql=filesize("package/".$packagecodename."/conf.generator.xml");
+				$filesizenewsql=filesize($this->folderdestpackage.$packagecodename."/conf.generator.xml");
 				unlink($this->folderdestarchives.$packagecodename.".conf.generator.xml");
 			}
 			if(file_exists($this->folderdestarchives.$packagecodename.".generator.db.deployer.__INSTANCE__.sql.tpl"))
@@ -1672,7 +1701,7 @@ class PratikPackage extends ClassIniter
 				if($filesizeoldsql==$filesizenewsql)
 				{
 					$filesizeoldsql=filesize($this->folderdestarchives.$packagecodename.".generator.db.deployer.__INSTANCE__.sql.tpl");
-					$filesizenewsql=filesize("package/".$packagecodename."/generator/generator.db.deployer.__INSTANCE__.sql.tpl");
+					$filesizenewsql=filesize($this->folderdestpackage.$packagecodename."/generator/generator.db.deployer.__INSTANCE__.sql.tpl");
 				}
 				unlink($this->folderdestarchives.$packagecodename.".generator.db.deployer.__INSTANCE__.sql.tpl");
 			}
@@ -1680,7 +1709,7 @@ class PratikPackage extends ClassIniter
 			{
 				//kill db generator
 				$sqltype=$this->getExtSql();
-				$chemin_db_generator_tpl="package/".$packagecodename."/generator/generator.db.destroyer.__INSTANCE__.".$sqltype.".tpl";
+				$chemin_db_generator_tpl=$this->folderdestpackage.$packagecodename."/generator/generator.db.destroyer.__INSTANCE__.".$sqltype.".tpl";
 				if(isset($this->db) && $this->db && file_exists($chemin_db_generator_tpl))
 				{
 					//start dump
@@ -1701,7 +1730,7 @@ class PratikPackage extends ClassIniter
 						$tpl=$instanceTpl->tpselected;
 						
 						//include generator conf tpl
-						$tabgeneratorconftpl=$this->loader->charg_generatorconftpl_dans_tab("package/".$packagecodename."/generator");
+						$tabgeneratorconftpl=$this->loader->charg_generatorconftpl_dans_tab($this->folderdestpackage.$packagecodename."/generator");
 						$tpl->remplir_template("generatorconf",$tabgeneratorconftpl);
 						
 						//include generator file cour
@@ -1752,7 +1781,7 @@ class PratikPackage extends ClassIniter
 				
 				//load db generator
 				$sqltype=$this->getExtSql();
-				$chemin_db_generator_tpl="package/".$packagecodename."/generator/generator.db.deployer.__INSTANCE__.".$sqltype.".tpl";
+				$chemin_db_generator_tpl=$this->folderdestpackage.$packagecodename."/generator/generator.db.deployer.__INSTANCE__.".$sqltype.".tpl";
 				if(isset($this->db) && $this->db && file_exists($chemin_db_generator_tpl))
 				{
 					//pour chaque instance à générer
@@ -1782,7 +1811,7 @@ class PratikPackage extends ClassIniter
 						
 						$namefilecour=str_replace("__INSTANCE__",$instance->name,$chemin_db_generator_tpl);
 						$namefilecour=substr($namefilecour,0,-4);
-						$namefilecour=str_replace("package/".$packagecodename."/generator/","core/files/db/".$packagecodename.".",$namefilecour);
+						$namefilecour=str_replace($this->folderdestpackage.$packagecodename."/generator/","core/files/db/".$packagecodename.".",$namefilecour);
 						
 						//conflict resolution "reverse" mode
 						if($this->conflictresolution!=null)
@@ -1877,7 +1906,7 @@ class PratikPackage extends ClassIniter
 			//load files generator
 			foreach($this->initer['chaintab'] as $chaincour)
 			{
-				$tabfilestoload=$this->loader->charg_dossier_dans_tab("package/".$packagecodename."/generator/".$chaincour);
+				$tabfilestoload=$this->loader->charg_dossier_dans_tab($this->folderdestpackage.$packagecodename."/generator/".$chaincour);
 				
 				if(isset($tabfilestoload))
 					foreach($tabfilestoload as $filecour)
@@ -1885,11 +1914,11 @@ class PratikPackage extends ClassIniter
 						$folder=substr($filecour,0,strrpos($filecour,"/"));
 						$file=substr($filecour,strrpos($filecour,"/"),strlen($filecour)-4-strrpos($filecour,"/"));
 					
-						if($folder=="package/".$packagecodename."/generator/".$chaincour)
+						if($folder==$this->folderdestpackage.$packagecodename."/generator/".$chaincour)
 							continue;
 						
 						
-						$folder=str_replace("package/".$packagecodename."/generator/".$chaincour."/","",$folder);
+						$folder=str_replace($this->folderdestpackage.$packagecodename."/generator/".$chaincour."/","",$folder);
 					
 						if(!is_dir($folder))
 							mkdir($folder,0777,true);
@@ -1909,7 +1938,7 @@ class PratikPackage extends ClassIniter
 								$tpl=$instanceTpl->tpselected;
 								
 								//include generator conf tpl
-								$tabgeneratorconftpl=$this->loader->charg_generatorconftpl_dans_tab("package/".$packagecodename."/generator");
+								$tabgeneratorconftpl=$this->loader->charg_generatorconftpl_dans_tab($this->folderdestpackage.$packagecodename."/generator");
 								$tpl->remplir_template("generatorconf",$tabgeneratorconftpl);
 								
 								//include generator file cour
@@ -2003,8 +2032,8 @@ class PratikPackage extends ClassIniter
 			}
 			
 			//include postdeployer generator
-			if(file_exists("package/".$packagecodename."/generator/generator.postdeployer.php"))
-				include "package/".$packagecodename."/generator/generator.postdeployer.php";
+			if(file_exists($this->folderdestpackage.$packagecodename."/generator/generator.postdeployer.php"))
+				include $this->folderdestpackage.$packagecodename."/generator/generator.postdeployer.php";
 			
 			
 			
@@ -2169,10 +2198,10 @@ class PratikPackage extends ClassIniter
 	{
 		//check package to update
 		$downloader=null;
-		$yourfile="core/files/packagezip/".$packagecodename.".zip";
+		$yourfile=$this->folderdestdownload.$packagecodename.".zip";
 		//cas aucune présence du package, pas d'update
 		if(!file_exists($yourfile))
-			if(!file_exists("package/".$packagecodename))
+			if(!file_exists($this->folderdestpackage.$packagecodename))
 				return false;
 		
 		//downloader init
@@ -2192,7 +2221,7 @@ class PratikPackage extends ClassIniter
 		
 		//cas zip package inexistant, update necessaire
 		if(!file_exists($yourfile))
-			if(file_exists("package/".$packagecodename))
+			if(file_exists($this->folderdestpackage.$packagecodename))
 				return true;
 		
 		//data your file
@@ -2212,7 +2241,7 @@ class PratikPackage extends ClassIniter
 		//to check a local update, change the version of your package in the descripter
 		//get descripter version (new version)
 		$descripterversion="";
-		$descripterfile="package/".$packagecodename."/package.descripter.php";
+		$descripterfile=$this->folderdestpackage.$packagecodename."/package.descripter.php";
 		if(!file_exists($descripterfile))
 			return false;
 		
@@ -2275,7 +2304,7 @@ class PratikPackage extends ClassIniter
 		if($this->zipAndArchivePackage($packagecodename))
 		{
 			//kill old package
-			$dir = "package/".$packagecodename;
+			$dir = $this->folderdestpackage.$packagecodename;
 			$this->rrmdir($dir);
 		}
 		
@@ -2284,6 +2313,78 @@ class PratikPackage extends ClassIniter
 			unlink($this->folderdestdownload.$packagecodename.".zip");
 		
 	}
+	
+	
+	
+	function checkReverse($packagecodename="example")
+	{
+		//check package has reverse version
+		$downloader=null;
+		
+		//downloader init
+		if($downloader==null && $this->includer->include_pratikclass("Downloader"))
+			$downloader=new PratikDownloader($this->initer);
+		
+		//data distant folder
+		$distantfilesize="";
+		if($downloader && (count($distantfolder=$downloader->getSubfolderLinks("coldpackages/".$packagecodename)))==0)
+		{
+			//when distant folder is empty
+			return false;
+		}
+		
+		return true;
+	}
+	
+	
+	function checkLocalReverse($packagecodename="example")
+	{
+		if(file_exists($this->folderdestarchives.$packagecodename."/")){
+			//when distant folder exists
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
+	function setDeployedReverse($packagecodename,$deployedreverse="0")
+	{
+		if(isset($this->db) && $this->db)
+		{
+			$this->db->query("update `package` set deployedreverse='".$deployedreverse."' where nomcodepackage='".$packagecodename."'");
+			return true;
+		}
+		
+		return false;
+	}
+	
+	function getDeployedReverse($packagecodename)
+	{
+		if(isset($this->db) && $this->db)
+		{
+			$req=$this->db->query("select deployedreverse from `package` where nomcodepackage='".$packagecodename."'");
+			if($res=$this->db->fetch_array($req))
+				if($res['deployedreverse']=="1")
+					return true;
+		}
+		
+		return false;
+	}
+	
+	
+	function setToUpdate($packagecodename,$toupdate="0")
+	{
+		if(isset($this->db) && $this->db)
+		{
+			$this->db->query("update `package` set toupdate='".$toupdate."' where nomcodepackage='".$packagecodename."'");
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
 	
 }
 

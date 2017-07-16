@@ -17,7 +17,9 @@ class PackageConf extends ClassIniter
 		
 		$packagecodename=$this->instanceVar->varpost("packagecodename");
 		$update=$this->instanceVar->varpost("update");
+		$status=$this->instanceVar->varpost("status");
 		//$totaldestroy=$this->instanceVar->varpost("totaldestroy");
+		$olderversionzipfilename=$this->instanceVar->varpost("olderversionzipfilename");
 		
 		//prepare form with pratikpackage
 		$preform=array();
@@ -26,7 +28,7 @@ class PackageConf extends ClassIniter
 			$instancePackage=new PratikPackage($this->initer);
 			$isdeployable=false;
 			if($update!="2") //cas update local, pas de download externe
-				$isdeployable=$instancePackage->getPackageFromRoDKoDRoKCom($packagecodename,$update);
+				$isdeployable=$instancePackage->getPackageFromRoDKoDRoKCom($packagecodename,$update,$status,$olderversionzipfilename);
 			$preform=$instancePackage->preparePackageConfForm($packagecodename,$isdeployable);
 		}
 		
@@ -37,6 +39,16 @@ class PackageConf extends ClassIniter
 		$preform['lineform'][count($preform['lineform']) -1]['name']="reload";
 		$preform['lineform'][count($preform['lineform']) -1]['default']="canceled";
 		$preform['lineform'][count($preform['lineform']) -1]['champs']="hidden";
+		
+		if($olderversionzipfilename!="")
+		{
+			$preform['lineform'][]=array();
+			$preform['lineform'][count($preform['lineform']) -1]['label']="";
+			$preform['lineform'][count($preform['lineform']) -1]['hiddenlabel']="on";
+			$preform['lineform'][count($preform['lineform']) -1]['name']="reverse";
+			$preform['lineform'][count($preform['lineform']) -1]['default']="reverse";
+			$preform['lineform'][count($preform['lineform']) -1]['champs']="hidden";
+		}
 		
 		//construct form
 		if($this->includer->include_pratikclass("Form"))

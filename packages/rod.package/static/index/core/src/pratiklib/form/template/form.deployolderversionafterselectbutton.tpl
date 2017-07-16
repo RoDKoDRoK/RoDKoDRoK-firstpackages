@@ -1,0 +1,1 @@
+<input type="button" name="deployconf" value="Deploy older version" onclick="var olderversionzipfilename=document.getElementById('olderversionzipfilename').value;var packagecodename=document.getElementById('packagecodename').value;windowCall('widewindow','packageconf','deployed=0&packagecodename='+packagecodename+'&olderversionzipfilename='+olderversionzipfilename)" />

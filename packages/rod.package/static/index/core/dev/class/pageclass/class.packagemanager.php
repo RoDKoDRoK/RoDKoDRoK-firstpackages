@@ -89,8 +89,13 @@ class PackageManager extends ClassIniter
 			
 			//todownload
 			$data[count($data)-1]['todownload']="0";
-			if(!is_dir("package/".$res['nomcodepackage']))
+			if(!is_dir("package/".$res['nomcodepackage']) && !file_exists("core/files/packagezip/".$res['nomcodepackage'].".zip"))
 				$data[count($data)-1]['todownload']="1";
+			
+			//localreverse
+			$data[count($data)-1]['localreverse']="0";
+			if(file_exists("core/files/packageziparchived/".$res['nomcodepackage']."/"))
+				$data[count($data)-1]['localreverse']="1";
 			
 			//depends
 			$data[count($data)-1]['depend']="";
@@ -125,6 +130,11 @@ class PackageManager extends ClassIniter
 		$preform['updatebutton']=true;
 		$preform['updatelocalbutton']=true;
 		$preform['checkupdatebutton']=true;
+		$preform['checkreversebutton']=true;
+		$preform['reversebutton']=true;
+		$preform['downloadolderversionanddeploybutton']=true;
+		$preform['localreversebutton']=true;
+		$preform['deploylocalolderversionbutton']=true;
 		
 		
 		$params=array();
@@ -293,6 +303,7 @@ class PackageManager extends ClassIniter
 		$submitreturn="";
 	
 		$packagecodename=$this->instanceVar->varpost("codename");
+		$reverse=$this->instanceVar->varpost("reverse");
 		
 		$this->includer->include_pratikclass("Package");
 		$instancePackage=new PratikPackage($this->initer);
@@ -300,7 +311,17 @@ class PackageManager extends ClassIniter
 		if($this->instanceVar->varpost("deploysubmit"))
 		{
 			$instancePackage->deploy($packagecodename);
-			$this->instanceMessage->set_message($this->instanceLang->getTranslation("Deploiement effectue"));
+			if($reverse=="")
+			{
+				$this->instanceMessage->set_message($this->instanceLang->getTranslation("Deploiement effectue"));
+				$instancePackage->setDeployedReverse($packagecodename,"0");
+			}
+			else
+			{
+				$this->instanceMessage->set_message($this->instanceLang->getTranslation("Deploiement de la version antérieure effectuée"));
+				$instancePackage->setDeployedReverse($packagecodename,"1");
+				$instancePackage->setToUpdate($packagecodename,"1");
+			}
 			
 			if($this->includer->include_pratikclass("Form"))
 			{
@@ -333,7 +354,17 @@ class PackageManager extends ClassIniter
 		else if($this->instanceVar->varpost("updatesubmit"))
 		{
 			$instancePackage->update($packagecodename);
-			$this->instanceMessage->set_message($this->instanceLang->getTranslation("Mise a jour effectuee"));
+			if($reverse=="")
+			{
+				$this->instanceMessage->set_message($this->instanceLang->getTranslation("Mise a jour effectuee"));
+				$instancePackage->setDeployedReverse($packagecodename,"0");
+			}
+			else
+			{
+				$this->instanceMessage->set_message($this->instanceLang->getTranslation("Retour à la version antérieure effectuée"));
+				$instancePackage->setDeployedReverse($packagecodename,"1");
+				$instancePackage->setToUpdate($packagecodename,"1");
+			}
 			
 			if($this->includer->include_pratikclass("Form"))
 			{
@@ -343,7 +374,7 @@ class PackageManager extends ClassIniter
 		}
 		else if($this->instanceVar->varpost("checkupdatesubmit"))
 		{
-			$tabpackages=$this->data_loader();
+			$tabpackages=$this->data_loader(true,true);
 			foreach($tabpackages as $packagecour)
 			{
 				$packagecodename=$packagecour['nomcodepackage'];
@@ -361,6 +392,28 @@ class PackageManager extends ClassIniter
 			}
 			
 			$this->instanceMessage->set_message($this->instanceLang->getTranslation("Les dernieres mises a jours disponibles sont visibles"));
+			
+			if($this->includer->include_pratikclass("Form"))
+			{
+				$instanceForm=new PratikForm($this->initer);
+				$submitreturn.=$instanceForm->redirectAfterSubmiter();
+			}
+		}
+		else if($this->instanceVar->varpost("checkreversesubmit"))
+		{
+			$tabpackages=$this->data_loader(true,true);
+			foreach($tabpackages as $packagecour)
+			{
+				$packagecodename=$packagecour['nomcodepackage'];
+				//$reverse=0;
+				if($instancePackage->checkReverse($packagecodename))
+				{
+					$reverse=1;
+					$this->db->query("update `package` set reverse='".$reverse."' where nomcodepackage='".$packagecodename."'");
+				}
+			}
+			
+			$this->instanceMessage->set_message($this->instanceLang->getTranslation("Les versions antérieures disponibles sont visibles"));
 			
 			if($this->includer->include_pratikclass("Form"))
 			{

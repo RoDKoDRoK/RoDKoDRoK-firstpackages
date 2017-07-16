@@ -85,6 +85,27 @@ class PratikDownloader extends ClassIniter
 		return "";
 	}
 	
+	function getSubfolderLinks($subfolder="")
+	{
+		for($cptsrclink=0;$cptsrclink<count($this->getTabSrcLink());$cptsrclink++)
+		{
+			$urltodownload=$this->getSrcLink($cptsrclink);
+			$urltodownload=$urltodownload."/".$subfolder."/";
+			
+			$file_headers = @get_headers($urltodownload);
+			if($file_headers[0] != 'HTTP/1.1 404 Not Found')
+			{
+				$tabfilesdetected = $this->loader->charg_url_unique_dans_tab($urltodownload);
+				if(count($tabfilesdetected)>0)
+				{
+					return $tabfilesdetected;
+				}
+			}
+		}
+		
+		return array();
+	}
+	
 	function isSecure()
 	{
 		return ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443);
@@ -95,7 +116,8 @@ class PratikDownloader extends ClassIniter
 		$path="";
 		$path.="http".($this->isSecure()?"s":"")."://".$_SERVER['HTTP_HOST']."/";
 		
-		$subfolder=parse_url($path.$_SERVER['REQUEST_URI'],PHP_URL_PATH); //substr($_SERVER['REQUEST_URI'],0,strrpos($_SERVER['REQUEST_URI'],"/"));
+		$subfolder=parse_url($path.$_SERVER['REQUEST_URI'],PHP_URL_PATH);
+		$subfolder=substr($subfolder,0,strrpos($subfolder,"/"));
 		$path.=$subfolder."/";
 		
 		return $path;

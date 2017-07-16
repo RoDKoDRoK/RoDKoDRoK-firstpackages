@@ -25,7 +25,6 @@ body
 	float:right;
 	width:220px;
 	margin:5px;
-	margin-top:95px;
 	padding:3px;
 }
 
@@ -34,7 +33,6 @@ body
 	float:left;
 	width:220px;
 	margin:5px;
-	margin-top:95px;
 	padding:3px;
 }
 
@@ -42,6 +40,7 @@ body
 {
 	min-height:800px;
 	background:white;
+	margin-top:160px;
 }
 
 .message, #content
