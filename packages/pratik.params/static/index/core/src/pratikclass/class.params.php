@@ -55,8 +55,21 @@ class PratikParams extends ClassIniter
 	
 	function addParam($idelmt,$typeelmt,$paramcodename,$paramvalue)
 	{
+		//prepare data
+		if(!is_numeric($idelmt))
+		{
+			$sql="select * from `".$typeelmt."` where nomcode".$typeelmt."='".$idelmt."'";
+			$req=$this->db->query($sql);
+			if($res=$this->db->fetch_array($req))
+				$idelmt=$res['id'.$typeelmt];
+		}
+		
 		//test data exists
-		$sql="select * from `param` where nomcodeparam='".$paramcodename."'";
+		$sql="select * from `elmt_has_param`,`param` 
+					where `elmt_has_param`.idparam=`param`.idparam and 
+							`param`.nomcodeparam='".$paramcodename."' and 
+							`elmt_has_param`.idelmt='".$idelmt."' and 
+							`elmt_has_param`.typeelmt='".$typeelmt."'";
 		$req=$this->db->query($sql);
 		if($res=$this->db->fetch_array($req))
 		{
@@ -73,34 +86,8 @@ class PratikParams extends ClassIniter
 			//insert param
 			$sql="INSERT INTO `param` VALUES (NULL,'".$paramcodename."','".$paramcodename."','".$paramcodename."','".$paramvalue."','0')";
 			$this->db->query($sql);
-			
 			$idparam=$this->db->last_insert_id();
-		}
-		
-		//prepare data
-		if(!is_numeric($idelmt))
-		{
-			$sql="select * from `".$typeelmt."` where nomcode".$typeelmt."='".$idelmt."'";
-			$req=$this->db->query($sql);
-			if($res=$this->db->fetch_array($req))
-				$idelmt=$res['id'.$typeelmt];
-		}
-		
-		//test data exists
-		$sql="select * from `elmt_has_param` where idparam='".$idparam."'";
-		$req=$this->db->query($sql);
-		if($res=$this->db->fetch_array($req))
-		{
-			$tabparams=array();
 			
-			$tabelmthasparam=array();
-			$tabelmthasparam['idelmt']=$idelmt;
-			$tabelmthasparam['typeelmt']=$typeelmt;
-			
-			$this->updateParam($idparam,$tabparams,$tabelmthasparam);
-		}
-		else
-		{
 			//insert elmt_has_param
 			$sql="INSERT INTO `elmt_has_param` VALUES (NULL,'".$idelmt."','','".$typeelmt."','".$idparam."')";
 			$this->db->query($sql);
@@ -109,19 +96,36 @@ class PratikParams extends ClassIniter
 	}
 	
 	
-	function updateParam($idparam,$tabparams=array(),$tabelmthasparam=array())
+	function updateParam($idparam,$tabparams=array(),$tabelmthasparam=array(),$idelmt=null,$typeelmt=null)
 	{
 		//prepare data
 		if(!is_numeric($idparam))
 		{
-			$sql="select * from `param` where nomcodeparam='".$idparam."'";
+			if($idelmt==null || $typeelmt==null)
+				return false;
+			
+			//prepare data
+			if(!is_numeric($idelmt))
+			{
+				$sql="select * from `".$typeelmt."` where nomcode".$typeelmt."='".$idelmt."'";
+				$req=$this->db->query($sql);
+				if($res=$this->db->fetch_array($req))
+					$idelmt=$res['id'.$typeelmt];
+			}
+			
+			
+			$sql="select * from `elmt_has_param`,`param` 
+					where `elmt_has_param`.idparam=`param`.idparam and 
+							`param`.nomcodeparam='".$idparam."' and 
+							`elmt_has_param`.idelmt='".$idelmt."' and 
+							`elmt_has_param`.typeelmt='".$typeelmt."'";
 			$req=$this->db->query($sql);
 			if($res=$this->db->fetch_array($req))
 				$idparam=$res['idparam'];
 		}
 		
 		
-		//preapre data param
+		//prepare data param
 		$updatecour="";
 		foreach($tabparams as $idcour=>$valuecour)
 			$updatecour.=$idcour."='".$valuecour."', ";
@@ -137,7 +141,7 @@ class PratikParams extends ClassIniter
 		}
 		
 		
-		//preapre data elmt_has_param
+		//prepare data elmt_has_param
 		$updatecour="";
 		foreach($tabelmthasparam as $idcour=>$valuecour)
 			$updatecour.=$idcour."='".$valuecour."', ";
@@ -155,12 +159,29 @@ class PratikParams extends ClassIniter
 	}
 	
 	
-	function delParam($idparam)
+	function delParam($idparam,$idelmt=null,$typeelmt=null)
 	{
 		//prepare data
 		if(!is_numeric($idparam))
 		{
-			$sql="select * from `param` where nomcodeparam='".$idparam."'";
+			if($idelmt==null || $typeelmt==null)
+				return false;
+			
+			//prepare data
+			if(!is_numeric($idelmt))
+			{
+				$sql="select * from `".$typeelmt."` where nomcode".$typeelmt."='".$idelmt."'";
+				$req=$this->db->query($sql);
+				if($res=$this->db->fetch_array($req))
+					$idelmt=$res['id'.$typeelmt];
+			}
+			
+			
+			$sql="select * from `elmt_has_param`,`param` 
+					where `elmt_has_param`.idparam=`param`.idparam and 
+							`param`.nomcodeparam='".$idparam."' and 
+							`elmt_has_param`.idelmt='".$idelmt."' and 
+							`elmt_has_param`.typeelmt='".$typeelmt."'";
 			$req=$this->db->query($sql);
 			if($res=$this->db->fetch_array($req))
 				$idparam=$res['idparam'];
@@ -173,6 +194,8 @@ class PratikParams extends ClassIniter
 		//delete param
 		$sql="DELETE FROM `param` WHERE idparam='".$idparam."'";
 		$this->db->query($sql);
+		
+		return true;
 	}
 	
 }

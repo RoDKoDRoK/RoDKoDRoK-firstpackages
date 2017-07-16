@@ -18,6 +18,7 @@ CREATE  TABLE IF NOT EXISTS `package` (
   `toupdate` INT UNSIGNED NOT NULL DEFAULT '0',
   `reverse` INT UNSIGNED NOT NULL DEFAULT '0',
   `deployedreverse` INT UNSIGNED NOT NULL DEFAULT '0',
+  `localdev` INT UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`idpackage`,`nomcodepackage`) )
 ENGINE = MyISAM;
 

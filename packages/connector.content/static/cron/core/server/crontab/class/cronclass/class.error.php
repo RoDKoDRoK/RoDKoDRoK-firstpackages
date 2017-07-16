@@ -1,6 +1,6 @@
 <?php
 
-class Example extends ClassIniter
+class Error extends ClassIniter
 {
 
 	function __construct($initer=array())

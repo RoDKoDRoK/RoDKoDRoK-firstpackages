@@ -304,6 +304,7 @@ class PackageManager extends ClassIniter
 	
 		$packagecodename=$this->instanceVar->varpost("codename");
 		$reverse=$this->instanceVar->varpost("reverse");
+		$localupdate=$this->instanceVar->varpost("localupdate");
 		
 		$this->includer->include_pratikclass("Package");
 		$instancePackage=new PratikPackage($this->initer);
@@ -367,12 +368,25 @@ class PackageManager extends ClassIniter
 			{
 				$this->instanceMessage->set_message($this->instanceLang->getTranslation("Mise a jour effectuee"));
 				$instancePackage->setDeployedReverse($packagecodename,"0");
+				if($localupdate=="")
+				{
+					$instancePackage->setLocalDev($packagecodename,"0");
+				}
+				else
+				{
+					// cas local update, maj de la db (pour version)
+					$instancePackage->updateDbForNewPackage($packagecodename);
+					$instancePackage->setLocalDev($packagecodename,"1");
+					if($instancePackage->checkUpdate($packagecodename))
+						$instancePackage->setToUpdate($packagecodename,"1");
+				}
 			}
 			else
 			{
 				$this->instanceMessage->set_message($this->instanceLang->getTranslation("Retour à la version antérieure effectuée"));
 				$instancePackage->setDeployedReverse($packagecodename,"1");
 				$instancePackage->setToUpdate($packagecodename,"1");
+				$instancePackage->setLocalDev($packagecodename,"0");
 			}
 			
 			//vider le cache de template
@@ -390,15 +404,15 @@ class PackageManager extends ClassIniter
 			foreach($tabpackages as $packagecour)
 			{
 				$packagecodename=$packagecour['nomcodepackage'];
-				//$toupdate=0;
+				$toupdate=0;
 				if($instancePackage->checkUpdate($packagecodename))
 				{
-					$toupdate=1;
+					$toupdate+=1;
 					$this->db->query("update `package` set toupdate='".$toupdate."' where nomcodepackage='".$packagecodename."'");
 				}
 				if($instancePackage->checkLocalUpdate($packagecodename))
 				{
-					$toupdate=2;
+					$toupdate+=2;
 					$this->db->query("update `package` set toupdate='".$toupdate."' where nomcodepackage='".$packagecodename."'");
 				}
 			}

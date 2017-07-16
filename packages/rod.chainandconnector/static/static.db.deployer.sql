@@ -1,0 +1,46 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+
+
+
+CREATE  TABLE IF NOT EXISTS `chain` (
+  `idchain` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `nomcodechain` VARCHAR(63) NOT NULL ,
+  `nomchain` VARCHAR(255) NULL ,
+  `description` TEXT NULL ,
+  PRIMARY KEY (`idchain`,`nomcodechain`) )
+ENGINE = MyISAM;
+
+
+CREATE  TABLE IF NOT EXISTS `chainuseconnector` (
+  `idchainuseconnector` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `idchain` BIGINT UNSIGNED NOT NULL DEFAULT '0' ,
+  `idconnector` BIGINT UNSIGNED NOT NULL DEFAULT '0' ,
+  `classtoiniter` SMALLINT UNSIGNED NOT NULL DEFAULT '0' ,
+  `vartoiniter` SMALLINT UNSIGNED NOT NULL DEFAULT '0' ,
+  `aliasiniter` VARCHAR(63) NOT NULL ,
+  `outputaction` VARCHAR(255) NOT NULL ,
+  `ordre` INT UNSIGNED NOT NULL ,
+  PRIMARY KEY (`idchainuseconnector`) )
+ENGINE = MyISAM;
+
+
+CREATE  TABLE IF NOT EXISTS `connector` (
+  `idconnector` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `nomcodeconnector` VARCHAR(63) NOT NULL ,
+  `nomconnector` VARCHAR(255) NULL ,
+  `description` TEXT NULL ,
+  PRIMARY KEY (`idconnector`,`nomcodeconnector`) )
+ENGINE = MyISAM;
+
+
+
+
+
+
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

@@ -33,10 +33,11 @@
 		-->
 
 		<div class="lastcolzone buttonzone">
-			{if $data[cptdata].toupdate == '1'}
+			{if $data[cptdata].toupdate == '1' || $data[cptdata].toupdate == '3'}
 				<div class="updatebutton">{eval var=$form.updatebutton}</div>
+				{if $data[cptdata].localdev == '1'}<span style='color:#971212'>Warning before updating from RoDKoDRoK portal : Your personal dev version is already deployed for this package !!</span>{/if}
 			{/if}
-			{if $data[cptdata].toupdate == '2'}
+			{if $data[cptdata].toupdate == '2' || $data[cptdata].toupdate == '3'}
 				<div class="updatebutton">{eval var=$form.updatelocalbutton}</div>
 			{/if}
 			{if $data[cptdata].indeployer == '0' && $data[cptdata].lockedbyotherdepend == '0'}

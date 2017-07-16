@@ -13,7 +13,7 @@ class ConnectorIncluder extends Connector
 	function initInstance()
 	{
 		//import includer
-		$includer=new Includer($this->initer['conf']);
+		$includer=new Includer($this->initer['instanceConf']);
 		
 		
 		//set instance before return

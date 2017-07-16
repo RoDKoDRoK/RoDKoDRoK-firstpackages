@@ -3,11 +3,12 @@
 $descripter['name']="RoD Packages";
 $descripter['description']="Gestion des packages";
 
-$descripter['version']="0.0.x-1.6";
+$descripter['version']="0.0.x-1.7";
 
 $descripter['groupe']="RoD";
 
 
+$descripter['depend'][]="pratik.destructor";
 $descripter['depend'][]="pratik.downloader";
 $descripter['depend'][]="pratik.initersimul";
 $descripter['depend'][]="pratik.view";

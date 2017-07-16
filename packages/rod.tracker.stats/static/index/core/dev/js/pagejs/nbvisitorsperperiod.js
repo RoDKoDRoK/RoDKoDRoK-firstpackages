@@ -1,0 +1,9 @@
+
+
+function generateGraph(iddivgraph,data)
+{
+
+
+}
+
+

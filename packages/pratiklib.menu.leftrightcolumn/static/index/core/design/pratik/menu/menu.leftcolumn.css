@@ -6,6 +6,7 @@
 	background:#000000;
 	font-size:25px;
 	padding-bottom:20px;
+	margin-top:10px;
 }
 
 
@@ -35,4 +36,14 @@
 #leftmenu .ssmenu a
 {
 	background:#333333;
+}
+
+.titleleftmenu
+{
+	margin:10px;
+}
+
+.titleleftmenu:first-letter
+{
+	text-transform: uppercase;
 }

@@ -72,10 +72,13 @@ class PratikColonne extends ClassIniter
 				//load subtpl case
 				$this->tplcase->remplir_template("case",$res['nomcodecase']);
 				
+				//load params
+				$this->tplcase->remplir_template("param",$param);
+				
 				//load content case
 				if(file_exists("core/src/pratiklib/case/class/class.case.".$res['nomcodecase'].".php"))
 					include_once "core/src/pratiklib/case/class/class.case.".$res['nomcodecase'].".php";
-				include_once "core/src/pratiklib/case/loader/case.".$res['nomcodecase'].".php";
+				include "core/src/pratiklib/case/loader/case.".$res['nomcodecase'].".php";
 				
 				//get case
 				$builtcase.=$this->tplcase->get_template("core/src/pratiklib/case/case.tpl");

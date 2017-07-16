@@ -39,13 +39,42 @@ $tabconnector[count($tabconnector)-1]['aliasiniter']="log";
 $tabconnector[count($tabconnector)-1]['name']="log";
 
 
+
+
+//connector variables getter
+$tabconnector[]=array();
+$tabconnector[count($tabconnector)-1]['classtoiniter']=true;
+$tabconnector[count($tabconnector)-1]['vartoiniter']=false;
+$tabconnector[count($tabconnector)-1]['aliasiniter']="instanceVar";
+$tabconnector[count($tabconnector)-1]['name']="variable";
+
+
+//connector includer
+$tabconnector[]=array();
+$tabconnector[count($tabconnector)-1]['classtoiniter']=true;
+$tabconnector[count($tabconnector)-1]['vartoiniter']=false;
+$tabconnector[count($tabconnector)-1]['aliasiniter']="includer";
+$tabconnector[count($tabconnector)-1]['name']="includer";
+
+
+
+
 //connector lib
 $tabconnector[]=array();
-$tabconnector[count($tabconnector)-1]['classtoiniter']=false;
+$tabconnector[count($tabconnector)-1]['classtoiniter']=true;
 $tabconnector[count($tabconnector)-1]['vartoiniter']=true;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="lib";
 $tabconnector[count($tabconnector)-1]['outputaction']="toprint-header:1-var";
 $tabconnector[count($tabconnector)-1]['name']="lib";
+
+
+//connector ajax
+$tabconnector[]=array();
+$tabconnector[count($tabconnector)-1]['classtoiniter']=false;
+$tabconnector[count($tabconnector)-1]['vartoiniter']=true;
+$tabconnector[count($tabconnector)-1]['aliasiniter']="ajax";
+$tabconnector[count($tabconnector)-1]['outputaction']="toprint-header:2-var";
+$tabconnector[count($tabconnector)-1]['name']="ajax";
 
 
 
@@ -114,7 +143,7 @@ $tabconnector[]=array();
 $tabconnector[count($tabconnector)-1]['classtoiniter']=false;
 $tabconnector[count($tabconnector)-1]['vartoiniter']=true;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="css";
-$tabconnector[count($tabconnector)-1]['outputaction']="toprint-header:2-var";
+$tabconnector[count($tabconnector)-1]['outputaction']="toprint-header:3-var";
 $tabconnector[count($tabconnector)-1]['name']="css";
 
 
@@ -123,7 +152,7 @@ $tabconnector[]=array();
 $tabconnector[count($tabconnector)-1]['classtoiniter']=false;
 $tabconnector[count($tabconnector)-1]['vartoiniter']=true;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="js";
-$tabconnector[count($tabconnector)-1]['outputaction']="toprint-header:3-var";
+$tabconnector[count($tabconnector)-1]['outputaction']="toprint-header:4-var";
 $tabconnector[count($tabconnector)-1]['name']="js";
 
 
@@ -173,21 +202,6 @@ $tabconnector[count($tabconnector)-1]['outputaction']="toprint-content:4-subtpl:
 $tabconnector[count($tabconnector)-1]['name']="varfooter";
 
 
-
-//connector includer
-$tabconnector[]=array();
-$tabconnector[count($tabconnector)-1]['classtoiniter']=true;
-$tabconnector[count($tabconnector)-1]['vartoiniter']=false;
-$tabconnector[count($tabconnector)-1]['aliasiniter']="includer";
-$tabconnector[count($tabconnector)-1]['name']="includer";
-
-
-//connector variables getter
-$tabconnector[]=array();
-$tabconnector[count($tabconnector)-1]['classtoiniter']=true;
-$tabconnector[count($tabconnector)-1]['vartoiniter']=false;
-$tabconnector[count($tabconnector)-1]['aliasiniter']="instanceVar";
-$tabconnector[count($tabconnector)-1]['name']="variable";
 
 
 //connector template

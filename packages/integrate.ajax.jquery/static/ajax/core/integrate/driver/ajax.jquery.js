@@ -1,6 +1,6 @@
 
 
-function ajaxCall(iddivdest,ajaxdest,params)
+function ajaxCall(iddivdest,ajaxdest,params,callback=null)
 {
 	$.ajax({
 				async: "true",
@@ -10,7 +10,7 @@ function ajaxCall(iddivdest,ajaxdest,params)
 				error: function(errorData) { $("#"+iddivdest).html(errorData); },
 				success: function(data) {
 							$("#"+iddivdest).html(data);
-							$("#"+iddivdest).fadeIn("slow", "linear");
+							$("#"+iddivdest).fadeIn("slow", "linear");														if(callback && typeof(callback) === "function")								callback();
 						}
 		});
 }

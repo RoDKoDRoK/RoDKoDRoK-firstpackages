@@ -50,8 +50,13 @@ class TemplateSmarty
 		{
 			if($method=="manual")
 			{
-				$this->rrmdir($this->dirtmptpl);
-				return true;
+				if(class_exists("PratikDestructor") || (isset($this->includer) && $this->includer->include_pratikclass("Destructor")))
+				{
+					$destructor=new PratikDestructor();
+					$destructor->rrmdir($this->dirtmptpl);
+					return true;
+				}
+				return false;
 			}
 			else
 			{
@@ -64,29 +69,6 @@ class TemplateSmarty
 		return true;
 	}
 	
-	
-	
-	private function rrmdir($dir) {
-	   if (is_dir($dir)) {
-		 $objects = scandir($dir);
-		 foreach ($objects as $object) {
-		   if ($object != "." && $object != "..") {
-			 if (filetype($dir."/".$object) == "dir"){
-				$this->rrmdir($dir."/".$object);
-			 }else{ 
-				unlink($dir."/".$object);
-			 }
-		   }
-		 }
-		 reset($objects);
-		 
-		 //force close dir before remove (php7)
-		 $closer=opendir($dir);
-		 closedir($closer);
-		 
-		 rmdir($dir);
-	  }
-	}
 	
 }
 

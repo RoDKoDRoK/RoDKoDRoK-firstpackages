@@ -41,11 +41,20 @@ class PratikDownloader extends ClassIniter
 		$tabsrclink=array_slice($tabsrclink,0);
 		
 		//check and prepare local link without http
-		for($cptsrclink=0;$cptsrclink<count($tabsrclink);$cptsrclink++)
+		if(class_exists("PratikPath") || (isset($this->includer) && $this->includer->include_pratikclass("Path")))
 		{
-			$urlcour=$tabsrclink[$cptsrclink];
-			if(substr($urlcour,0,4)!="http")
-				$tabsrclink[$cptsrclink]=$this->getHttpRootPath().$urlcour;
+			$pratikpath=new PratikPath($this->initer);
+			for($cptsrclink=0;$cptsrclink<count($tabsrclink);$cptsrclink++)
+			{
+				$urlcour=$tabsrclink[$cptsrclink];
+				if(substr($urlcour,0,4)!="http")
+					$tabsrclink[$cptsrclink]=$pratikpath->getHttpRootPath().$urlcour;
+			}
+		}
+		else
+		{
+			//log warning local link not available because Pratik Path not installed
+			$this->log->pushtolog("Warning pratik.downloader - local link not available because pratik.path not deployed");
 		}
 		
 		return $tabsrclink;
@@ -106,23 +115,7 @@ class PratikDownloader extends ClassIniter
 		return array();
 	}
 	
-	function isSecure()
-	{
-		return ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443);
-	}
 	
-	function getHttpRootPath()
-	{
-		$path="";
-		$path.="http".($this->isSecure()?"s":"")."://".$_SERVER['HTTP_HOST']."/";
-		
-		$subfolder=parse_url($path.$_SERVER['REQUEST_URI'],PHP_URL_PATH);
-		$subfolder=substr($subfolder,0,strrpos($subfolder,"/"));
-		$path.=$subfolder."/";
-		
-		return $path;
-	}
-
 }
 
 

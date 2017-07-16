@@ -50,6 +50,16 @@ class PackageConf extends ClassIniter
 			$preform['lineform'][count($preform['lineform']) -1]['champs']="hidden";
 		}
 		
+		if($update=="2")
+		{
+			$preform['lineform'][]=array();
+			$preform['lineform'][count($preform['lineform']) -1]['label']="";
+			$preform['lineform'][count($preform['lineform']) -1]['hiddenlabel']="on";
+			$preform['lineform'][count($preform['lineform']) -1]['name']="localupdate";
+			$preform['lineform'][count($preform['lineform']) -1]['default']="localupdate";
+			$preform['lineform'][count($preform['lineform']) -1]['champs']="hidden";
+		}
+		
 		//construct form
 		if($this->includer->include_pratikclass("Form"))
 		{
@@ -102,6 +112,7 @@ class PackageConf extends ClassIniter
 		if($deployed && $update)
 		{
 			$content.=$this->instanceLang->getTranslation("Mise à jour de ce package ? ");
+			$content.="<br />";
 			$content.="<br />";
 			$content.=$this->instanceLang->getTranslation("Vérifiez les valeurs des éventuels champs de paramétrage ci-dessous (valeurs par défaut du package)");
 		}

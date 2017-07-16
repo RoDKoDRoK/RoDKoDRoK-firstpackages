@@ -965,29 +965,6 @@ class PratikPackage extends ClassIniter
 	
 	
 	
-	function rrmdir($dir) {
-	   if (is_dir($dir)) {
-		 $objects = scandir($dir);
-		 foreach ($objects as $object) {
-		   if ($object != "." && $object != "..") {
-			 if (filetype($dir."/".$object) == "dir"){
-				$this->rrmdir($dir."/".$object);
-			 }else{ 
-				unlink($dir."/".$object);
-			 }
-		   }
-		 }
-		 reset($objects);
-		 
-		 //force close dir before remove (php7)
-		 $closer=opendir($dir);
-		 closedir($closer);
-		 
-		 rmdir($dir);
-	  }
-	}
-	
-	
 	function getPackageFromRoDKoDRoKCom($packagecodename="example",$update="",$status="",$olderversionzipfilename="")
 	{
 		if(file_exists($this->folderdestpackage.$packagecodename) && $update)
@@ -1011,7 +988,11 @@ class PratikPackage extends ClassIniter
 			{
 				//kill old package
 				$dir = $this->folderdestpackage.$packagecodename;
-				$this->rrmdir($dir);
+				if(class_exists("PratikDestructor") || (isset($this->includer) && $this->includer->include_pratikclass("Destructor")))
+				{
+					$destructor=new PratikDestructor($this->initer);
+					$destructor->rrmdir($dir);
+				}
 			}
 		}
 		
@@ -1028,28 +1009,7 @@ class PratikPackage extends ClassIniter
 				if($this->unzipPackage($packagecodename))
 				{
 					//update db for new package
-					if(isset($this->db))
-					{
-						$descripter=array();
-						$descripter['name']="";
-						$descripter['description']="";
-						$descripter['version']="";
-						$descripter['groupe']="";
-						
-						if(file_exists($this->folderdestpackage.$packagecodename."/package.descripter.php"))
-							include $this->folderdestpackage.$packagecodename."/package.descripter.php";
-						
-						
-						//update dans la db
-						$this->db->query("update `package` set nompackage='".$descripter['name']."', groupepackage='".$descripter['groupe']."', description='".$descripter['description']."', version='".$descripter['version']."' where nomcodepackage='".$packagecodename."'");
-						
-						//ajout des dependances
-						if(isset($descripter['depend']) && is_array($descripter['depend']))
-							foreach($descripter['depend'] as $dependcour)
-								if($dependcour!="")
-									$this->db->query("insert into `package_depends_on` (`nomcodepackage`, `nomcodedepend`) values ('".$packagecodename."','".$dependcour."')");
-				
-					}
+					$this->updateDbForNewPackage($packagecodename);
 					
 					return true;
 				}
@@ -1060,6 +1020,35 @@ class PratikPackage extends ClassIniter
 		return true;
 	}
 	
+	
+	function updateDbForNewPackage($packagecodename="example")
+	{
+		//update db for new package
+		if(isset($this->db))
+		{
+			$descripter=array();
+			$descripter['name']="";
+			$descripter['description']="";
+			$descripter['version']="";
+			$descripter['groupe']="";
+			
+			if(file_exists($this->folderdestpackage.$packagecodename."/package.descripter.php"))
+				include $this->folderdestpackage.$packagecodename."/package.descripter.php";
+			
+			
+			//update dans la db
+			$this->db->query("update `package` set nompackage='".$descripter['name']."', groupepackage='".$descripter['groupe']."', description='".$descripter['description']."', version='".$descripter['version']."' where nomcodepackage='".$packagecodename."'");
+			
+			//clean old dependances
+			$this->db->query("delete from `package_depends_on` where nomcodepackage='".$packagecodename."'");
+			
+			//ajout des dependances
+			if(isset($descripter['depend']) && is_array($descripter['depend']))
+				foreach($descripter['depend'] as $dependcour)
+					if($dependcour!="")
+						$this->db->query("insert into `package_depends_on` (`nomcodepackage`, `nomcodedepend`) values ('".$packagecodename."','".$dependcour."')");
+		}
+	}
 	
 	
 	function downloadPackageFromUrl($packagecodename="example",$force=false,$status="",$olderversionzipfilename="")
@@ -2310,7 +2299,11 @@ class PratikPackage extends ClassIniter
 		{
 			//kill old package
 			$dir = $this->folderdestpackage.$packagecodename;
-			$this->rrmdir($dir);
+			if(class_exists("PratikDestructor") || (isset($this->includer) && $this->includer->include_pratikclass("Destructor")))
+			{
+				$destructor=new PratikDestructor($this->initer);
+				$destructor->rrmdir($dir);
+			}
 		}
 		
 		//kill zip
@@ -2385,6 +2378,18 @@ class PratikPackage extends ClassIniter
 		if(isset($this->db) && $this->db)
 		{
 			$this->db->query("update `package` set toupdate='".$toupdate."' where nomcodepackage='".$packagecodename."'");
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
+	function setLocalDev($packagecodename,$localdev="0")
+	{
+		if(isset($this->db) && $this->db)
+		{
+			$this->db->query("update `package` set localdev='".$localdev."' where nomcodepackage='".$packagecodename."'");
 			return true;
 		}
 		

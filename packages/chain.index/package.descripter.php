@@ -3,7 +3,7 @@
 $descripter['name']="Chain Index";
 $descripter['description']="Chain execution index";
 
-$descripter['version']="0.0.x-1.2";
+$descripter['version']="0.0.x-1.5";
 
 $descripter['groupe']="Chain";
 

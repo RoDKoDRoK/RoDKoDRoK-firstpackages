@@ -1,12 +1,12 @@
 <?php
 
-class LibIntegratorJquery
+class LibIntegratorJquery extends LibIntegrator
 {
 
 	
-	function __construct()
+	function __construct($initer=array())
 	{
-		//parent::__construct();
+		parent::__construct($initer);
 
 	}
 	
@@ -23,7 +23,17 @@ class LibIntegratorJquery
 		
 		return $lib;
 	}
-
+	
+	
+	function addtodb()
+	{
+		$uniquelib="1";
+		$defaultlib=$this->nomcodelib;
+		$this->instanceLib->addLib($this->nomcodelib,$this->nomcodelib,$this->nomcodelib,$this->nomcodelibtype,$this->nomcodelibtype,$this->nomcodelibtype,$uniquelib,$defaultlib);
+		$this->instanceLib->addLibToChain($this->nomcodelib);
+		return null;
+	}
+	
 	
 }
 

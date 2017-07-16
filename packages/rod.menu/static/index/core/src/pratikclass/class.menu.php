@@ -14,6 +14,9 @@ class PratikMenu extends ClassIniter
 	{
 		$tabmenu=array();
 		
+		if($menuname=="")
+			return "";
+		
 		//set tpl
 		if($menutpl=="")
 			$menutpl=$menuname;
@@ -57,6 +60,9 @@ class PratikMenu extends ClassIniter
 		//load css and js
 		$tpl->remplir_template("css",$this->getCssMenu($menutpl));
 		$tpl->remplir_template("js",$this->getJsMenu($menutpl));
+		
+		//load zone menu
+		$tpl->remplir_template("zone",$menuname);
 		
 		//load data menu
 		$tpl->remplir_template("data",$tabmenu);

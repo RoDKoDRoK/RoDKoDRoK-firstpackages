@@ -31,7 +31,7 @@ class Auth
 		
 		//test user ok
 		$result=$this->instanceUser->checkUserLogin($login,$pwd);
-		if($result)
+		if($result && $result['pseudo']!="")
 		{
 			//import data du user connecté
 			$_SESSION['uid']=$result['iduser'];
