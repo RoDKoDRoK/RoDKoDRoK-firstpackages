@@ -124,6 +124,7 @@ class DbTable{$classnom} extends ClassIniter
 			if($typeform=="update")
 			{
 				$res=$this->db->query_one_result("select * from {$tablenom} where id{$tablenom}='".$id."'");
+				$res=$this->db->decode($res);
 			}
 			
 			//user de base

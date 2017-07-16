@@ -175,6 +175,7 @@ class PackageManager extends ClassIniter
 				
 				
 				//ajout dans la db
+				$descripter=$this->db->encode($descripter);
 				$this->db->query("insert into `package` (`idpackage`, `nomcodepackage`, `nompackage`, `groupepackage`, `description`, `version`, `indeployer`, `deployed`, `toupdate`) values (NULL,'".$packagecour."','".$descripter['name']."','".$descripter['groupe']."','".$descripter['description']."','".$descripter['version']."','".$indeployer."','".$deployed."','".$toupdate."')");
 				
 				//ajout des dependances
