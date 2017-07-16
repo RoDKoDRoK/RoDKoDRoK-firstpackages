@@ -3,7 +3,7 @@
 $descripter['name']="Chain Ws";
 $descripter['description']="Chain execution ws pour les webservices";
 
-$descripter['version']="0.0.x-1.1";
+$descripter['version']="0.0.x-1.2";
 
 $descripter['groupe']="Chain";
 

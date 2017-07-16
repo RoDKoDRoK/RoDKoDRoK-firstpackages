@@ -15,7 +15,7 @@ $tabconnector[count($tabconnector)-1]['name']="classloader";
 
 //connector conf
 $tabconnector[]=array();
-$tabconnector[count($tabconnector)-1]['classtoiniter']=false;
+$tabconnector[count($tabconnector)-1]['classtoiniter']=true;
 $tabconnector[count($tabconnector)-1]['vartoiniter']=true;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="conf";
 $tabconnector[count($tabconnector)-1]['name']="conf";

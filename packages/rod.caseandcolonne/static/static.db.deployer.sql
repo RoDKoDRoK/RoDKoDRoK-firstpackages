@@ -13,11 +13,13 @@ CREATE  TABLE IF NOT EXISTS `colonne` (
 ENGINE = MyISAM;
 
 
-CREATE  TABLE IF NOT EXISTS `colonne_has_case` (
-  `idcolonne` BIGINT UNSIGNED NOT NULL ,
+CREATE  TABLE IF NOT EXISTS `instancecase` (
+  `idinstancecase` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `idcolonne` BIGINT UNSIGNED NOT NULL DEFAULT '0' ,
   `idcase` BIGINT UNSIGNED NOT NULL ,
+  `nomcodeinstancecase` VARCHAR(63) NOT NULL ,
   `ordre` INT UNSIGNED NOT NULL ,
-  PRIMARY KEY (`idcolonne`,`idcase`) )
+  PRIMARY KEY (`idinstancecase`,`nomcodeinstancecase`) )
 ENGINE = MyISAM;
 
 

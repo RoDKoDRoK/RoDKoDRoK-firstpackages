@@ -1065,19 +1065,24 @@ class PratikPackage extends ClassIniter
 	function downloadPackageFromUrl($packagecodename="example",$force=false,$status="",$olderversionzipfilename="")
 	{
 		$folderdest=$this->folderdestdownload;
-		$filename=$packagecodename.".zip";
+		$filename=$packagecodename.$this->instanceConf->get("extpackage");
 		
 		$srcfilename=$filename;
-		if($status!="")
-			$srcfilename.="-".$status;
-		
 		$subfolderdest="packages";
 		
+		//cas status package (dev, test, alpha, beta, ...)
+		if($status!="")
+		{
+			$srcfilename.="-".$status;
+			$subfolderdest="statuspackages";
+		}
+		
+		//cas older version distant package
 		if($olderversionzipfilename!="")
 		{
 			$srcfilename=$olderversionzipfilename;
-			if(substr($srcfilename,-4)!=".zip")
-				$srcfilename.=".zip";
+			if(substr($srcfilename,-4)!=$this->instanceConf->get("extpackage"))
+				$srcfilename.=$this->instanceConf->get("extpackage");
 			
 			$subfolderdest="coldpackages/".$packagecodename;
 		}
@@ -1093,7 +1098,7 @@ class PratikPackage extends ClassIniter
 			else
 				return true;
 		
-		//search download mirror and gat path new file
+		//search download mirror and get path new file
 		$filelink="";
 		if(class_exists("PratikDownloader") || (isset($this->includer) && $this->includer->include_pratikclass("Downloader")))
 		{
@@ -1126,7 +1131,7 @@ class PratikPackage extends ClassIniter
 	{
 		$folderzip=$this->folderdestdownload;
 		$folderdestunzip=$this->folderdestpackage;
-		$filename=$packagecodename.".zip";
+		$filename=$packagecodename.$this->instanceConf->get("extpackage");
 		
 		if(file_exists($folderzip.$filename))
 		{
@@ -1183,7 +1188,7 @@ class PratikPackage extends ClassIniter
 	{
 		$folderpackage=$this->folderdestpackage;
 		$folderdestzipandarchive=$this->folderdestarchives;
-		$filename=date("YmdHis_____").$packagecodename.".zip";
+		$filename=date("YmdHis__").$packagecodename.$this->instanceConf->get("extpackage");
 		
 		if(file_exists($folderpackage.$packagecodename))
 		{
@@ -2198,7 +2203,7 @@ class PratikPackage extends ClassIniter
 	{
 		//check package to update
 		$downloader=null;
-		$yourfile=$this->folderdestdownload.$packagecodename.".zip";
+		$yourfile=$this->folderdestdownload.$packagecodename.$this->instanceConf->get("extpackage");
 		//cas aucune présence du package, pas d'update
 		if(!file_exists($yourfile))
 			if(!file_exists($this->folderdestpackage.$packagecodename))
@@ -2210,7 +2215,7 @@ class PratikPackage extends ClassIniter
 		
 		//data distant file
 		$distantfilesize="";
-		if($downloader && ($distantfile=$downloader->getFileLink($packagecodename.".zip","packages"))!="")
+		if($downloader && ($distantfile=$downloader->getFileLink($packagecodename.$this->instanceConf->get("extpackage"),"packages"))!="")
 		{
 			$head = array_change_key_case(get_headers($distantfile, TRUE));
 			$distantfilesize = $head['content-length'];
@@ -2309,9 +2314,11 @@ class PratikPackage extends ClassIniter
 		}
 		
 		//kill zip
-		if(file_exists($this->folderdestdownload.$packagecodename.".zip"))
-			unlink($this->folderdestdownload.$packagecodename.".zip");
+		if(file_exists($this->folderdestdownload.$packagecodename.$this->instanceConf->get("extpackage")))
+			unlink($this->folderdestdownload.$packagecodename.$this->instanceConf->get("extpackage"));
 		
+		//set update to 0
+		$this->setToUpdate($packagecodename,"0");
 	}
 	
 	

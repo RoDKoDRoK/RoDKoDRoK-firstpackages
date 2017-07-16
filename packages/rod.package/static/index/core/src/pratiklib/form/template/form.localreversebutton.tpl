@@ -1,0 +1,1 @@
+<input type="button" name="deployconf" value="Local Reverse" onclick="windowCall('widewindow','olderversion','reverse=1&local=1&packagecodename={literal}{$data[cptdata].nomcodepackage}{/literal}')" />

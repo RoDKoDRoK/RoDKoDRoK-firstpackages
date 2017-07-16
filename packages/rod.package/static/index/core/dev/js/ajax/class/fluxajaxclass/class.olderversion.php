@@ -16,18 +16,36 @@ class OlderVersion extends ClassIniter
 		$form=array();
 		
 		$packagecodename=$this->instanceVar->varpost("packagecodename");
+		$local=$this->instanceVar->varpost("local");
 		
 		//load tab olderversionzipfilename 
 		$tabolderversion=array();
-		if($this->includer->include_pratikclass("Downloader"))
+		if($local)
 		{
-			$downloader=new PratikDownloader($this->initer);
-			$tabtmpolderversion=$downloader->getSubfolderLinks("coldpackages/".$packagecodename);
+			$cheminpackageziparchived="core/files/packageziparchived/";
+			$tabtmpolderversion=$this->loader->charg_dossier_unique_dans_tab($cheminpackageziparchived.$packagecodename);
 			foreach($tabtmpolderversion as $value)
 			{
+				//nom de fichier
+				$value=substr($value,strlen($cheminpackageziparchived.$packagecodename."/"));
+				
 				$tabolderversion[]=array();
 				$tabolderversion[count($tabolderversion)-1]['codevalue']=$value;
 				$tabolderversion[count($tabolderversion)-1]['value']=$value;
+			}
+		}
+		else
+		{
+			if($this->includer->include_pratikclass("Downloader"))
+			{
+				$downloader=new PratikDownloader($this->initer);
+				$tabtmpolderversion=$downloader->getSubfolderLinks("coldpackages/".$packagecodename);
+				foreach($tabtmpolderversion as $value)
+				{
+					$tabolderversion[]=array();
+					$tabolderversion[count($tabolderversion)-1]['codevalue']=$value;
+					$tabolderversion[count($tabolderversion)-1]['value']=$value;
+				}
 			}
 		}
 		

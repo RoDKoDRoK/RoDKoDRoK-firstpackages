@@ -1,0 +1,1 @@
+<input type="button" name="deployconf" value="Download and Deploy" onclick="windowCall('widewindow','packagestatus','deployed=0&packagecodename={literal}{$data[cptdata].nomcodepackage}{/literal}')" />

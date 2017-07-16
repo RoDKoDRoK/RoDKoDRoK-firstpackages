@@ -1,0 +1,1 @@
+<input type="button" name="deployconf" value="Deploy local older version" onclick="windowCall('widewindow','olderversion','local=1&packagecodename={literal}{$data[cptdata].nomcodepackage}{/literal}')" />

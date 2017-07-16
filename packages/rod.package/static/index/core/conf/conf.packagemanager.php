@@ -9,4 +9,9 @@
 $conf['conflictresolution']="reverse";
 
 
+//extension des packages
+$conf['extpackage']=".zip";
+//$conf['extpackage']=".rdk";
+
+
 ?>

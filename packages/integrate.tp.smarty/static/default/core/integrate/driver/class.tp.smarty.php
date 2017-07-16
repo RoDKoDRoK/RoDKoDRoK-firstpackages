@@ -44,6 +44,50 @@ class TemplateSmarty
 		return $this->oSmarty->fetch($tpl);
 	}
 	
+	function clear_cache_template($tpl="all",$method="moteur")
+	{
+		if($tpl=="all")
+		{
+			if($method=="manual")
+			{
+				$this->rrmdir($this->dirtmptpl);
+				return true;
+			}
+			else
+			{
+				$this->oSmarty->clearAllCache();
+				return true;
+			}
+		}
+		
+		$this->oSmarty->clear_cache($tpl);
+		return true;
+	}
+	
+	
+	
+	private function rrmdir($dir) {
+	   if (is_dir($dir)) {
+		 $objects = scandir($dir);
+		 foreach ($objects as $object) {
+		   if ($object != "." && $object != "..") {
+			 if (filetype($dir."/".$object) == "dir"){
+				$this->rrmdir($dir."/".$object);
+			 }else{ 
+				unlink($dir."/".$object);
+			 }
+		   }
+		 }
+		 reset($objects);
+		 
+		 //force close dir before remove (php7)
+		 $closer=opendir($dir);
+		 closedir($closer);
+		 
+		 rmdir($dir);
+	  }
+	}
+	
 }
 
 

@@ -17,7 +17,7 @@ class PratikCase extends ClassIniter
 		
 		//get data cases
 		//$req=$this->db->query("select * from `case`,`elmt_has_droit`,`droit` where `case`.nomcase='".$casename."' and `case`.idcase=`elmt_has_droit`.idelmt and `elmt_has_droit`.typeelmt='case' and `elmt_has_droit`.iddroit=`droit`.iddroit and `droit`.nomcodedroit='".$this->droit."'");
-		$req=$this->db->query("select * from `case` where `case`.nomcodecase='".$casename."'");
+		$req=$this->db->query("select * from `case`,`instancecase` where `case`.idcase=`instancecase`.idcase and `instancecase`.nomcodeinstancecase='".$casename."'");
 		if($req)
 		{
 			if($res=$this->db->fetch_array($req))
@@ -25,7 +25,19 @@ class PratikCase extends ClassIniter
 				//test droit
 				if(!$this->instanceDroit->hasAccessTo($res['nomcodecase'],"case"))
 					return $builtcase;
-			
+				if(!$this->instanceDroit->hasAccessTo($res['nomcodeinstancecase'],"instancecase"))
+					return $builtcase;
+				
+				//load params from db with pratik.params
+				if(isset($this->includer) && $this->includer->include_pratikclass("Params"))
+				{
+					$instanceParams=new PratikParams($this->initer);
+					$paramscasefromdb=$instanceParams->getParams($res['nomcodecase'],"case");
+					$paramsinstancecasefromdb=$instanceParams->getParams($res['nomcodeinstancecase'],"instancecase");
+					$param=array_merge($param,$paramscasefromdb,$paramsinstancecasefromdb);
+				}
+				
+				
 				//construct case courante
 				$instanceTpl=new Tp($this->conf,$this->log);
 				$this->initer['tplcase']=$instanceTpl->tpselected;

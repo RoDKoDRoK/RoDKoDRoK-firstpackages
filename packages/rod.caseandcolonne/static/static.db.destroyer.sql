@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS `colonne` ;
 
 
 
-DROP TABLE IF EXISTS `colonne_has_case` ;
+DROP TABLE IF EXISTS `instancecase` ;
 
 
 

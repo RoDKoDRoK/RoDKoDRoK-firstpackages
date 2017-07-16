@@ -22,10 +22,16 @@ if(isset($this->includer) && $this->includer->include_pratikclass("colonne"))
 		$this->instanceDroit->addGrantTo("colonnegauche","colonne","public");
 	}
 	
-	//cases in colonnes
-	//$instanceColonne->addCaseToColonne('auth','colonnedroite','1');
-	//$instanceColonne->addCaseToColonne('userinfo','colonnedroite','2');
-	//...
+	//instancecases generate
+	$instanceColonne->addInstanceCaseToColonne("logintoprightcase","auth");
+	$instanceColonne->addInstanceCaseToColonne("loggedtoprightcase","userinfo");
+	
+	//droits des instancecases
+	if(isset($this->instanceDroit))
+	{
+		$this->instanceDroit->addGrantTo("logintoprightcase","instancecase","public");
+		$this->instanceDroit->addGrantTo("loggedtoprightcase","instancecase","user");
+	}
 	
 }
 

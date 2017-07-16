@@ -18,7 +18,7 @@ class PratikColonne extends ClassIniter
 		
 		//get data cases de la colonne
 		//$req=$this->db->query("select * from `colonne`,`colonne_has_case`,`case`,`elmt_has_droit`,`droit` where `colonne`.nomcolonne='".$colonnename."' and `colonne`.idcolonne=`colonne_has_case`.idcolonne and `case`.idcase=`colonne_has_case`.idcase and `case`.idcase=`elmt_has_droit`.idelmt and `elmt_has_droit`.typeelmt='case' and `elmt_has_droit`.iddroit=`droit`.iddroit and `droit`.nomcodedroit='".$this->droit."'");
-		$req=$this->db->query("select * from `colonne`,`colonne_has_case`,`case` where `colonne`.nomcolonne='".$colonnename."' and `colonne`.idcolonne=`colonne_has_case`.idcolonne and `case`.idcase=`colonne_has_case`.idcase order by `colonne_has_case`.ordre asc");
+		$req=$this->db->query("select * from `colonne`,`instancecase`,`case` where `colonne`.nomcodecolonne='".$colonnename."' and `colonne`.idcolonne=`instancecase`.idcolonne and `case`.idcase=`instancecase`.idcase order by `instancecase`.ordre asc");
 		if($req)
 		{
 			//test droit case
@@ -37,6 +37,12 @@ class PratikColonne extends ClassIniter
 			
 			while($res=$this->db->fetch_array($req))
 			{
+				//test droit case
+				if(!$this->instanceDroit->hasAccessTo($res['nomcodecase'],"case"))
+					continue;
+				if(!$this->instanceDroit->hasAccessTo($res['nomcodeinstancecase'],"instancecase"))
+					continue;
+				
 				//premier passage
 				if($firstcase)
 				{
@@ -44,10 +50,16 @@ class PratikColonne extends ClassIniter
 					$firstcase=false;
 				}
 				
-				//test droit case
-				if(!$this->instanceDroit->hasAccessTo($res['nomcodecase'],"case"))
-					continue;
-					
+				//load params from db with pratik.params
+				if(isset($this->includer) && $this->includer->include_pratikclass("Params"))
+				{
+					$instanceParams=new PratikParams($this->initer);
+					$paramscasefromdb=$instanceParams->getParams($res['nomcodecase'],"case");
+					$paramsinstancecasefromdb=$instanceParams->getParams($res['nomcodeinstancecase'],"instancecase");
+					$param=array_merge($param,$paramsfromdb,$paramsinstancecasefromdb);
+				}
+				
+				
 				//construct case courante
 				$instanceTpl=new Tp($this->conf,$this->log);
 				$this->initer['tplcase']=$instanceTpl->tpselected;
@@ -79,11 +91,27 @@ class PratikColonne extends ClassIniter
 	
 	function addColonne($nomcodecolonne,$nomcolonne="",$description="")
 	{
+		$req=$this->db->query("select idcolonne FROM `colonne` WHERE nomcodecolonne='".$nomcodecolonne."'");
+		$res=$this->db->fetch_array($req);
+		if($res)
+		{
+			return;
+		}
+			
 		$this->db->query("INSERT INTO `colonne` VALUES (NULL,'".$nomcodecolonne."','".$nomcolonne."','".$description."');");
 	}
 	
-	function addCaseToColonne($nomcodecase,$nomcodecolonne,$ordre="0")
+	function addInstanceCaseToColonne($nomcodeinstancecase,$nomcodecase,$nomcodecolonne="0",$ordre="0")
 	{
+		//test doublons
+		$req=$this->db->query("select idinstancecase FROM `instancecase` WHERE nomcodeinstancecase='".$nomcodeinstancecase."'");
+		$res=$this->db->fetch_array($req);
+		if($res)
+		{
+			return;
+		}
+		
+		//prepare colonne
 		$idcolonne=0;
 		if(is_numeric($nomcodecolonne))
 		{
@@ -99,6 +127,7 @@ class PratikColonne extends ClassIniter
 			}
 		}
 		
+		//prepare case
 		$idcase=0;
 		if(is_numeric($nomcodecase))
 		{
@@ -114,7 +143,8 @@ class PratikColonne extends ClassIniter
 			}
 		}
 		
-		$this->db->query("INSERT INTO `colonne_has_case` VALUES ('".$idcolonne."','".$idcase."','".$ordre."');");
+		//insert
+		$this->db->query("INSERT INTO `instancecase` VALUES (NULL,'".$idcolonne."','".$idcase."','".$nomcodeinstancecase."','".$ordre."');");
 	}
 	
 	

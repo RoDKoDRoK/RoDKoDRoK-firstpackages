@@ -89,7 +89,7 @@ class PackageManager extends ClassIniter
 			
 			//todownload
 			$data[count($data)-1]['todownload']="0";
-			if(!is_dir("package/".$res['nomcodepackage']) && !file_exists("core/files/packagezip/".$res['nomcodepackage'].".zip"))
+			if(!is_dir("package/".$res['nomcodepackage']) && !file_exists("core/files/packagezip/".$res['nomcodepackage'].$this->instanceConf->get("extpackage")))
 				$data[count($data)-1]['todownload']="1";
 			
 			//localreverse
@@ -173,7 +173,7 @@ class PackageManager extends ClassIniter
 				
 				
 				//test db result has folder
-				if(!is_dir("package/".$packagecour) && ($downloader==null || $downloader->getFileLink($packagecour.".zip","packages")==""))
+				if(!is_dir("package/".$packagecour) && ($downloader==null || $downloader->getFileLink($packagecour.$this->instanceConf->get("extpackage"),"packages")==""))
 				{
 					//suppr de la db
 					$this->db->query("delete from `package` where nomcodepackage='".$packagecour."'");
@@ -270,7 +270,7 @@ class PackageManager extends ClassIniter
 			foreach($tabcheminpackagefromsrclinks as $packagecour)
 			{
 				//$packagecour=substr($packagecour,(strrpos($packagecour,"/")));
-				$packagecour=str_replace(".zip","",$packagecour);
+				$packagecour=str_replace($this->instanceConf->get("extpackage"),"",$packagecour);
 				
 				if(!is_dir("package/".$packagecour))
 					$tabpackagefromsrclinks[]=$packagecour;
@@ -323,6 +323,9 @@ class PackageManager extends ClassIniter
 				$instancePackage->setToUpdate($packagecodename,"1");
 			}
 			
+			//vider le cache de template
+			$this->tpl->clear_cache_template("all","manual");
+			
 			if($this->includer->include_pratikclass("Form"))
 			{
 				$instanceForm=new PratikForm($this->initer);
@@ -334,6 +337,9 @@ class PackageManager extends ClassIniter
 			$instancePackage->destroy($packagecodename);
 			$this->instanceMessage->set_message($this->instanceLang->getTranslation("Destruction effectuee"));
 			
+			//vider le cache de template
+			$this->tpl->clear_cache_template("all","manual");
+			
 			if($this->includer->include_pratikclass("Form"))
 			{
 				$instanceForm=new PratikForm($this->initer);
@@ -344,6 +350,9 @@ class PackageManager extends ClassIniter
 		{
 			$instancePackage->totaldestroy($packagecodename);
 			$this->instanceMessage->set_message($this->instanceLang->getTranslation("Destruction totale effectuee"));
+			
+			//vider le cache de template
+			$this->tpl->clear_cache_template("all","manual");
 			
 			if($this->includer->include_pratikclass("Form"))
 			{
@@ -365,6 +374,9 @@ class PackageManager extends ClassIniter
 				$instancePackage->setDeployedReverse($packagecodename,"1");
 				$instancePackage->setToUpdate($packagecodename,"1");
 			}
+			
+			//vider le cache de template
+			$this->tpl->clear_cache_template("all","manual");
 			
 			if($this->includer->include_pratikclass("Form"))
 			{

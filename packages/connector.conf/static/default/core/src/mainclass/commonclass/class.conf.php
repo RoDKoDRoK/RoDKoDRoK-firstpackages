@@ -34,6 +34,33 @@ class Conf extends Load
 	}
 	
 	
+	function get($idconf="",$idconf2="",$idconf3="",$idconf4="",$idconf5="")
+	{
+		$value="";
+		
+		if($idconf!="" && isset($this->conf[$idconf]))
+		{
+			$value=$this->conf[$idconf];
+			if($idconf2!="" && isset($this->conf[$idconf][$idconf2]))
+			{
+				$value=$this->conf[$idconf][$idconf2];
+				if($idconf3!="" && isset($this->conf[$idconf][$idconf2][$idconf3]))
+				{
+					$value=$this->conf[$idconf][$idconf2][$idconf3];
+					if($idconf4!="" && isset($this->conf[$idconf][$idconf2][$idconf3][$idconf4]))
+					{
+						$value=$this->conf[$idconf][$idconf2][$idconf3][$idconf4];
+						if($idconf5!="" && isset($this->conf[$idconf][$idconf2][$idconf3][$idconf4][$idconf5]))
+						{
+							$value=$this->conf[$idconf][$idconf2][$idconf3][$idconf4][$idconf5];
+						}
+					}
+				}
+			}
+		}
+		
+		return $value;
+	}
 	
 	
 }

@@ -38,9 +38,10 @@ body
 
 .contentcolonne
 {
-	min-height:800px;
+	min-height:770px;
 	background:white;
 	margin-top:160px;
+	padding-top:10px;
 }
 
 .message, #content

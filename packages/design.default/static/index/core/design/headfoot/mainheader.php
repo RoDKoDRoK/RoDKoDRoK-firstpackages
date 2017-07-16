@@ -28,8 +28,8 @@ if($this->includer->include_pratikclass("case"))
 {
 	$instanceCase=new PratikCase($this->initer);
 	
-	$caseauth=$instanceCase->case_loader("auth");
-	$caseuserinfo=$instanceCase->case_loader("userinfo");
+	$caseauth=$instanceCase->case_loader("logintoprightcase");
+	$caseuserinfo=$instanceCase->case_loader("loggedtoprightcase");
 }
 
 $this->tpl->remplir_template("caseauth",$caseauth);

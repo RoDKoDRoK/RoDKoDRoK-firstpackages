@@ -11,15 +11,20 @@ if(isset($this->includer) && $this->includer->include_pratikclass("colonne") && 
 {
 	$instanceColonne=new PratikColonne($this->initer);
 	
-	//add case menu admin to colonne
-	$instanceColonne->addCaseToColonne("menu","colonnedroite","0");
+	//add an instancecase menu named adminmanu to colonne colonnedroite
+	$instanceColonne->addInstanceCaseToColonne("adminmenu","menu","colonnedroite","0");
 	
+	//add access to instancecase adminmenu
+	if(isset($this->instanceDroit))
+	{
+		$this->instanceDroit->addGrantTo("adminmenu","instancecase","admin");
+	}
 	
 	$instanceParams=new PratikParams($this->initer);
 	
 	//parametre menu admin
-	$instanceParams->addParam("colonnedroite","colonne","menuname","admin");
-	$instanceParams->addParam("colonnedroite","colonne","menutpl","rightcolumn");
+	$instanceParams->addParam("adminmenu","instancecase","menuname","admin");
+	$instanceParams->addParam("adminmenu","instancecase","menutpl","rightcolumn");
 }
 
 
