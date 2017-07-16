@@ -1,0 +1,19 @@
+
+#packagerpage #topzone,
+#packagerpage #bottomzone
+{
+	width:100%;
+}
+
+#packagerpage #leftzone,
+#packagerpage #rightzone
+{
+	width:50%;
+}
+
+#packagerpage #leftzone
+{
+	float:left;
+	border-right:3px solid #ffc000;
+}
+

@@ -4,7 +4,7 @@
 {$form.hiddencodename}
 
 {if $data.dependok=='0'}
-	{if isset($form.lineform) && ($data.deployed=='0' || (isset($data.update) && $data.update>0)) }
+	{if isset($form.lineform) && $data.deployed=='0' }
 	{section name=cptlineform loop=$form.lineform}
 	<div class="lineform">
 		<div class="labelform">{$form.lineform[cptlineform].label}</div>
@@ -15,7 +15,7 @@
 
 
 	<div class="buttonzone">
-	{if isset($data.update) && $data.update>0}
+	{if isset($data.update) && $data.update=='1'}
 		{$form.updateconfirmbutton}
 	{else}
 		{if $data.deployed=='0'}

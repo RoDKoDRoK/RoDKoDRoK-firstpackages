@@ -1,0 +1,1 @@
+<input type="button" name="deployconf" value="Local Update" onclick="windowCall('widewindow','packageconf','deployed=1&update=2&packagecodename={literal}{$data[cptdata].nomcodepackage}{/literal}')" />

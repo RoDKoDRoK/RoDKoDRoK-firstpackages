@@ -32,6 +32,9 @@
 			{if $data[cptdata].toupdate == '1'}
 				<div class="updatebutton">{eval var=$form.updatebutton}</div>
 			{/if}
+			{if $data[cptdata].toupdate == '2'}
+				<div class="updatebutton">{eval var=$form.updatelocalbutton}</div>
+			{/if}
 			{if $data[cptdata].indeployer == '0' && $data[cptdata].lockedbyotherdepend == '0'}
 				{if $data[cptdata].deployed == '1'}
 					<div class="destroybutton">{eval var=$form.destroybutton}</div>

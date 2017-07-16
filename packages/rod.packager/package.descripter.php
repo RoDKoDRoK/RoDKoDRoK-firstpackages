@@ -1,9 +1,9 @@
 <?php
 
-$descripter['name']="RoD Packages";
-$descripter['description']="Gestion des packages";
+$descripter['name']="RoD Packager";
+$descripter['description']="Création de package via des interfaces";
 
-$descripter['version']="0.0.x-1.4";
+$descripter['version']="0.0.x-1.0";
 
 $descripter['groupe']="RoD";
 

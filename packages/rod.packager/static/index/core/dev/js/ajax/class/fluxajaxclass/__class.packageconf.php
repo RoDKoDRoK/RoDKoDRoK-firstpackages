@@ -23,14 +23,13 @@ class PackageConf extends ClassIniter
 		if($this->includer->include_pratikclass("Package"))
 		{
 			$instancePackage=new PratikPackage($this->initer);
-			if($update!="2") //cas update local, pas de download externe
-				$instancePackage->getPackageFromRoDKoDRoKCom($packagecodename,$update);
+			$instancePackage->getPackageFromRoDKoDRoKCom($packagecodename,$update);
 			$preform=$instancePackage->preparePackageConfForm($packagecodename);
 		}
 		
 		//preform reload option
 		$preform['lineform'][]=array();
-		$preform['lineform'][count($preform['lineform']) -1]['label']="";
+		$preform['lineform'][count($preform['lineform']) -1]['label']="Reload";
 		$preform['lineform'][count($preform['lineform']) -1]['hiddenlabel']="on";
 		$preform['lineform'][count($preform['lineform']) -1]['name']="reload";
 		$preform['lineform'][count($preform['lineform']) -1]['default']="canceled";
@@ -82,11 +81,7 @@ class PackageConf extends ClassIniter
 		
 		//check deployed
 		if($deployed && $update)
-		{
-			$content.=$this->instanceLang->getTranslation("Mise à jour de ce package ? ");
-			$content.="<br />";
-			$content.=$this->instanceLang->getTranslation("Vérifiez les valeurs des éventuels champs de paramétrage ci-dessous (valeurs par défaut du package)");
-		}
+			$content.=$this->instanceLang->getTranslation("Mise à jour de ce package ?");
 		else if($deployed)
 			$content.=$this->instanceLang->getTranslation("Détruire ce package ?");
 		else
