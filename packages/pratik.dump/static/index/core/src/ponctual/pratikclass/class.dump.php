@@ -4,7 +4,7 @@ class PratikDump extends ClassIniter
 {
 	var $dumpselected=null;
 	
-	var $folderdestdump="core/files/db/dump";
+	var $folderdestdump="rkrsystem/packagetrace/db/dump";
 	
 	
 	function __construct($initer,$dumpname,$outputdump="")
@@ -15,6 +15,11 @@ class PratikDump extends ClassIniter
 		
 		//construct
 		parent::__construct($initer);
+		
+		//arkitect
+		$this->folderdestdump=$this->arkitect->get("packagetrace.folderdestdump");
+		
+		
 		
 		$dumpfilename=$this->generateDumpFilename($dumpname);
 	

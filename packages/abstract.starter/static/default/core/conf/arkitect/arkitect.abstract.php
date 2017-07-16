@@ -1,6 +1,6 @@
 <?php
 
-$arkitect['abstract']="core/src/abstract";
+$arkitect['abstract']="rkrsystem/src/abstract";
 
 
 

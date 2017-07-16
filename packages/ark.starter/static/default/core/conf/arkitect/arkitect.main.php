@@ -1,7 +1,7 @@
 <?php
 
-$arkitect['chain']="chain";
-$arkitect['connector']="connector";
+$arkitect['chain']="rkrsystem/chain";
+$arkitect['connector']="rkrsystem/connector";
 $arkitect['package']="package";
 
 

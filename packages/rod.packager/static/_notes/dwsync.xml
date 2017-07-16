@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<dwsync>
-<file name="static.db.deployer.sql" server="emma.ia.defensecdd.gouv.fr//var/www/rod/" local="131116759978991653" remote="131116798620000000" Dst="2" />
-<file name="static.db.destroyer.sql" server="emma.ia.defensecdd.gouv.fr//var/www/rod/" local="130918997596795969" remote="131116798620000000" Dst="2" />
-<file name="static.postdeployer.php" server="emma.ia.defensecdd.gouv.fr//var/www/rod/" local="130921050144983452" remote="131116798620000000" Dst="2" />
-<file name="static.predestroyer.php" server="emma.ia.defensecdd.gouv.fr//var/www/rod/" local="130915405511869024" remote="131116798620000000" Dst="2" />
-</dwsync>

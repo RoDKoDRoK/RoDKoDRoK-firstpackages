@@ -3,10 +3,24 @@
 class PackageManager extends ClassIniter
 {
 	
+	var $folderdestdownload="rkrsystem/packagetrace/packagezip/";
+	var $folderdestarchives="rkrsystem/packagetrace/packageziparchived/";
+	var $folderdestpackage="package/";
+	
+	var $folderdestdb="rkrsystem/packagetrace/db/";
+	var $folderdestlogpackageloaded="rkrsystem/packagetrace/packageloaded/";
+	
+	
 	function __construct($initer=array())
 	{
 		parent::__construct($initer);
 		
+		//init path with arkitect
+		$this->folderdestdownload=$this->arkitect->get("packagetrace.folderdestdownload");
+		$this->folderdestarchives=$this->arkitect->get("packagetrace.folderdestarchives");
+		$this->folderdestpackage=$this->arkitect->get("packagetrace.folderdestpackage");
+		$this->folderdestdb=$this->arkitect->get("packagetrace.folderdestdb");
+		$this->folderdestlogpackageloaded=$this->arkitect->get("packagetrace.folderdestlogpackageloaded");
 	}
 	
 
@@ -89,12 +103,12 @@ class PackageManager extends ClassIniter
 			
 			//todownload
 			$data[count($data)-1]['todownload']="0";
-			if(!is_dir("package/".$res['nomcodepackage']) && !file_exists("core/files/packagezip/".$res['nomcodepackage'].$this->instanceConf->get("extpackage")))
+			if(!is_dir("package/".$res['nomcodepackage']) && !file_exists($this->folderdestdownload.$res['nomcodepackage'].$this->instanceConf->get("extpackage")))
 				$data[count($data)-1]['todownload']="1";
 			
 			//localreverse
 			$data[count($data)-1]['localreverse']="0";
-			if(file_exists("core/files/packageziparchived/".$res['nomcodepackage']."/"))
+			if(file_exists($this->folderdestarchives.$res['nomcodepackage']."/"))
 				$data[count($data)-1]['localreverse']="1";
 			
 			//depends
@@ -215,7 +229,7 @@ class PackageManager extends ClassIniter
 				
 				//check package is deployed
 				$deployed=0;
-				if(file_exists("core/files/tmp/log/packageloaded/".$packagecour.".loaded.log"))
+				if(file_exists($this->folderdestlogpackageloaded.$packagecour.".loaded.log"))
 					$deployed=1;
 				
 				//chack package is locked in first deployer (to lock it later for example)

@@ -3,11 +3,14 @@
 class PratikPackage extends ClassIniter
 {
 	var $conflictresolution="force";
-	var $conflictfolder="core/files/conflict";
+	var $conflictfolder="rkrsystem/packagetrace/conflict";
 	
-	var $folderdestdownload="core/files/packagezip/";
-	var $folderdestarchives="core/files/packageziparchived/";
+	var $folderdestdownload="rkrsystem/packagetrace/packagezip/";
+	var $folderdestarchives="rkrsystem/packagetrace/packageziparchived/";
 	var $folderdestpackage="package/";
+	
+	var $folderdestdb="rkrsystem/packagetrace/db/";
+	var $folderdestlogpackageloaded="rkrsystem/packagetrace/packageloaded/";
 	
 	var $chemingeneratortpl="core/src/libinternal/pratiklib/package/generator.tpl";
 	
@@ -20,6 +23,13 @@ class PratikPackage extends ClassIniter
 		if(isset($this->conf['conflictresolution']))
 			$this->conflictresolution=$this->conf['conflictresolution'];
 		
+		//init path with arkitect
+		$this->conflictfolder=$this->arkitect->get("packagetrace.conflictfolder");
+		$this->folderdestdownload=$this->arkitect->get("packagetrace.folderdestdownload");
+		$this->folderdestarchives=$this->arkitect->get("packagetrace.folderdestarchives");
+		$this->folderdestpackage=$this->arkitect->get("packagetrace.folderdestpackage");
+		$this->folderdestdb=$this->arkitect->get("packagetrace.folderdestdb");
+		$this->folderdestlogpackageloaded=$this->arkitect->get("packagetrace.folderdestlogpackageloaded");
 	}
 	
 	
@@ -92,7 +102,7 @@ class PratikPackage extends ClassIniter
 				}
 				
 				//filename creation
-				$namefilecour=str_replace($this->folderdestpackage.$packagecodename."/static/","core/files/db/".$packagecodename.".",$chemin_db_static);
+				$namefilecour=str_replace($this->folderdestpackage.$packagecodename."/static/",$this->folderdestdb.$packagecodename.".",$chemin_db_static);
 				
 				//conflict resolution "keep" mode
 				if($this->conflictresolution=="keep")
@@ -100,7 +110,7 @@ class PratikPackage extends ClassIniter
 					$cptconflict="1";
 					$conflictnamefilecour=$namefilecour;
 					while(file_exists($conflictnamefilecour))
-						$conflictnamefilecour=str_replace("core/files/db/","core/files/db/___CONFLICTFILE".($cptconflict++)."___",$namefilecour);
+						$conflictnamefilecour=str_replace($this->folderdestdb,$this->folderdestdb."___CONFLICTFILE".($cptconflict++)."___",$namefilecour);
 					$namefilecour=$conflictnamefilecour;
 				}
 				//conflict resolution "reverse" mode
@@ -112,12 +122,12 @@ class PratikPackage extends ClassIniter
 					{
 						do
 						{
-							$conflictnamefilecour=str_replace("core/files/db/","core/files/db/___CONFLICTFILE".($cptconflict++)."___",$namefilecour);
+							$conflictnamefilecour=str_replace($this->folderdestdb,$this->folderdestdb."___CONFLICTFILE".($cptconflict++)."___",$namefilecour);
 						}
 						while(file_exists($this->conflictfolder."/".$conflictnamefilecour));
 						
-						if(!is_dir($this->conflictfolder."/core/files/db"))
-							mkdir($this->conflictfolder."/core/files/db",0777,true);
+						if(!is_dir($this->conflictfolder."/".$this->folderdestdb))
+							mkdir($this->conflictfolder."/".$this->folderdestdb,0777,true);
 						copy($namefilecour,$this->conflictfolder."/".$conflictnamefilecour);
 						
 						//set conflictfilelist
@@ -305,7 +315,7 @@ class PratikPackage extends ClassIniter
 					
 					$namefilecour=str_replace("__INSTANCE__",$instance->name,$chemin_db_generator_tpl);
 					$namefilecour=substr($namefilecour,0,-4);
-					$namefilecour=str_replace($this->folderdestpackage.$packagecodename."/generator/","core/files/db/".$packagecodename.".",$namefilecour);
+					$namefilecour=str_replace($this->folderdestpackage.$packagecodename."/generator/",$this->folderdestdb.$packagecodename.".",$namefilecour);
 					
 					//conflict resolution "keep" mode
 					if($this->conflictresolution=="keep")
@@ -313,7 +323,7 @@ class PratikPackage extends ClassIniter
 						$cptconflict="1";
 						$conflictnamefilecour=$namefilecour;
 						while(file_exists($conflictnamefilecour))
-							$conflictnamefilecour=str_replace("core/files/db/","core/files/db/___CONFLICTFILE".($cptconflict++)."___",$namefilecour);
+							$conflictnamefilecour=str_replace($this->folderdestdb,$this->folderdestdb."___CONFLICTFILE".($cptconflict++)."___",$namefilecour);
 						$namefilecour=$conflictnamefilecour;
 					}
 					//conflict resolution "reverse" mode
@@ -325,12 +335,12 @@ class PratikPackage extends ClassIniter
 						{
 							do
 							{
-								$conflictnamefilecour=str_replace("core/files/db/","core/files/db/___CONFLICTFILE".($cptconflict++)."___",$namefilecour);
+								$conflictnamefilecour=str_replace($this->folderdestdb,$this->folderdestdb."___CONFLICTFILE".($cptconflict++)."___",$namefilecour);
 							}
 							while(file_exists($this->conflictfolder."/".$conflictnamefilecour));
 							
-							if(!is_dir($this->conflictfolder."/core/files/db"))
-								mkdir($this->conflictfolder."/core/files/db",0777,true);
+							if(!is_dir($this->conflictfolder."/".$this->folderdestdb))
+								mkdir($this->conflictfolder."/".$this->folderdestdb,0777,true);
 							copy($namefilecour,$this->conflictfolder."/".$conflictnamefilecour);
 							
 							//set conflictfilelist
@@ -1305,6 +1315,10 @@ class PratikPackage extends ClassIniter
 		
 		if($action=="add")
 		{
+			//check fileisinpackage exists
+			if(!file_exists($this->conflictfolder."/fileisinpackage.php"))
+				file_put_contents($this->conflictfolder."/fileisinpackage.php","<?php \n?>");
+	
 			//packagecodename prepare
 			include $this->conflictfolder."/fileisinpackage.php";
 			
@@ -1492,7 +1506,7 @@ class PratikPackage extends ClassIniter
 					}
 					
 					//filename creation
-					$namefilecour=str_replace($this->folderdestpackage.$packagecodename."/static/","core/files/db/".$packagecodename.".",$chemin_db_static);
+					$namefilecour=str_replace($this->folderdestpackage.$packagecodename."/static/",$this->folderdestdb.$packagecodename.".",$chemin_db_static);
 					
 					//conflict resolution "reverse" mode
 					if($this->conflictresolution!=null)
@@ -1509,7 +1523,7 @@ class PratikPackage extends ClassIniter
 						else
 						{
 							//find existing conflict
-							$conflictnamefilecour=str_replace("core/files/db/","core/files/db/___CONFLICTFILE1___",$namefilecour);
+							$conflictnamefilecour=str_replace($this->folderdestdb,$this->folderdestdb."___CONFLICTFILE1___",$namefilecour);
 							$conflictfilefound="";
 							if(file_exists($this->conflictfolder."/".$conflictnamefilecour))
 							{
@@ -1524,7 +1538,7 @@ class PratikPackage extends ClassIniter
 										break;
 									}
 									
-									$conflictnamefilecour=str_replace("core/files/db/","core/files/db/___CONFLICTFILE".($cptconflict++)."___",$namefilecour);
+									$conflictnamefilecour=str_replace($this->folderdestdb,$this->folderdestdb."___CONFLICTFILE".($cptconflict++)."___",$namefilecour);
 								}
 							}
 							
@@ -1532,8 +1546,8 @@ class PratikPackage extends ClassIniter
 							if(file_exists($conflictfilefound))
 							{
 								//if conflict exists, replace only conflict file
-								if(!is_dir($this->conflictfolder."/core/files/db"))
-									mkdir($this->conflictfolder."/core/files/db",0777,true);
+								if(!is_dir($this->conflictfolder."/".$this->folderdestdb))
+									mkdir($this->conflictfolder."/".$this->folderdestdb,0777,true);
 								copy($namefilecour,$this->conflictfolder."/".$conflictnamefilecour);
 							}
 							else
@@ -1826,7 +1840,7 @@ class PratikPackage extends ClassIniter
 						
 						$namefilecour=str_replace("__INSTANCE__",$instance->name,$chemin_db_generator_tpl);
 						$namefilecour=substr($namefilecour,0,-4);
-						$namefilecour=str_replace($this->folderdestpackage.$packagecodename."/generator/","core/files/db/".$packagecodename.".",$namefilecour);
+						$namefilecour=str_replace($this->folderdestpackage.$packagecodename."/generator/",$this->folderdestdb.$packagecodename.".",$namefilecour);
 						
 						//conflict resolution "reverse" mode
 						if($this->conflictresolution!=null)
@@ -1843,7 +1857,7 @@ class PratikPackage extends ClassIniter
 							else
 							{
 								//find existing conflict
-								$conflictnamefilecour=str_replace("core/files/db/","core/files/db/___CONFLICTFILE1___",$namefilecour);
+								$conflictnamefilecour=str_replace($this->folderdestdb,$this->folderdestdb."___CONFLICTFILE1___",$namefilecour);
 								if(file_exists($this->conflictfolder."/".$conflictnamefilecour))
 								{
 									$cptconflict="1";
@@ -1858,7 +1872,7 @@ class PratikPackage extends ClassIniter
 											break;
 										}
 										
-										$conflictnamefilecour=str_replace("core/files/db/","core/files/db/___CONFLICTFILE".($cptconflict++)."___",$namefilecour);
+										$conflictnamefilecour=str_replace($this->folderdestdb,$this->folderdestdb."___CONFLICTFILE".($cptconflict++)."___",$namefilecour);
 									}
 								}
 								
@@ -1866,8 +1880,8 @@ class PratikPackage extends ClassIniter
 								if(file_exists($conflictfilefound))
 								{
 									//if conflict exists, replace only conflict file
-									if(!is_dir($this->conflictfolder."/core/files/db"))
-										mkdir($this->conflictfolder."/core/files/db",0777,true);
+									if(!is_dir($this->conflictfolder."/".$this->folderdestdb))
+										mkdir($this->conflictfolder."/".$this->folderdestdb,0777,true);
 									copy($namefilecour,$this->conflictfolder."/".$conflictnamefilecour);
 								}
 								else
@@ -2312,7 +2326,7 @@ class PratikPackage extends ClassIniter
 	function totaldestroy($packagecodename="example")
 	{
 		//destroy if package deployed
-		if(file_exists("core/files/tmp/log/packageloaded/".$packagecodename.".loaded.log"))
+		if(file_exists($this->folderdestlogpackageloaded.$packagecodename.".loaded.log"))
 			$this->destroy($packagecodename);
 		
 		//zip and archive old package with date in filename

@@ -83,7 +83,7 @@ class Instanciatorextended extends ClassIniter
 		//auto include
 		if(!class_exists($classname) && $autoinclude && !$forcedriver)
 		{
-			//ark event instanciator_autoinclude			
+			//ark event instanciator_autoinclude
 			if(isset($this->includer) && $this->includer->include_pratikclass("Event"))
 			{
 				//params in code

@@ -3,11 +3,15 @@
 class OlderVersion extends ClassIniter
 {
 	
-
+	var $folderdestarchives="rkrsystem/packagetrace/packageziparchived/";
+	
+	
 	function __construct($initer=array())
 	{
 		parent::__construct($initer);
 		
+		//init path with arkitect
+		$this->folderdestarchives=$this->arkitect->get("packagetrace.folderdestarchives");
 	}
 	
 
@@ -22,7 +26,7 @@ class OlderVersion extends ClassIniter
 		$tabolderversion=array();
 		if($local)
 		{
-			$cheminpackageziparchived="core/files/packageziparchived/";
+			$cheminpackageziparchived=$this->folderdestarchives;
 			$tabtmpolderversion=$this->loader->charg_dossier_unique_dans_tab($cheminpackageziparchived.$packagecodename);
 			foreach($tabtmpolderversion as $value)
 			{
