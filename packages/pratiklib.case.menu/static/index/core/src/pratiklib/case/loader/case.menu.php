@@ -15,8 +15,8 @@ $param_menutpl="";
 if(isset($param['menutpl']) && $param['menutpl']!="")
 	$param_menutpl=$param['menutpl'];
 
-	
-	
+
+
 $instanceCaseCour=new CaseMenu($this->initer);
 
 $casemenu=$instanceCaseCour->menu_loader($param_menuname,$param_menutpl);

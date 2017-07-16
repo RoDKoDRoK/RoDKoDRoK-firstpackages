@@ -15,18 +15,72 @@ class PackageManager extends ClassIniter
 		$content="";
 		
 		$content.="<div class='paragraphe'>";
-		$content.=$this->instanceLang->getTranslation("Deploy or destroy packages there. <i>Download and Deploy</i> button instantly starts downloading the package before asking you to deploy it. Some packages are slower than others.");
+		$content.=$this->instanceLang->getTranslation("Deploy or destroy packages there. <i>Download and Deploy</i> button instantly starts downloading the package before asking you to deploy it. Some packages are slower than others. ");
+		$content.="<br />";
+		$content.=$this->instanceLang->getTranslation("Total packages : ");
+		$content.="<b>";
+		$content.=count($this->data_loader(true,true));
+		$content.="</b>";
+		$content.=$this->instanceLang->getTranslation(" packages ");
 		$content.="</div>";
 		
 		return $content;
 	}
 	
-	function data_loader()
+	function pager_loader()
+	{
+		$pager="";
+		
+		$nbtotalelmt=count($this->data_loader(true));
+		
+		//pager
+		if($this->includer->include_pratikclass("Pager"))
+		{
+			$instancePager=new PratikPager($this->initer);
+			$pager.=$instancePager->getPager($nbtotalelmt);
+		}
+		
+		return $pager;
+	}
+	
+	
+	function search_loader()
+	{
+		$search="";
+		
+		//search
+		if($this->includer->include_pratikclass("Search"))
+		{
+			$instanceSearch=new PratikSearch($this->initer);
+			$search.=$instanceSearch->getSearchForm();
+		}
+		
+		return $search;
+	}
+	
+	
+	function data_loader($nolimit=false,$nosearch=false)
 	{
 		$data=array();
 		
+		$sql="select * from `package` order by nomcodepackage";
+		
+		//search
+		if(!$nosearch && $this->includer->include_pratikclass("Search"))
+		{
+			$instanceSearch=new PratikSearch($this->initer,"package");
+			$sql=$instanceSearch->getSqlWhere($sql);
+		}
+		
+		//pager
+		if(!$nolimit && $this->includer->include_pratikclass("Pager"))
+		{
+			$instancePager=new PratikPager($this->initer);
+			$sql=$instancePager->getSqlLimit($sql);
+		}
+		
 		//select packages from db
-		$req=$this->db->query("select * from `package` order by nomcodepackage");
+		$req=$this->db->query($sql);
 		while($res=$this->db->fetch_array($req))
 		{
 			$data[]=$res;
@@ -67,6 +121,7 @@ class PackageManager extends ClassIniter
 		$preform['deploybutton']=true;
 		$preform['downloadanddeploybutton']=true;
 		$preform['destroybutton']=true;
+		$preform['totaldestroybutton']=true;
 		$preform['updatebutton']=true;
 		$preform['updatelocalbutton']=true;
 		$preform['checkupdatebutton']=true;
@@ -98,7 +153,7 @@ class PackageManager extends ClassIniter
 		
 		
 		$tabpackagefromdb=array();
-		$tabdatapackagefromdb=$this->data_loader();
+		$tabdatapackagefromdb=$this->data_loader(true,true);
 		
 		//prepare tab from db et test db result has a folder
 		if($tabdatapackagefromdb)
@@ -257,6 +312,17 @@ class PackageManager extends ClassIniter
 		{
 			$instancePackage->destroy($packagecodename);
 			$this->instanceMessage->set_message($this->instanceLang->getTranslation("Destruction effectuee"));
+			
+			if($this->includer->include_pratikclass("Form"))
+			{
+				$instanceForm=new PratikForm($this->initer);
+				$submitreturn.=$instanceForm->redirectAfterSubmiter();
+			}
+		}
+		else if($this->instanceVar->varpost("totaldestroysubmit"))
+		{
+			$instancePackage->totaldestroy($packagecodename);
+			$this->instanceMessage->set_message($this->instanceLang->getTranslation("Destruction totale effectuee"));
 			
 			if($this->includer->include_pratikclass("Form"))
 			{

@@ -37,6 +37,16 @@
 	width:20%;
 }
 
+.packagemanagerpage  .nomcode
+{
+	width:10%;
+}
+
+.packagemanagerpage  .title
+{
+	width:10%;
+}
+
 .packagemanagerpage  .description
 {
 	width:30%;
@@ -93,5 +103,17 @@
 {
 	background:#000000;
 	color:#dddddd;
+}
+
+/* search */
+#search
+{
+	float:right;
+}
+
+#search input[type=text]
+{
+	width:300px;
+	background:#ffc999;
 }
 

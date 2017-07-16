@@ -1,9 +1,12 @@
+<div id="search">{$search}</div>
 <h2>{$mainsubtitle}</h2>
 
 <div class="packagemanagerpage">
 
 <div class="checkupdatebutton">{eval var=$form.checkupdatebutton}</div>
 <div class="paragraphe">{$content}</div>
+<br />
+{$pager}
 <br />
 
 <div class="tabzone">
@@ -38,9 +41,11 @@
 			{if $data[cptdata].indeployer == '0' && $data[cptdata].lockedbyotherdepend == '0'}
 				{if $data[cptdata].deployed == '1'}
 					<div class="destroybutton">{eval var=$form.destroybutton}</div>
+					<div class="destroybutton">{eval var=$form.totaldestroybutton}</div>
 				{else}
 					{if $data[cptdata].todownload == '0'}
 						<div class="deploybutton">{eval var=$form.deploybutton}</div>
+						<div class="destroybutton">{eval var=$form.totaldestroybutton}</div>
 					{else}
 						<div class="deploybutton">{eval var=$form.downloadanddeploybutton}</div>
 					{/if}
@@ -51,5 +56,7 @@
 
 {/section}
 </div>
+
+{$pager}
 
 </div>

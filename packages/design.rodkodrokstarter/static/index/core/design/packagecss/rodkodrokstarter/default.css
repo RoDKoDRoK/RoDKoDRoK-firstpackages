@@ -102,13 +102,14 @@ h3
 
 /* zones */
 
-#header, #maincontent, #footer
+#maincontent
 {
 	margin:0px;
+	margin-top:80px;
 	margin-bottom:80px;
 }
 
-#footer
+#site
 {
 	margin:0px;
 }
@@ -130,6 +131,8 @@ h3
 {
 	float:left;
 	margin-left:90px;
+	height:200px;
+	
 }
 
 #bigtexte
@@ -241,7 +244,7 @@ h3
 #userinfo, #auth
 {
 	width:220px;
-	height:285px;
+	height:254px;
 	background:url('img/triangle.png') no-repeat;
 	text-align:right;
 	color:#000000;
@@ -257,5 +260,30 @@ h3
 }
 
 
+
+/* pager */
+#maincontent .pager a
+{
+	background:black;
+	color:#ffc000;
+}
+
+#maincontent .pager a:hover
+{
+	font-style:normal;
+	background:#ffc000;
+	color:black;
+}
+
+#maincontent .pager a:visited
+{
+	
+}
+
+#maincontent .pager .pagecour a
+{
+	background:#ffc000;
+	color:black;
+}
 
 

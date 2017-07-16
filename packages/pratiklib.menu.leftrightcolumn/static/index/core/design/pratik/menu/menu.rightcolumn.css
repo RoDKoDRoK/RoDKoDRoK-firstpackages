@@ -1,0 +1,38 @@
+/* menus */
+#rightmenu
+{
+	width:100%;
+	min-height:250px;
+	background:#000000;
+	font-size:25px;
+	padding-bottom:20px;
+}
+
+
+#rightmenu .menu
+{
+	display:block;
+	padding:10px;
+}
+
+#rightmenu .menu a
+{
+	text-decoration:none;
+	color:#ffffff;
+}
+
+#rightmenu .menu a:hover
+{
+	color:#ffc000;
+}
+
+#rightmenu .menu a:visited
+{
+}
+
+
+
+#rightmenu .ssmenu a
+{
+	background:#333333;
+}

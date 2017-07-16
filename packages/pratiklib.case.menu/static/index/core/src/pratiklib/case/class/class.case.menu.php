@@ -10,14 +10,14 @@ class CaseMenu extends ClassIniter
 	}
 	
 
-	function menu_loader($menuname)
+	function menu_loader($menuname,$menutpl="")
 	{
 		$menucour="";
 		
 		if($this->includer->include_pratikclass("menu"))
 		{
-			$instanceMenu=new Menu($this->db,$this->lang,$this->droit);
-			$menucour=$instanceMenu->menu_loader($menuname);
+			$instanceMenu=new PratikMenu($this->initer);
+			$menucour=$instanceMenu->menu_loader($menuname,$menutpl);
 		}
 		
 		return $menucour;

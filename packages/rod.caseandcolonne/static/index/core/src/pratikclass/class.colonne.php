@@ -25,8 +25,25 @@ class PratikColonne extends ClassIniter
 			if(!$this->instanceDroit->hasAccessTo($colonnename,"colonne"))
 				return $builtcase;
 			
+			//load params from db with pratik.params
+			if(isset($this->includer) && $this->includer->include_pratikclass("Params"))
+			{
+				$instanceParams=new PratikParams($this->initer);
+				$paramsfromdb=$instanceParams->getParams($colonnename,"colonne");
+				$param=array_merge($param,$paramsfromdb);
+			}
+			
+			$firstcase=true;
+			
 			while($res=$this->db->fetch_array($req))
 			{
+				//premier passage
+				if($firstcase)
+				{
+					$builtcase.="<div class='contentcolonne'>";
+					$firstcase=false;
+				}
+				
 				//test droit case
 				if(!$this->instanceDroit->hasAccessTo($res['nomcodecase'],"case"))
 					continue;
@@ -51,6 +68,9 @@ class PratikColonne extends ClassIniter
 				//get case
 				$builtcase.=$this->tplcase->get_template("core/src/pratiklib/case/case.tpl");
 			}
+			
+			if(!$firstcase)
+				$builtcase.="</div>";
 		}
 		
 		return $builtcase;
@@ -72,9 +92,9 @@ class PratikColonne extends ClassIniter
 		else
 		{
 			$req=$this->db->query("select idcolonne FROM `colonne` WHERE nomcodecolonne='".$nomcodecolonne."'");
-			if($req)
+			$res=$this->db->fetch_array($req);
+			if($res)
 			{
-				$res=$req->db->fetch_array($req);
 				$idcolonne=$res['idcolonne'];
 			}
 		}
@@ -87,9 +107,9 @@ class PratikColonne extends ClassIniter
 		else
 		{
 			$req=$this->db->query("select idcase FROM `case` WHERE nomcodecase='".$nomcodecase."'");
-			if($req)
+			$res=$this->db->fetch_array($req);
+			if($res)
 			{
-				$res=$req->db->fetch_array($req);
 				$idcase=$res['idcase'];
 			}
 		}
@@ -108,9 +128,9 @@ class PratikColonne extends ClassIniter
 		else
 		{
 			$req=$this->db->query("select idcolonne FROM `colonne` WHERE nomcodecolonne='".$nomcodecolonne."'");
-			if($req)
+			$res=$this->db->fetch_array($req);
+			if($res)
 			{
-				$res=$req->db->fetch_array($req);
 				$id=$res['idcolonne'];
 			}
 		}
@@ -136,9 +156,9 @@ class PratikColonne extends ClassIniter
 		else
 		{
 			$req=$this->db->query("select idcolonne FROM `colonne` WHERE nomcodecolonne='".$nomcodecolonne."'");
-			if($req)
+			$res=$this->db->fetch_array($req);
+			if($res)
 			{
-				$res=$req->db->fetch_array($req);
 				$id=$res['idcolonne'];
 			}
 		}

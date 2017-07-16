@@ -24,12 +24,24 @@ body
 {
 	float:right;
 	width:220px;
+	margin:5px;
+	margin-top:95px;
+	padding:3px;
 }
 
 #colonnegauche
 {
 	float:left;
 	width:220px;
+	margin:5px;
+	margin-top:95px;
+	padding:3px;
+}
+
+.contentcolonne
+{
+	min-height:800px;
+	background:white;
 }
 
 .message, #content
@@ -38,7 +50,7 @@ body
 	margin-bottom:5px;
 }
 
-#maincontent, #header, #footer
+#maincontent
 {
 	margin:25px;
 }

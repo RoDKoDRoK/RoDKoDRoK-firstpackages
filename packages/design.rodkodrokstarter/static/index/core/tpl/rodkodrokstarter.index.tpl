@@ -8,12 +8,11 @@
 <body>
 <div id="init"></div>
 
+<div id="site">
 <!-- //tpl header -->
-<div id="header">
 {if file_exists("core/design/template/$header.tpl") }
 	{include file="core/design/template/$header.tpl"}
 {/if}
-</div>
 <!-- //...tpl header -->
 
 <div id="maincontent">
@@ -22,12 +21,11 @@
 </div>
 
 <!-- //tpl footer -->
-<div id="footer">
 {if file_exists("core/design/template/$footer.tpl") }
 	{include file="core/design/template/$footer.tpl"}
 {/if}
-</div>
 <!-- //...tpl footer -->
+</div>
 
 </body>
 </html>

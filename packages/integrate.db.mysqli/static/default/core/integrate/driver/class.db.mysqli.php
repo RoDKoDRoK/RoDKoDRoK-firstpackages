@@ -55,7 +55,7 @@ class DbMysqli
 	
 	function last_insert_id()
 	{
-		return mysqli_insert_id();
+		return mysqli_insert_id($this->db);
 	}
 
 	

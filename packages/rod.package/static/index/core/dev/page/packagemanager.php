@@ -37,6 +37,11 @@ $this->tpl->remplir_template("content",$content);
 $data=$instancePage->data_loader();
 $this->tpl->remplir_template("data",$data);
 
+$pager=$instancePage->pager_loader();
+$this->tpl->remplir_template("pager",$pager);
+
+$search=$instancePage->search_loader();
+$this->tpl->remplir_template("search",$search);
 
 
 ?>

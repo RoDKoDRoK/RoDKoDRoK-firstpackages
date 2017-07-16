@@ -17,6 +17,7 @@ class PackageConf extends ClassIniter
 		
 		$packagecodename=$this->instanceVar->varpost("packagecodename");
 		$update=$this->instanceVar->varpost("update");
+		//$totaldestroy=$this->instanceVar->varpost("totaldestroy");
 		
 		//prepare form with pratikpackage
 		$preform=array();
@@ -59,6 +60,9 @@ class PackageConf extends ClassIniter
 		$update=$this->instanceVar->varpost("update");
 		$data['update']=$update;
 		
+		$totaldestroy=$this->instanceVar->varpost("totaldestroy");
+		$data['totaldestroy']=$totaldestroy;
+		
 		$packagecodename=$this->instanceVar->varpost("packagecodename");
 		$data['dependok']="1";
 		if($this->includer->include_pratikclass("Package"))
@@ -79,6 +83,7 @@ class PackageConf extends ClassIniter
 		$packagecodename=$this->instanceVar->varpost("packagecodename");
 		$deployed=$this->instanceVar->varpost("deployed");
 		$update=$this->instanceVar->varpost("update");
+		$totaldestroy=$this->instanceVar->varpost("totaldestroy");
 		
 		
 		//check deployed
@@ -88,6 +93,8 @@ class PackageConf extends ClassIniter
 			$content.="<br />";
 			$content.=$this->instanceLang->getTranslation("Vérifiez les valeurs des éventuels champs de paramétrage ci-dessous (valeurs par défaut du package)");
 		}
+		else if($deployed && $totaldestroy)
+			$content.=$this->instanceLang->getTranslation("Détruire totalement ce package ?");
 		else if($deployed)
 			$content.=$this->instanceLang->getTranslation("Détruire ce package ?");
 		else

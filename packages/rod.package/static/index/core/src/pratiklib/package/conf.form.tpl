@@ -15,13 +15,17 @@
 
 
 	<div class="buttonzone">
-	{if isset($data.update) && $data.update>0}
-		{$form.updateconfirmbutton}
+	{if isset($data.totaldestroy) && $data.totaldestroy>0}
+		{$form.totaldestroyconfirmbutton}
 	{else}
-		{if $data.deployed=='0'}
-			{$form.deployconfirmbutton}
+		{if isset($data.update) && $data.update>0}
+			{$form.updateconfirmbutton}
 		{else}
-			{$form.destroyconfirmbutton}
+			{if $data.deployed=='0'}
+				{$form.deployconfirmbutton}
+			{else}
+				{$form.destroyconfirmbutton}
+			{/if}
 		{/if}
 	{/if}
 	</div>
