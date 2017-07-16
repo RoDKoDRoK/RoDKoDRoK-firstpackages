@@ -6,7 +6,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
 CREATE  TABLE IF NOT EXISTS `colonne` (
   `idcolonne` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `nomcodecolonne` VARCHAR(255) NULL ,
+  `nomcodecolonne` VARCHAR(63) NOT NULL ,
   `nomcolonne` VARCHAR(255) NULL ,
   `description` TEXT NULL ,
   PRIMARY KEY (`idcolonne`,`nomcodecolonne`) )
@@ -23,7 +23,7 @@ ENGINE = MyISAM;
 
 CREATE  TABLE IF NOT EXISTS `case` (
   `idcase` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `nomcodecase` VARCHAR(255) NULL ,
+  `nomcodecase` VARCHAR(63) NOT NULL ,
   `nomcase` VARCHAR(255) NULL ,
   `description` TEXT NULL ,
   PRIMARY KEY (`idcase`,`nomcodecase`) )

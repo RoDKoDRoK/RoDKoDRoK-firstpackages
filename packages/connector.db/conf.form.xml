@@ -2,9 +2,9 @@
 <generator>
 	<form>
 		<field>
-			<label>Moteur DB (Nodb, Mysql, ...)</label>
+			<label>Moteur DB (Nodb, Mysql, Mysqli, ...)</label>
 			<name>moteurbd</name>
-			<default>Mysql</default>
+			<default>Mysqli</default>
 		</field>
 		<field>
 			<label>Host</label>

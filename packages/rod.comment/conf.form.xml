@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+	<form>
+		<field>
+			<label>Example dynamic parameter of this package</label>
+			<name>example</name>
+			<default>exampledefaultvalue</default>
+		</field>
+	</form>
+</package>

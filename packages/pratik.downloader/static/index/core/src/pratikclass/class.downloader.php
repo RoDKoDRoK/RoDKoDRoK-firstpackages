@@ -45,7 +45,7 @@ class PratikDownloader extends ClassIniter
 		{
 			$urlcour=$tabsrclink[$cptsrclink];
 			if(substr($urlcour,0,4)!="http")
-				$tabsrclink[$cptsrclink]="http".($this->isSecure()?"s":"")."://".$_SERVER['HTTP_HOST']."/".$urlcour;
+				$tabsrclink[$cptsrclink]=$this->getHttpRootPath().$urlcour;
 		}
 		
 		return $tabsrclink;
@@ -88,6 +88,17 @@ class PratikDownloader extends ClassIniter
 	function isSecure()
 	{
 		return ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443);
+	}
+	
+	function getHttpRootPath()
+	{
+		$path="";
+		$path.="http".($this->isSecure()?"s":"")."://".$_SERVER['HTTP_HOST']."/";
+		
+		$subfolder=parse_url($path.$_SERVER['REQUEST_URI'],PHP_URL_PATH); //substr($_SERVER['REQUEST_URI'],0,strrpos($_SERVER['REQUEST_URI'],"/"));
+		$path.=$subfolder."/";
+		
+		return $path;
 	}
 
 }

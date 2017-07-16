@@ -23,9 +23,10 @@ class PackageConf extends ClassIniter
 		if($this->includer->include_pratikclass("Package"))
 		{
 			$instancePackage=new PratikPackage($this->initer);
+			$isdeployable=false;
 			if($update!="2") //cas update local, pas de download externe
-				$instancePackage->getPackageFromRoDKoDRoKCom($packagecodename,$update);
-			$preform=$instancePackage->preparePackageConfForm($packagecodename);
+				$isdeployable=$instancePackage->getPackageFromRoDKoDRoKCom($packagecodename,$update);
+			$preform=$instancePackage->preparePackageConfForm($packagecodename,$isdeployable);
 		}
 		
 		//preform reload option

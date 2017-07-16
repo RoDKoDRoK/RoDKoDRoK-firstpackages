@@ -8,22 +8,22 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
 CREATE  TABLE IF NOT EXISTS `package` (
   `idpackage` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `nomcodepackage` VARCHAR(255) NULL ,
+  `nomcodepackage` VARCHAR(63) NOT NULL ,
   `nompackage` VARCHAR(255) NULL ,
   `groupepackage` VARCHAR(255) NULL ,
   `description` TEXT NULL ,
   `version` VARCHAR(50) NULL ,
   `indeployer` INT UNSIGNED NOT NULL ,
   `deployed` INT UNSIGNED NOT NULL ,
-  `toupdate` INT UNSIGNED NOT NULL ,
+  `toupdate` INT UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`idpackage`,`nomcodepackage`) )
 ENGINE = MyISAM;
 
 
 
 CREATE  TABLE IF NOT EXISTS `package_depends_on` (
-  `nomcodepackage` VARCHAR(255) NULL ,
-  `nomcodedepend` VARCHAR(255) NULL ,
+  `nomcodepackage` VARCHAR(63) NOT NULL ,
+  `nomcodedepend` VARCHAR(63) NOT NULL ,
   PRIMARY KEY (`nomcodepackage`,`nomcodedepend`) )
 ENGINE = MyISAM;
 

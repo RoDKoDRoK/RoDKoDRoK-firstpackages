@@ -11,7 +11,8 @@ CREATE  TABLE IF NOT EXISTS `user` (
   `lang` VARCHAR(10) NULL DEFAULT 'fr_fr',
   `date_creation` DATETIME NULL ,
   `date_last_connect` DATETIME NULL ,
-  PRIMARY KEY (`iduser`,`login_mail`,`pseudo`) )
+  PRIMARY KEY (`iduser`) )
+--  PRIMARY KEY (`iduser`,`login_mail`,`pseudo`) )
 ENGINE = MyISAM;
 
 

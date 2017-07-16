@@ -212,6 +212,15 @@ class PratikPackage extends ClassIniter
 					}
 			}
 			
+			
+			//reconstruct initer with last files deploy
+			if(class_exists("PratikInitersimul") || (isset($this->includer) && $this->includer->include_pratikclass("Initersimul")))
+			{
+				$instanceInitersimul=new PratikInitersimul($this->initer);
+				$newiniter=$instanceInitersimul->initerConstruct($this->initer);
+				$this->reloadIniter($newiniter);
+			}
+			
 			//include postdeployer static
 			if(file_exists("package/".$packagecodename."/static/static.postdeployer.php"))
 				include "package/".$packagecodename."/static/static.postdeployer.php";
@@ -450,6 +459,13 @@ class PratikPackage extends ClassIniter
 			}
 			
 			
+			//reconstruct initer with last files deploy
+			if(class_exists("PratikInitersimul") || (isset($this->includer) && $this->includer->include_pratikclass("Initersimul")))
+			{
+				$instanceInitersimul=new PratikInitersimul($this->initer);
+				$newiniter=$instanceInitersimul->initerConstruct($this->initer);
+				$this->reloadIniter($newiniter);
+			}
 			
 			//include postdeployer generator
 			if(file_exists("package/".$packagecodename."/generator/generator.postdeployer.php"))
@@ -662,7 +678,6 @@ class PratikPackage extends ClassIniter
 						}
 					}
 			}
-			
 			
 				
 			//include postdestroyer static
@@ -892,7 +907,6 @@ class PratikPackage extends ClassIniter
 			}
 			
 			
-				
 			//include postdestroyer generator
 			if(file_exists("package/".$packagecodename."/generator/generator.postdestroyer.php"))
 				include "package/".$packagecodename."/generator/generator.postdestroyer.php";
@@ -914,13 +928,13 @@ class PratikPackage extends ClassIniter
 	
 	
 	
-	function preparePackageConfForm($packagecodename="example")
+	function preparePackageConfForm($packagecodename="example",$isdeployable=true)
 	{
 		$preform=array();
 		
 		$preform['classicform']=true;
 		
-		$preform['deployconfirmbutton']=true;
+		$preform['deployconfirmbutton']=$isdeployable;
 		$preform['destroyconfirmbutton']=true;
 		$preform['updateconfirmbutton']=true;
 		
@@ -1093,7 +1107,40 @@ class PratikPackage extends ClassIniter
 				$zip->close();
 				return true;
 			}
-			
+			else
+			{
+				echo "Error Zip : ".$res."<br />";
+				switch($res)
+				{
+					case ZipArchive::ER_EXISTS : 
+							echo "Fichier déjà existant";
+						break;
+					case ZipArchive::ER_INCONS : 
+							echo "Fichier inconsistant";
+						break;
+					case ZipArchive::ER_INVAL : 
+							echo "Arg invalid";
+						break;
+					case ZipArchive::ER_MEMORY : 
+							echo "Erreur de mémoire";
+						break;
+					case ZipArchive::ER_NOENT : 
+							echo "Fichier inexistant";
+						break;
+					case ZipArchive::ER_NOZIP : 
+							echo "Fichier non format zip ou zip incomplet (filesize ".filesize($folderzip.$filename)." octets)";
+						break;
+					case ZipArchive::ER_OPEN : 
+							echo "Imppossible ouvrir fichier zip";
+						break;	
+					case ZipArchive::ER_READ : 
+							echo "Erreur lors de la lecture";
+						break;
+					case ZipArchive::ER_SEEK : 
+							echo "Erreur de position";
+						break;
+				}
+			}
 		}
 		
 		return false;
@@ -1556,6 +1603,15 @@ class PratikPackage extends ClassIniter
 					}
 			}
 			
+			
+			//reconstruct initer with last files deploy
+			if(class_exists("PratikInitersimul") || (isset($this->includer) && $this->includer->include_pratikclass("Initersimul")))
+			{
+				$instanceInitersimul=new PratikInitersimul($this->initer);
+				$newiniter=$instanceInitersimul->initerConstruct($this->initer);
+				$this->reloadIniter($newiniter);
+			}
+			
 			//include postdeployer static
 			if(file_exists("package/".$packagecodename."/static/static.postdeployer.php"))
 				include "package/".$packagecodename."/static/static.postdeployer.php";
@@ -1932,6 +1988,13 @@ class PratikPackage extends ClassIniter
 			}
 			
 			
+			//reconstruct initer with last files deploy
+			if(class_exists("PratikInitersimul") || (isset($this->includer) && $this->includer->include_pratikclass("Initersimul")))
+			{
+				$instanceInitersimul=new PratikInitersimul($this->initer);
+				$newiniter=$instanceInitersimul->initerConstruct($this->initer);
+				$this->reloadIniter($newiniter);
+			}
 			
 			//include postdeployer generator
 			if(file_exists("package/".$packagecodename."/generator/generator.postdeployer.php"))

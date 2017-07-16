@@ -63,6 +63,8 @@ class PratikMenu extends ClassIniter
 		
 		$builtmenu=$tpl->get_template("core/src/pratiklib/menu/menu.tpl");
 		
+		$builtmenu=utf8_encode($builtmenu);
+		
 		return $builtmenu;
 	}
 	

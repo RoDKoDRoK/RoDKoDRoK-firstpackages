@@ -11,7 +11,8 @@ CREATE  TABLE IF NOT EXISTS `optionpackager` (
   `nomcodepackage` VARCHAR(255) NULL ,
   `nomoption` VARCHAR(255) NULL ,
   `option` TEXT NULL ,
-  PRIMARY KEY (`idoptionpackager`,`nomcodepackage`,`nomoption`) )
+  PRIMARY KEY (`idoptionpackager`) )
+--  PRIMARY KEY (`idoptionpackager`,`nomcodepackage`,`nomoption`) )
 ENGINE = MyISAM;
 
 

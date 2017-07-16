@@ -10,7 +10,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
 CREATE  TABLE IF NOT EXISTS `droit` (
   `iddroit` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `nomcodedroit` VARCHAR(255) NULL ,
+  `nomcodedroit` VARCHAR(63) NOT NULL ,
   `nomdroit` VARCHAR(25) NULL ,
   `ordre` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`iddroit`,`nomcodedroit`) )
@@ -31,7 +31,8 @@ CREATE  TABLE IF NOT EXISTS `elmt_has_droit` (
   `typeelmt` VARCHAR(255) NULL ,
   `iddroit` BIGINT UNSIGNED NOT NULL ,
   `nomcodedroit` VARCHAR(255) NULL ,
-  PRIMARY KEY (`idelmt_has_droit`,`idelmt`,`elmt`,`typeelmt`,`iddroit`,`nomcodedroit`) )
+  PRIMARY KEY (`idelmt_has_droit`) )
+--  PRIMARY KEY (`idelmt_has_droit`,`idelmt`,`elmt`,`typeelmt`,`iddroit`,`nomcodedroit`) )
 ENGINE = MyISAM;
 
 
@@ -39,8 +40,8 @@ CREATE  TABLE IF NOT EXISTS `user_has_droit` (
   `iduser_has_droit` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `iduser` BIGINT UNSIGNED NOT NULL ,
   `iddroit` BIGINT UNSIGNED NOT NULL ,
-  `nomcodedroit` VARCHAR(255) NULL ,
-  PRIMARY KEY (`iduser_has_droit`,`iduser`,`iddroit`,`nomcodedroit`) )
+  `nomcodedroit` VARCHAR(63) NOT NULL ,
+  PRIMARY KEY (`iduser_has_droit`) )
 ENGINE = MyISAM;
 
 

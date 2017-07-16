@@ -134,7 +134,17 @@ class AccessRoddroit
 	function addDroitUser($iduser,$nomcodedroit="public")
 	{
 		$this->db->query("DELETE FROM `user_has_droit` WHERE iduser='".$iduser."';");
-		$this->db->query("INSERT INTO `user_has_droit` (iduser_has_droit,iduser,nomcodedroit) VALUES (NULL,'".$iduser."','".$nomcodedroit."');");
+		
+		$iddroit="0";
+		$req=$this->db->query("select iddroit from `droit` where nomcodedroit='".$nomcodedroit."'");
+		if($req)
+		{
+			$res=$this->db->fetch_array($req);
+			if($res)
+				$iddroit=$res['iddroit'];
+		}
+		
+		$this->db->query("INSERT INTO `user_has_droit` (iduser_has_droit,iduser,iddroit,nomcodedroit) VALUES (NULL,'".$iduser."','".$iddroit."','".$nomcodedroit."');");
 		
 	}
 	

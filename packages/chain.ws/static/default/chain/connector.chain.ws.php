@@ -154,6 +154,14 @@ $tabconnector[count($tabconnector)-1]['aliasiniter']="includer";
 $tabconnector[count($tabconnector)-1]['name']="includer";
 
 
+//connector filestorage
+$tabconnector[]=array();
+$tabconnector[count($tabconnector)-1]['classtoiniter']=true;
+$tabconnector[count($tabconnector)-1]['vartoiniter']=false;
+$tabconnector[count($tabconnector)-1]['aliasiniter']="none";
+$tabconnector[count($tabconnector)-1]['name']="filestorage";
+
+
 //connector variables getter
 $tabconnector[]=array();
 $tabconnector[count($tabconnector)-1]['classtoiniter']=true;

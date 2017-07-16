@@ -1,32 +1,41 @@
 <?php
 
-class DbMysql
+class DbMysqli
 {
 	var $conf;
 	var $db;
 	
-	function __construct($conf)
+	var $dbname;
+	
+	function __construct($conf,$dbname="maindb")
 	{
 		//parent::__construct();
+		$this->dbname=$dbname;
 		$this->conf=$conf;
 		$this->db=$this->connexion();
 	}
 	
 	function connexion()
 	{
-		$db=mysqli_connect($this->conf['host'],$this->conf['login'],$this->conf['pwd'],$this->conf['bd']);
+		$db=mysqli_connect($this->conf['database'][$this->dbname]['host'],$this->conf['database'][$this->dbname]['login'],$this->conf['database'][$this->dbname]['pwd'],$this->conf['database'][$this->dbname]['bd']);
 		
 		return $db;
 	}
 	
-	function query($req)
+	function query($req="")
 	{
-		return mysqli_query($this->db,$req);
+		if($req!="")
+			return mysqli_query($this->db,$req);
+		
+		return null;
 	}
 	
 	function fetch_array($res)
 	{
-		return mysqli_fetch_array($res);
+		if($res!="")
+			return mysqli_fetch_array($res);
+		
+		return null;
 	}
 	
 	function query_one_result($req)
