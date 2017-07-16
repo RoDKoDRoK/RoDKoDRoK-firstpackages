@@ -25,9 +25,21 @@ class Variable
 	}
 	
 	
+	function varsession($varsessionname="examplename")
+	{
+		if(isset($_SESSION[$varsessionname]) && $_SESSION[$varsessionname]!="")
+		{
+			$sessionvalue=$_SESSION[$varsessionname];
+			unset($_SESSION[$varsessionname]); //checker des variables de session à ne pas unsetter (user par exemple) à préciser dans un fichier de conf
+			return $sessionvalue;
+		}
+		return "";
+	}
+	
+	
 	function vartotmpsession($var="",$varsessionname="tmp")
 	{
-		//set a tmp session var to get after a post form for example or to conerve data through a reload of a page
+		//set a tmp session var to get after a post form for example or to conserve data through a reload of a page
 		if(isset($_SESSION[$varsessionname]))
 		{
 			$tmpcour=$_SESSION[$varsessionname];

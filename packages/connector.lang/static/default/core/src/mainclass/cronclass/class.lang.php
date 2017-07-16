@@ -59,6 +59,14 @@ class Lang
 	//renvoie la chaine traduite (à utiliser dans vos pages)
 	function getTranslation($text="")
 	{
+		if(is_array($text))
+		{
+			$tabreturned=array();
+			foreach($text as $id=>$value)
+				$tabreturned[$id]=$this->getTranslation($value);
+			return $tabreturned;
+		}
+		
 		$textwithunderscores=str_replace(" ","_",$text);
 		if(isset($this->lang[$textwithunderscores]))
 			return $this->lang[$textwithunderscores];
