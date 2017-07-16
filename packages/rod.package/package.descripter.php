@@ -3,7 +3,7 @@
 $descripter['name']="RoD Packages";
 $descripter['description']="Gestion des packages";
 
-$descripter['version']="0.0.x-1.1";
+$descripter['version']="0.0.x-1.2";
 
 $descripter['groupe']="RoD";
 
