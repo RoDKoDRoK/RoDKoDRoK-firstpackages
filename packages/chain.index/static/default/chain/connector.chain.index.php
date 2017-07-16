@@ -78,15 +78,6 @@ $tabconnector[count($tabconnector)-1]['name']="includer";
 
 
 
-//connector event
-$tabconnector[]=array();
-$tabconnector[count($tabconnector)-1]['classtoiniter']=false;
-$tabconnector[count($tabconnector)-1]['vartoiniter']=false;
-$tabconnector[count($tabconnector)-1]['aliasiniter']="event";
-$tabconnector[count($tabconnector)-1]['name']="event";
-
-
-
 
 //connector lib
 $tabconnector[]=array();
@@ -213,6 +204,19 @@ $tabconnector[count($tabconnector)-1]['vartoiniter']=true;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="message";
 $tabconnector[count($tabconnector)-1]['outputaction']="toprint-content:2-var";
 $tabconnector[count($tabconnector)-1]['name']="message";
+
+
+
+
+
+//connector event
+$tabconnector[]=array();
+$tabconnector[count($tabconnector)-1]['classtoiniter']=false;
+$tabconnector[count($tabconnector)-1]['vartoiniter']=false;
+$tabconnector[count($tabconnector)-1]['aliasiniter']="event";
+$tabconnector[count($tabconnector)-1]['name']="event";
+
+
 
 
 

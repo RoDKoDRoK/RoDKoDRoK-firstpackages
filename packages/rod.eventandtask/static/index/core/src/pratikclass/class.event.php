@@ -13,8 +13,33 @@ class PratikEvent extends ClassIniter
 	
 	function execEvent($eventtype="",$params=array())
 	{
-		//exec eventintegrator selected with eventtype
+		$returned="";
 		
+		//prepare eventtype
+		$eventtype=strtolower($eventtype);
+		$eventtypeclass=ucfirst($eventtype);
+		
+		//exec eventintegrator selected with eventtype
+		if(file_exists("core/integrate/event/eventintegrator.".$eventtype.".php"))
+		{
+			include_once "core/integrate/event/eventintegrator.".$eventtype.".php";
+			eval("\$instanceEventIntegrator=new EventIntegrator".$eventtypeclass."(\$this->initer);");
+			$instanceEventIntegrator->setNomcodeevent($eventtype);
+			$returned.=$instanceEventIntegrator->execEvent($params);
+		}
+		else if(file_exists("core/integrate/event/eventintegrator.php"))
+		{
+			include_once "core/integrate/event/eventintegrator.php";
+			$instanceEventIntegrator=new EventIntegrator($this->initer);
+			$instanceEventIntegrator->setNomcodeevent($eventtype);
+			$returned.=$instanceEventIntegrator->execEvent($params);
+		}
+		else
+		{
+			$this->log->puttolog("Class EventIntegrator manquante : core/integrate/event/eventintegrator.php");
+		}
+		
+		return $returned;
 	}
 	
 	
@@ -23,7 +48,7 @@ class PratikEvent extends ClassIniter
 	{
 		$tabevent=array();
 		
-		$req=$this->db->query("select * from `event`,`eventexectask`,`task` where `event`.nomcodeevent='".$nomcodeevent."' and `event`.idevent=`eventexectask`.idevent and `task`.idtask=`eventexectask`.idtask order by `eventexectask`.ordre asc");
+		$req=$this->db->query("select * from `event`,`eventexectask`,`task` where `event`.nomcodeevent='".$nomcodeevent."' and `event`.nomcodeevent=`eventexectask`.nomcodeevent and `task`.nomcodetask=`eventexectask`.nomcodetask order by `eventexectask`.ordre asc");
 		while($res=$this->db->fetch_array($req))
 			$tabevent[]=$res;
 		
@@ -32,197 +57,130 @@ class PratikEvent extends ClassIniter
 	
 	
 	
-	
-	
-	function colonne_loader($colonnename,$param=array())
+	function addTaskToEvent($nomcodeevent,$nomcodetask,$ordre="")
 	{
-		$builtcase="";
+		//prepare data
+		$nomcodeevent=strtolower($nomcodeevent);
+		$nomcodetask=strtolower($nomcodetask);
 		
-		$pratikcase=new PratikCase($this->initer);
-		
-		//get data cases de la colonne
-		//$req=$this->db->query("select * from `colonne`,`colonne_has_case`,`case`,`elmt_has_droit`,`droit` where `colonne`.nomcolonne='".$colonnename."' and `colonne`.idcolonne=`colonne_has_case`.idcolonne and `case`.idcase=`colonne_has_case`.idcase and `case`.idcase=`elmt_has_droit`.idelmt and `elmt_has_droit`.typeelmt='case' and `elmt_has_droit`.iddroit=`droit`.iddroit and `droit`.nomcodedroit='".$this->droit."'");
-		$req=$this->db->query("select * from `colonne`,`instancecase`,`case` where `colonne`.nomcodecolonne='".$colonnename."' and `colonne`.idcolonne=`instancecase`.idcolonne and `case`.idcase=`instancecase`.idcase order by `instancecase`.ordre asc");
-		if($req)
+		//cas ordre
+		$sqlordre="";
+		if($ordre!="")
+			$sqlordre=" and ordre='".$ordre."'";
+		else
 		{
-			//test droit case
-			if(!$this->instanceDroit->hasAccessTo($colonnename,"colonne"))
-				return $builtcase;
-			
-			//load params from db with pratik.params
-			if(isset($this->includer) && $this->includer->include_pratikclass("Params"))
-			{
-				$instanceParams=new PratikParams($this->initer);
-				$paramsfromdb=$instanceParams->getParams($colonnename,"colonne");
-				$param=array_merge($param,$paramsfromdb);
-			}
-			
-			$firstcase=true;
-			
-			while($res=$this->db->fetch_array($req))
-			{
-				//test droit case
-				if(!$this->instanceDroit->hasAccessTo($res['nomcodecase'],"case"))
-					continue;
-				if(!$this->instanceDroit->hasAccessTo($res['nomcodeinstancecase'],"instancecase"))
-					continue;
-				
-				//premier passage
-				if($firstcase)
-				{
-					$builtcase.="<div class='contentcolonne'>";
-					$firstcase=false;
-				}
-				
-				//load params from db with pratik.params
-				if(isset($this->includer) && $this->includer->include_pratikclass("Params"))
-				{
-					$instanceParams=new PratikParams($this->initer);
-					$paramscasefromdb=$instanceParams->getParams($res['nomcodecase'],"case");
-					$paramsinstancecasefromdb=$instanceParams->getParams($res['nomcodeinstancecase'],"instancecase");
-					$param=array_merge($param,$paramsfromdb,$paramsinstancecasefromdb);
-				}
-				
-				
-				//construct case courante
-				$instanceTpl=new Tp($this->conf,$this->log);
-				$this->initer['tplcase']=$instanceTpl->tpselected;
-				$this->reloadIniter();
-				
-				//load css and js for case
-				$this->tplcase->remplir_template("css",$pratikcase->getCssCase($res['nomcodecase']));
-				$this->tplcase->remplir_template("js",$pratikcase->getJsCase($res['nomcodecase']));
-				
-				//load subtpl case
-				$this->tplcase->remplir_template("case",$res['nomcodecase']);
-				
-				//load params
-				$this->tplcase->remplir_template("param",$param);
-				
-				//load content case
-				if(file_exists("core/src/pratiklib/case/class/class.case.".$res['nomcodecase'].".php"))
-					include_once "core/src/pratiklib/case/class/class.case.".$res['nomcodecase'].".php";
-				include "core/src/pratiklib/case/loader/case.".$res['nomcodecase'].".php";
-				
-				//get case
-				$builtcase.=$this->tplcase->get_template("core/src/pratiklib/case/case.tpl");
-			}
-			
-			if(!$firstcase)
-				$builtcase.="</div>";
+			$ordre="0";
+			$req=$this->db->query("select max(ordre) as maxordre FROM `eventexectask` WHERE nomcodeevent='".$nomcodeevent."';");
+			if($res=$this->db->fetch_array($req))
+				$ordre=$res['maxordre']+1;
 		}
 		
-		return $builtcase;
-	}
-	
-	
-	function addColonne($nomcodecolonne,$nomcolonne="",$description="")
-	{
-		$req=$this->db->query("select idcolonne FROM `colonne` WHERE nomcodecolonne='".$nomcodecolonne."'");
-		$res=$this->db->fetch_array($req);
-		if($res)
-		{
-			return;
-		}
-			
-		$this->db->query("INSERT INTO `colonne` VALUES (NULL,'".$nomcodecolonne."','".$nomcolonne."','".$description."');");
-	}
-	
-	function addInstanceCaseToColonne($nomcodeinstancecase,$nomcodecase,$nomcodecolonne="0",$ordre="0")
-	{
 		//test doublons
-		$req=$this->db->query("select idinstancecase FROM `instancecase` WHERE nomcodeinstancecase='".$nomcodeinstancecase."'");
+		$req=$this->db->query("select ideventexectask FROM `eventexectask` WHERE nomcodetask='".$nomcodetask."' and nomcodeevent='".$nomcodeevent."' ".$sqlordre.";");
 		$res=$this->db->fetch_array($req);
 		if($res)
-		{
 			return;
-		}
-		
-		//prepare colonne
-		$idcolonne=0;
-		if(is_numeric($nomcodecolonne))
-		{
-			$idcolonne=$nomcodecolonne;
-		}
-		else
-		{
-			$req=$this->db->query("select idcolonne FROM `colonne` WHERE nomcodecolonne='".$nomcodecolonne."'");
-			$res=$this->db->fetch_array($req);
-			if($res)
-			{
-				$idcolonne=$res['idcolonne'];
-			}
-		}
-		
-		//prepare case
-		$idcase=0;
-		if(is_numeric($nomcodecase))
-		{
-			$idcase=$nomcodecase;
-		}
-		else
-		{
-			$req=$this->db->query("select idcase FROM `case` WHERE nomcodecase='".$nomcodecase."'");
-			$res=$this->db->fetch_array($req);
-			if($res)
-			{
-				$idcase=$res['idcase'];
-			}
-		}
 		
 		//insert
-		$this->db->query("INSERT INTO `instancecase` VALUES (NULL,'".$idcolonne."','".$idcase."','".$nomcodeinstancecase."','".$ordre."');");
+		$this->db->query("INSERT INTO `eventexectask` VALUES (NULL,'".$nomcodetask."','".$nomcodeevent."','".$ordre."');");
 	}
 	
 	
-	function updateColonne($nomcodecolonne="",$tabupdatedata=array())
+	
+	function delTaskFromEvent($nomcodeevent,$nomcodetask,$ordre="")
 	{
-		$id=0;
-		if(is_numeric($nomcodecolonne))
+		//prepare data
+		$nomcodeevent=strtolower($nomcodeevent);
+		$nomcodetask=strtolower($nomcodetask);
+		
+		//cas ordre
+		$sqlordre="";
+		if($ordre!="")
+			$sqlordre=" and ordre='".$ordre."'";
+		
+		//delete
+		$this->db->query("delete from `eventexectask` where nomcodetask='".$nomcodetask."' and nomcodeevent='".$nomcodeevent."' ".$sqlordre.";");
+	}
+	
+	
+	
+	function addEvent($nomcodeevent,$nomevent="",$description="")
+	{
+		//prepare data
+		$nomcodeevent=strtolower($nomcodeevent);
+		
+		//check event already exists
+		$reqexists=$this->db->query("select * FROM `event` WHERE `event`.nomcodeevent='".$nomcodeevent."' or `event`.idevent='".$nomcodeevent."'");
+		if($resexists=$this->db->fetch_array($reqexists))
 		{
-			$id=$nomcodecolonne;
+			$idevent=$resexists['idevent'];
+			//update not used
+			/*$req=$this->db->query("update `event` set 
+										nomtask='".$nomevent."', 
+										description='".$description."'
+									where idevent='".$idevent."'
+									");
+			*/
 		}
 		else
 		{
-			$req=$this->db->query("select idcolonne FROM `colonne` WHERE nomcodecolonne='".$nomcodecolonne."'");
-			$res=$this->db->fetch_array($req);
-			if($res)
-			{
-				$id=$res['idcolonne'];
-			}
+			$this->db->query("insert into `event` (idevent,nomcodeevent,nomevent,description) VALUES (NULL,'".$nomcodeevent."','".$nomevent."','".$description."')");
+			$idevent=$this->db->last_insert_id();
 		}
 		
-		$updatedata="";
-		foreach($tabupdatedata as $iddatacour=>$valuedatacour)
-		{
-			$updatedata.=$iddatacour."='".$valuedatacour."', ";
-		}
-		$updatedata=substr($updatedata,0,-2);
-	
-		$this->db->query("UPDATE `colonne` SET ".$updatedata." WHERE idcolonne='".$id."'");
+		return $idevent;
 	}
 	
 	
-	function deleteColonne($nomcodecolonne="")
+	function updateEvent($nomcodeevent,$tabupdate=array())
 	{
-		$id=0;
-		if(is_numeric($nomcodecolonne))
+		if(is_array($tabupdate) && count($tabupdate)==0)
+			return;
+		
+		//check idtask to update
+		$idtask="0";
+		if(is_numeric($nomcodeevent))
 		{
-			$id=$nomcodecolonne;
+			$idevent=$nomcodeevent;
 		}
 		else
 		{
-			$req=$this->db->query("select idcolonne FROM `colonne` WHERE nomcodecolonne='".$nomcodecolonne."'");
-			$res=$this->db->fetch_array($req);
-			if($res)
-			{
-				$id=$res['idcolonne'];
-			}
+			//prepare data
+			$nomcodeevent=strtolower($nomcodeevent);
+			
+			//load task id
+			$reqevent=$this->db->query("select * FROM `event` WHERE `event`.nomcodeevent='".$nomcodeevent."'");
+			if($resevent=$this->db->fetch_array($reqevent))
+				$idevent=$resevent['idevent'];
 		}
-		$this->db->query("DELETE FROM `colonne` WHERE idcolonne='".$id."' or nomcodecolonne='".$nomcodecolonne."'");
-		$this->db->query("DELETE FROM `colonne_has_case` WHERE idcolonne='".$id."'");
+		
+		//prepare update
+		$update="";
+		foreach($tabupdate as $idtab=>$valuetab)
+		{
+			$update.=$idtab."='".$valuetab."' , ";
+		}
+		$update=substr($update,0,-2);
+		
+		//update
+		$this->db->query("update `event` set 
+										".$update." 
+									where idevent='".$idevent."'
+									");
+		
+	} 
+	
+	
+	function delEvent($nomcodeevent="")
+	{
+		//prepare data
+		$nomcodeevent=strtolower($nomcodeevent);
+		
+		//delete
+		$this->db->query("delete from `event` where (idevent='".$nomcodeevent."' or nomcodeevent='".$nomcodeevent."')");
 	}
-
+	
+	
 }
 
 

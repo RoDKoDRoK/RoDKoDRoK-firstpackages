@@ -1,6 +1,6 @@
 <?php
 
-class SyncChain extends Cron
+class Syncchain extends Cron
 {
 
 	function __construct($initer=array())
@@ -10,7 +10,7 @@ class SyncChain extends Cron
 	}
 
 
-	function launchcron()
+	function launchcron($params=array())
 	{
 		return $this->sync_chain();
 	
@@ -34,7 +34,33 @@ class SyncChain extends Cron
 		
 		return true;
 	}
-
+	
+	
+	function checkCronIsExecutable($params=array())
+	{
+		//check nb files chain - 1 (default chain) != nb entries in db table chain
+		
+		//count nbchain db
+		$nbchaindb=0;
+		$reqcheck=$this->db->query("select count(idchain) as nbchain FROM `chain`");
+		if($rescheck=$this->db->fetch_array($reqcheck))
+		{
+			$nbchaindb=$rescheck['nbchain'];
+		}
+		
+		//count nb chain files
+		$tabchain=$this->loader->charg_dossier_unique_dans_tab("chain");
+		$nbchainfiles=count($tabchain)-1;
+		
+		if($nbchainfiles!=$nbchaindb)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
 
 }
 

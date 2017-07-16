@@ -1,6 +1,6 @@
 <?php
 
-class SyncConnector extends Cron
+class Syncconnector extends Cron
 {
 
 	function __construct($initer=array())
@@ -10,7 +10,7 @@ class SyncConnector extends Cron
 	}
 
 
-	function launchcron()
+	function launchcron($params=array())
 	{
 		return $this->sync_connector();
 	
@@ -34,7 +34,33 @@ class SyncConnector extends Cron
 		
 		return true;
 	}
-
+	
+	
+	function checkCronIsExecutable($params=array())
+	{
+		//check nb files connector != nb entries in db table connector
+		
+		//count nbconnector db
+		$nbconnectordb=0;
+		$reqcheck=$this->db->query("select count(idconnector) as nbconnector FROM `connector`");
+		if($rescheck=$this->db->fetch_array($reqcheck))
+		{
+			$nbconnectordb=$rescheck['nbconnector'];
+		}
+		
+		//count nb chain files
+		$tabconnector=$this->loader->charg_dossier_unique_dans_tab("connector");
+		$nbconnectorfiles=count($tabconnector);
+		
+		if($nbconnectorfiles!=$nbconnectordb)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
 
 }
 

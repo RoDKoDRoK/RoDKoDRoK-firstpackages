@@ -10,18 +10,26 @@ class Event extends ClassIniter
 		parent::__construct($initer);
 		
 		
-		//chargement event
-		/*
+		//chargement event onChainLoad
 		if(isset($this->includer) && $this->includer->include_pratikclass("Event"))
 		{
+			//params in code
 			$params=array();
 			
+			//params from db
+			if(isset($this->includer) && $this->includer->include_pratikclass("Params"))
+			{
+				$instanceParams=new PratikParams($this->initer);
+				$paramseventfromdb=$instanceParams->getParams("onChainLoad","event");
+				$params=array_merge($params,$paramseventfromdb);
+			}
+			
+			//exec event
 			$pratikevent=new PratikEvent($this->initer);
 			$this->returned=$pratikevent->execEvent("onChainLoad",$params);
 		}
-		*/
 		
-		$this->returned=$this->execEventEnDurPourRodChainAndConnector(); // to replace later by code before
+		//$this->returned=$this->execEventEnDurPourRodChainAndConnector(); // to replace later by code before
 	}
 	
 	
@@ -32,13 +40,13 @@ class Event extends ClassIniter
 		//force exec cron chain and connectors
 		if(isset($this->includer) && $this->includer->include_otherclass("cron","syncchain"))
 		{
-			$instanceCron=new SyncChain($this->initer);
+			$instanceCron=new Syncchain($this->initer);
 			$instanceCron->launchcron();
 		}
 		
 		if(isset($this->includer) && $this->includer->include_otherclass("cron","syncconnector"))
 		{
-			$instanceCron=new SyncConnector($this->initer);
+			$instanceCron=new Syncconnector($this->initer);
 			$instanceCron->launchcron();
 		}
 	}

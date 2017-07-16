@@ -1,6 +1,6 @@
 <?php
 
-class SyncLibIntegrator extends Cron
+class Synclibintegrator extends Cron
 {
 
 	function __construct($initer=array())
@@ -10,7 +10,7 @@ class SyncLibIntegrator extends Cron
 	}
 
 
-	function launchcron()
+	function launchcron($params=array())
 	{
 		return $this->sync_libintegrator();
 	
@@ -47,7 +47,34 @@ class SyncLibIntegrator extends Cron
 		
 		return true;
 	}
-
+	
+	
+	
+	function checkCronIsExecutable($params=array())
+	{
+		//check nb files libintegrator != nb entries in db table lib
+		
+		//count nblib db
+		$nblibdb=0;
+		$reqcheck=$this->db->query("select count(idlib) as nblib FROM `lib`");
+		if($rescheck=$this->db->fetch_array($reqcheck))
+		{
+			$nblibdb=$rescheck['nblib'];
+		}
+		
+		//count nb libintegrator files
+		$tablibintegrator=$this->loader->charg_dossier_unique_dans_tab("core/integrate/libintegrator");
+		$nblibfiles=count($tablibintegrator);
+		
+		if($nblibfiles!=$nblibdb)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
 
 }
 

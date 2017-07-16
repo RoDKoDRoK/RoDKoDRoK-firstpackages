@@ -12,7 +12,7 @@ if(isset($this->includer) && $this->includer->include_pratikclass("colonne") && 
 	$instanceColonne=new PratikColonne($this->initer);
 	
 	//add an instancecase menu named reportmenu to colonne colonnedroite
-	$instanceColonne->addInstanceCaseToColonne("reportmenu","menu","colonnedroite","10");
+	$instanceColonne->addInstanceCaseToColonne("reportmenu","menu","colonnedroite","100");
 	
 	//add access to instancecase reportmenu
 	if(isset($this->instanceDroit))

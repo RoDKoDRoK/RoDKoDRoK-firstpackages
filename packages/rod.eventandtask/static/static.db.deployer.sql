@@ -15,8 +15,8 @@ ENGINE = MyISAM;
 
 CREATE  TABLE IF NOT EXISTS `eventexectask` (
   `ideventexectask` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `idevent` BIGINT UNSIGNED NOT NULL DEFAULT '0' ,
-  `idtask` BIGINT UNSIGNED NOT NULL ,
+  `nomcodeevent` VARCHAR(63) NOT NULL DEFAULT '' ,
+  `nomcodetask` VARCHAR(63) NOT NULL DEFAULT '' ,
   `ordre` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`ideventexectask`) )
 ENGINE = MyISAM;

@@ -9,7 +9,7 @@ var dispo
 */
 
 
-$instanceCron=new SyncChainUseConnector($initer);
+$instanceCron=new Syncchainuseconnector($initer);
 
 $instanceCron->launchcron();
 

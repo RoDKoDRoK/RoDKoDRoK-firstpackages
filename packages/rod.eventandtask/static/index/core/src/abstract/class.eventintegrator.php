@@ -16,15 +16,43 @@ class EventIntegrator extends ClassIniter
 	
 	function execEvent($params=array())
 	{
-		$tabtask=$this->getTaskFromEvent($this->nomcodeevent);
-		foreach($tabtask as $taskcour)
+		if(isset($this->includer) && $this->includer->include_pratikclass("Event"))
 		{
-			if(isset($this->includer) && $this->includer->include_otherclass($taskcour['typetask'],strtolower($taskcour['nomcodetask'])))
+			$instanceEvent=new PratikEvent($this->initer);
+			$tabtask=$instanceEvent->getTaskFromEvent($this->nomcodeevent);
+			foreach($tabtask as $taskcour)
 			{
-				eval("\$instanceTask=new ".$taskcour['nomcodetask']."(\$this->initer);");
-				$instanceTask->execTask();
+				//prepare data
+				$nomcodetask=strtolower($taskcour['nomcodetask']);
+				$nomcodetaskclass=ucfirst($nomcodetask);
+				$typetask=strtolower($taskcour['typetask']);
+				
+				//prepare params from db
+				if(isset($this->includer) && $this->includer->include_pratikclass("Params"))
+				{
+					$instanceParams=new PratikParams($this->initer);
+					$paramstaskfromdb=$instanceParams->getParams($nomcodetask,"task");
+					$paramscour=array_merge($params,$paramstaskfromdb);
+				}
+				
+				//exec task for event
+				if(isset($this->includer) && $this->includer->include_otherclass($typetask,$nomcodetask))
+				{
+					eval("\$instanceTask=new ".$nomcodetaskclass."(\$this->initer);");
+					if($instanceTask->checkTaskIsExecutable($paramscour) && $this->checkEventCanExecuteTask($paramscour))
+						$instanceTask->execTask($paramscour);
+				}
 			}
+			
 		}
+		
+	}
+	
+	
+	function checkEventCanExecuteTask($params=array())
+	{
+		return true;
+		
 	}
 	
 	
@@ -61,7 +89,7 @@ class EventIntegrator extends ClassIniter
 	
 	function setNomcodeevent($nomcodeevent)
 	{
-		$this->nomcodeevent=$nomcodeevent;
+		$this->nomcodeevent=strtolower($nomcodeevent);
 	}
 	
 	

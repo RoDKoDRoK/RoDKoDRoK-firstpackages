@@ -1,14 +1,12 @@
 <?php
 
-class Includer
+class Includer extends ClassIniter
 {
-	var $instanceConf;
-	var $conf;
 	
-	function __construct($instanceConf)
+	function __construct($initer=array())
 	{
-		$this->instanceConf=$instanceConf;
-		$this->conf=$instanceConf->conf;
+		parent::__construct($initer);
+		
 	}
 	
 	function include_dbtableclass($dbtableclassname="example")
@@ -37,7 +35,7 @@ class Includer
 	}
 	
 	
-	function include_otherclass($chain,$otherclassname="example")
+	function include_otherclass($chain,$otherclassname="example",$withsecundaryclass=true)
 	{
 		$otherclassname=strtolower($otherclassname);
 		$otherclassnamefirstlettermaj=ucfirst($otherclassname);
@@ -48,6 +46,21 @@ class Includer
 			{
 				if(file_exists($pathcour."/class.".$otherclassname.".php"))
 				{
+					//check secundaryclass
+					if($withsecundaryclass)
+					{
+						$tabsecundaryclasspath=$this->instanceConf->get("secundaryclasspath".$chain);
+						if($tabsecundaryclasspath!="")
+							foreach($tabsecundaryclasspath as $secundarypathcour)
+							{
+								$tabsecundaryclass=$this->loader->charg_dossier_unique_dans_tab($secundarypathcour."/".$otherclassname);
+								if(count($tabsecundaryclass)>0)
+									foreach($tabsecundaryclass as $secundaryclass)
+										include_once $secundaryclass;
+							}
+					}
+					
+					//include main other class
 					include_once $pathcour."/class.".$otherclassname.".php";
 					return true;
 				}

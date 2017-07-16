@@ -1,6 +1,6 @@
 <?php
 
-class SyncChainUseConnector extends Cron
+class Syncchainuseconnector extends Cron
 {
 
 	function __construct($initer=array())
@@ -10,7 +10,7 @@ class SyncChainUseConnector extends Cron
 	}
 
 
-	function launchcron()
+	function launchcron($params=array())
 	{
 		return $this->sync_chain_use_connector();
 	
@@ -59,6 +59,40 @@ class SyncChainUseConnector extends Cron
 		
 		return $connectortoreturn;
 	}
+	
+	
+	
+	
+	function checkCronIsExecutable($params=array())
+	{
+		$tabchain=$this->loader->charg_chain_dans_tab();
+		
+		foreach($tabchain as $chain)
+		{
+			//check nb connector tabconnector != nb entries in db table chainuseconnector
+			
+			//count nbconnectorinchain db
+			$nbconnectorinchaindb=0;
+			$reqcheck=$this->db->query("select count(idchainuseconnector) as nbchainuseconnector FROM `chainuseconnector`,`chain` where `chainuseconnector`.idchain=`chain`.idchain and `chain`.nomcodechain='".$chain."'");
+			if($rescheck=$this->db->fetch_array($reqcheck))
+			{
+				$nbconnectorinchaindb=$rescheck['nbchainuseconnector'];
+			}
+		
+			//count nb connector in chain cour
+			include "chain/connector.chain.".$chain.".php";
+			$nbconnectorinchaintab=count($tabconnector);
+			
+			if($nbconnectorinchaintab!=$nbconnectorinchaindb)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	
 
 
 }
