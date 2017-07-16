@@ -9,6 +9,20 @@ class Includer extends ClassIniter
 		
 	}
 	
+	function include_class($typeclass="pratikclass",$classname="example")
+	{
+		$typeclass=strtolower($typeclass);
+		$classname=strtolower($classname);
+		$classnamefirstlettermaj=ucfirst($classname);
+		if(file_exists($this->arkitect->get("src.".$typeclass)."/class.".$classname.".php"))
+		{
+			include_once $this->arkitect->get("src.".$typeclass)."/class.".$classname.".php";
+			return true;
+		}
+		return false;
+	}
+	
+	
 	function include_dbtableclass($dbtableclassname="example")
 	{
 		$dbtableclassname=strtolower($dbtableclassname);

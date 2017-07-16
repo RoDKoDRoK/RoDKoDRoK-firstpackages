@@ -12,8 +12,8 @@ class ConnectorCache extends Connector
 
 	function initInstance()
 	{
-		//instance conf
-		$instanceCache=new Cache($this->initer['db'],$this->initer['log']);
+		//instance cache
+		$instanceCache=new Cache($this->initer);
 		
 		$this->initer['cacheisallowed']=$instanceCache->checkcacheisallowed();
 		
@@ -26,7 +26,7 @@ class ConnectorCache extends Connector
 	
 	function initVar()
 	{
-		//charg conf
+		//charg cache
 		$cache=$this->getInstance();
 		$cache=$cache->cacheselected;
 		//print_r($cache->returned);
@@ -60,7 +60,7 @@ class ConnectorCache extends Connector
 		
 		//create cache
 		if($this->initer['cachedpage']=="" && $this->initer['cacheisallowed'])
-			$cache->writecache($this->initer['tpl']->get_template("core/tpl/".$this->initer['maintemplate']));
+			$cache->writecache($this->initer['tpl']->get_template($this->arkitect->get("tpl")."/".$this->initer['maintemplate']));
 		
 		return null;
 	}

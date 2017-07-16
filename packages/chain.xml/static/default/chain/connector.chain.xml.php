@@ -32,6 +32,15 @@ $tabconnector[count($tabconnector)-1]['outputaction']="toprint-self-var";
 $tabconnector[count($tabconnector)-1]['name']="conf";
 
 
+//connector instanciatorextended
+$tabconnector[]=array();
+$tabconnector[count($tabconnector)-1]['classtoiniter']=true;
+$tabconnector[count($tabconnector)-1]['vartoiniter']=false;
+$tabconnector[count($tabconnector)-1]['aliasiniter']="instanciator";
+$tabconnector[count($tabconnector)-1]['outputaction']="none";
+$tabconnector[count($tabconnector)-1]['name']="instanciatorextended";
+
+
 
 //connector db
 $tabconnector[]=array();
@@ -47,6 +56,14 @@ $tabconnector[count($tabconnector)-1]['classtoiniter']=false;
 $tabconnector[count($tabconnector)-1]['vartoiniter']=true;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="otherdb";
 $tabconnector[count($tabconnector)-1]['name']="otherdb";
+
+
+//connector requestor
+$tabconnector[]=array();
+$tabconnector[count($tabconnector)-1]['classtoiniter']=true;
+$tabconnector[count($tabconnector)-1]['vartoiniter']=true;
+$tabconnector[count($tabconnector)-1]['aliasiniter']="requestor";
+$tabconnector[count($tabconnector)-1]['name']="requestor";
 
 
 
@@ -151,8 +168,8 @@ $tabconnector[]=array();
 $tabconnector[count($tabconnector)-1]['classtoiniter']=false;
 $tabconnector[count($tabconnector)-1]['vartoiniter']=true;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="page";
-$tabconnector[count($tabconnector)-1]['outputaction']="toprint-content:1-subtpl:maincontentws";
-$tabconnector[count($tabconnector)-1]['name']="pagews";
+$tabconnector[count($tabconnector)-1]['outputaction']="toprint-content:1-subtpl:threadwsxml";
+$tabconnector[count($tabconnector)-1]['name']="pagewsxml";
 
 
 //connector lang
@@ -212,7 +229,7 @@ $tabconnector[]=array();
 $tabconnector[count($tabconnector)-1]['classtoiniter']=false;
 $tabconnector[count($tabconnector)-1]['vartoiniter']=false;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="none";
-$tabconnector[count($tabconnector)-1]['name']="maincontentws";
+$tabconnector[count($tabconnector)-1]['name']="threadwsxml";
 
 
 

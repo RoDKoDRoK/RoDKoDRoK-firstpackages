@@ -1,0 +1,125 @@
+
+.tabzone
+{
+	margin:10px;
+	padding:0px;
+	width:100%;
+}
+
+.rowzone
+{
+	width:100%;
+	min-height:170px;
+}
+
+.colzone
+{
+	float:left;
+	min-height:90px;
+	border-top:2px solid #999999;
+	padding:10px;
+	margin:0px;
+}
+
+.lastcolzone
+{
+	min-height:90px;
+	border-top:2px solid #999999;
+	padding:10px;
+	margin:0px;
+}
+
+.packagemanagerpage .nomcode,
+.packagemanagerpage .title,
+.packagemanagerpage  .description,
+.packagemanagerpage  .version,
+.packagemanagerpage  .depend
+{
+	width:20%;
+}
+
+.packagemanagerpage  .nomcode
+{
+	width:10%;
+}
+
+.packagemanagerpage  .title
+{
+	width:10%;
+}
+
+.packagemanagerpage  .description
+{
+	width:30%;
+}
+
+.packagemanagerpage  .version
+{
+	width:10%;
+}
+
+.packagemanagerpage  .depend
+{
+	width:10%;
+}
+
+.packagemanagerpage  .nomcode
+{
+	font-weight:bold;
+}
+
+.packagemanagerpage .tabzone .buttonzone
+{
+	margin:0px;
+	text-align:right;
+}
+
+.buttonzone .destroybutton input
+{
+	background:#D58484;
+}
+
+.buttonzone .deploybutton input
+{
+	background:#84D597;
+}
+
+.buttonzone .updatebutton input
+{
+	background:#A69332;
+}
+
+.buttonzone .reversebutton input
+{
+	background:#AAAAAA;
+}
+
+.checkbutton
+{
+	float:right;
+}
+
+.lockedpackage
+{
+	background:#cccccc;
+	color:#666666;
+}
+
+.blacklockedpackage
+{
+	background:#000000;
+	color:#dddddd;
+}
+
+/* search */
+#search
+{
+	float:right;
+}
+
+#search input[type=text]
+{
+	width:300px;
+	background:#ffc999;
+}
+

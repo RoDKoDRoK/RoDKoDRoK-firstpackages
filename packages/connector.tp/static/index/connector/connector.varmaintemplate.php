@@ -17,7 +17,7 @@ class ConnectorVarmaintemplate extends Connector
 	
 	function initVar()
 	{
-		$maintemplate="index.tpl";
+		$maintemplate=$this->chainconnector.".tpl";
 		if($this->chainconnector=="index" && isset($this->initer['conf']['maintemplate']))
 			$maintemplate=$this->initer['conf']['maintemplate'];
 		else if(isset($this->initer['conf'][$this->chainconnector.'template']))

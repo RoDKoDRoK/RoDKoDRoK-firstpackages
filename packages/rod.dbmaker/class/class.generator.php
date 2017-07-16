@@ -91,7 +91,7 @@ class RodDbmakerGenerator extends PackageGenerator
 				break;
 				
 			default:
-				$sqltype="VARCHAR(255)";
+				$sqltype="TEXT";
 				break;
 		}
 		

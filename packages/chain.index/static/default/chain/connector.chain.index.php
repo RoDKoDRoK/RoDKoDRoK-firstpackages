@@ -32,6 +32,15 @@ $tabconnector[count($tabconnector)-1]['outputaction']="toprint-self-var";
 $tabconnector[count($tabconnector)-1]['name']="conf";
 
 
+//connector instanciatorextended
+$tabconnector[]=array();
+$tabconnector[count($tabconnector)-1]['classtoiniter']=true;
+$tabconnector[count($tabconnector)-1]['vartoiniter']=false;
+$tabconnector[count($tabconnector)-1]['aliasiniter']="instanciator";
+$tabconnector[count($tabconnector)-1]['outputaction']="none";
+$tabconnector[count($tabconnector)-1]['name']="instanciatorextended";
+
+
 
 //connector db
 $tabconnector[]=array();
@@ -47,6 +56,14 @@ $tabconnector[count($tabconnector)-1]['classtoiniter']=false;
 $tabconnector[count($tabconnector)-1]['vartoiniter']=true;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="otherdb";
 $tabconnector[count($tabconnector)-1]['name']="otherdb";
+
+
+//connector requestor
+$tabconnector[]=array();
+$tabconnector[count($tabconnector)-1]['classtoiniter']=true;
+$tabconnector[count($tabconnector)-1]['vartoiniter']=true;
+$tabconnector[count($tabconnector)-1]['aliasiniter']="requestor";
+$tabconnector[count($tabconnector)-1]['name']="requestor";
 
 
 
@@ -256,14 +273,14 @@ $tabconnector[]=array();
 $tabconnector[count($tabconnector)-1]['classtoiniter']=false;
 $tabconnector[count($tabconnector)-1]['vartoiniter']=true;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="header";
-$tabconnector[count($tabconnector)-1]['outputaction']="toprint-content:1-subtpl:headerfooter";
+$tabconnector[count($tabconnector)-1]['outputaction']="toprint-content:1-subtpl:designheaderfooter";
 $tabconnector[count($tabconnector)-1]['name']="varheader";
 
 $tabconnector[]=array();
 $tabconnector[count($tabconnector)-1]['classtoiniter']=false;
 $tabconnector[count($tabconnector)-1]['vartoiniter']=true;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="footer";
-$tabconnector[count($tabconnector)-1]['outputaction']="toprint-content:4-subtpl:headerfooter";
+$tabconnector[count($tabconnector)-1]['outputaction']="toprint-content:4-subtpl:designheaderfooter";
 $tabconnector[count($tabconnector)-1]['name']="varfooter";
 
 

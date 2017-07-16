@@ -18,7 +18,7 @@ foreach($this->confgenerator->instance as $instance)
 	if(isset($this->instanceDroit))
 	{
 		//droit des pages
-		$tabfilestoload=$this->loader->charg_dossier_dans_tab("package/rod.dbmaker/generator/index/core/dev/page");
+		$tabfilestoload=$this->loader->charg_dossier_dans_tab($this->arkitect->get("package")."/rod.dbmaker/generator/index/".$this->arkitect->get("thread.index").$this->arkitect->get("ext.control"));
 		if(isset($tabfilestoload))
 			foreach($tabfilestoload as $filecour)
 			{
@@ -45,7 +45,7 @@ foreach($this->confgenerator->instance as $instance)
 			}
 		
 		//droit des ws
-		$tabfilestoload=$this->loader->charg_dossier_dans_tab("package/rod.dbmaker/generator/ws/core/ws/flux");
+		$tabfilestoload=$this->loader->charg_dossier_dans_tab($this->arkitect->get("package")."/rod.dbmaker/generator/xml/".$this->arkitect->get("thread.xml").$this->arkitect->get("ext.control"));
 		if(isset($tabfilestoload))
 			foreach($tabfilestoload as $filecour)
 			{

@@ -32,6 +32,15 @@ $tabconnector[count($tabconnector)-1]['outputaction']="toprint-self-var";
 $tabconnector[count($tabconnector)-1]['name']="conf";
 
 
+//connector instanciatorextended
+$tabconnector[]=array();
+$tabconnector[count($tabconnector)-1]['classtoiniter']=true;
+$tabconnector[count($tabconnector)-1]['vartoiniter']=false;
+$tabconnector[count($tabconnector)-1]['aliasiniter']="instanciator";
+$tabconnector[count($tabconnector)-1]['outputaction']="none";
+$tabconnector[count($tabconnector)-1]['name']="instanciatorextended";
+
+
 
 //connector db
 $tabconnector[]=array();
@@ -39,6 +48,14 @@ $tabconnector[count($tabconnector)-1]['classtoiniter']=true;
 $tabconnector[count($tabconnector)-1]['vartoiniter']=true;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="db";
 $tabconnector[count($tabconnector)-1]['name']="db";
+
+
+//connector requestor
+$tabconnector[]=array();
+$tabconnector[count($tabconnector)-1]['classtoiniter']=true;
+$tabconnector[count($tabconnector)-1]['vartoiniter']=true;
+$tabconnector[count($tabconnector)-1]['aliasiniter']="requestor";
+$tabconnector[count($tabconnector)-1]['name']="requestor";
 
 
 //connector log

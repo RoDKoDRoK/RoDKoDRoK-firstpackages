@@ -14,7 +14,7 @@
 			</column>
 			<column>
 				<nom>texte</nom>
-				<type>text</type>
+				<type>textwysiwygckeditor</type>
 				<default></default>
 				<suggestlist>none</suggestlist>
 			</column>
@@ -59,7 +59,7 @@
 			</column>
 			<column>
 				<nom>texte</nom>
-				<type>text</type>
+				<type>textwysiwygckeditor</type>
 				<default></default>
 				<suggestlist>none</suggestlist>
 			</column>

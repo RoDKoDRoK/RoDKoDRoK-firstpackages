@@ -3,7 +3,7 @@
 $conf['maintemplate']="index.tpl";
 
 
-$conf['wstemplate']="ws.tpl";
+$conf['xmltemplate']="xml.tpl";
 
 $conf['ajaxtemplate']="ajax.tpl";
 

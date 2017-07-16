@@ -8,7 +8,7 @@ $descripter['version']="0.3.x-1.0";
 $descripter['groupe']="Connector";
 
 
-$descripter['depend'][]="integrate.wysiwyg.ckeditor";
+$descripter['depend'][]="";
 
 
 ?>

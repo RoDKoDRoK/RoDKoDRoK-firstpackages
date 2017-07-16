@@ -30,7 +30,7 @@ class Showiniter extends ClassIniter
 	{
 		//simulation d'un initer avec les paramètres get
 		$simuliniter=array();
-		
+		/*
 		//SIMUL
 		//get chain connector
 		$chainconnector="none";
@@ -138,8 +138,19 @@ class Showiniter extends ClassIniter
 			
 		}
 		//...SIMUL
+		*/
 		
-		$simuliniter=$initer;
+		//get chain connector
+		$chainconnector="none";
+		if(isset($getparams['chainconnector']) && $getparams['chainconnector']!="")
+			$chainconnector=$getparams['chainconnector'];
+		
+		if(isset($this->includer) && $this->includer->include_class("pratikclass","initersimul"))
+		{
+			$instanceIniterSimul=new PratikInitersimul();
+			
+			$simuliniter=$instanceIniterSimul->initerConstruct($simuliniter,$chainconnector);
+		}
 		
 		return $simuliniter;
 	}

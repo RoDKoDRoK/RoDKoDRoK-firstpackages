@@ -1,12 +1,12 @@
 <?php
 
-class LibIntegratorFckeditor
+class LibIntegratorFckeditor extends LibIntegrator
 {
 
 	
-	function __construct()
+	function __construct($initer=array())
 	{
-		//parent::__construct();
+		parent::__construct($initer);
 
 	}
 	
@@ -15,7 +15,7 @@ class LibIntegratorFckeditor
 	{
 		$lib="";
 		
-		include_once "integrate/lib/fckeditor/fckeditor.php"; 
+		include_once "core/integrate/lib/fckeditor/fckeditor.php"; 
 
 		return $lib;
 	}

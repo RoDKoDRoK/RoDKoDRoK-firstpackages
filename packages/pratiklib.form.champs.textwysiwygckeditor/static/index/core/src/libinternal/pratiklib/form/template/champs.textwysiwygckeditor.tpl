@@ -1,0 +1,1 @@
+<textarea id="{$lineform.name}" name="{$lineform.name}">{$lineform.default}</textarea>

@@ -57,16 +57,20 @@ class ConnectorTp extends Connector
 		
 		
 		//charg contenu page
-		$tpltouse="core/tpl/".$this->initer['maintemplate'];
+		$tpltouse=$this->arkitect->get("tpl")."/".$this->initer['maintemplate'];
 		if(!file_exists($tpltouse))
 		{
-			$tpltouse="core/tpl/".$this->chainconnector.".tpl";
+			$tpltouse=$this->arkitect->get("tpl")."/".$this->chainconnector.".tpl";
 		}
 		
-		if(!file_exists($tpltouse))
+		if(!file_exists($tpltouse) || !is_file($tpltouse))
 		{
-			$this->log->pushtolog("Error template - check your configuration file (core/conf/conf/conf.tp.php)");
-			echo "Error template - check your configuration file (core/conf/conf/conf.tp.php)";
+			if($this->initer['maintemplate']!="" && $this->initer['maintemplate']!="none")
+			{
+				$this->log->pushtolog("Error template - check your configuration file (core/conf/conf/conf.tp.php)");
+				echo "<br />";
+				echo "Error template - check your configuration file (core/conf/conf/conf.tp.php)";
+			}
 			exit;
 		}
 		else

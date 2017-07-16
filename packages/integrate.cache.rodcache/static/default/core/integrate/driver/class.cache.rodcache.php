@@ -1,22 +1,13 @@
 <?php
 
-class CacheRodcache
+class CacheRodcache extends CacheDriver
 {
-	var $conf;
-	var $db;
-	var $log;
-	
 	var $destcache;
 	
 	
-	function __construct($db,$log)
+	function __construct($initer=array())
 	{
-		//parent::__construct();
-		$this->conf=$db->conf;
-		$this->db=$db;
-		
-		$this->log=$log;
-		
+		parent::__construct($initer);
 	}
 	
 	

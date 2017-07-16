@@ -224,8 +224,8 @@ class Load
 								//construct chemin tpl
 								$chemincour="";
 								
-								$arkitectname=$tabchemin[1];
-								$arkitectname.=".tplpath";
+								$arkitectname="tplpath.";
+								$arkitectname.=$tabchemin[1];
 								
 								$arkitect=new Arkitect();
 								$chemincour=$arkitect->get($arkitectname);

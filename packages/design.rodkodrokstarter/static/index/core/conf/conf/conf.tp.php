@@ -3,7 +3,7 @@
 $conf['maintemplate']="rodkodrokstarter.index.tpl";
 
 
-$conf['wstemplate']="ws.tpl";
+$conf['xmltemplate']="xml.tpl";
 
 $conf['ajaxtemplate']="rodkodrokstarter.ajax.tpl";
 
