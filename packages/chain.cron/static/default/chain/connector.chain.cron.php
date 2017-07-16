@@ -32,6 +32,14 @@ $tabconnector[count($tabconnector)-1]['outputaction']="toprint-self-var";
 $tabconnector[count($tabconnector)-1]['name']="conf";
 
 
+//connector includer
+$tabconnector[]=array();
+$tabconnector[count($tabconnector)-1]['classtoiniter']=true;
+$tabconnector[count($tabconnector)-1]['vartoiniter']=false;
+$tabconnector[count($tabconnector)-1]['aliasiniter']="includer";
+$tabconnector[count($tabconnector)-1]['name']="includer";
+
+
 //connector instanciatorextended
 $tabconnector[]=array();
 $tabconnector[count($tabconnector)-1]['classtoiniter']=true;
@@ -58,12 +66,12 @@ $tabconnector[count($tabconnector)-1]['aliasiniter']="otherdb";
 $tabconnector[count($tabconnector)-1]['name']="otherdb";
 
 
-//connector requestor
+//connector requestorextended
 $tabconnector[]=array();
 $tabconnector[count($tabconnector)-1]['classtoiniter']=true;
-$tabconnector[count($tabconnector)-1]['vartoiniter']=true;
+$tabconnector[count($tabconnector)-1]['vartoiniter']=false;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="requestor";
-$tabconnector[count($tabconnector)-1]['name']="requestor";
+$tabconnector[count($tabconnector)-1]['name']="requestorextended";
 
 
 
@@ -84,13 +92,6 @@ $tabconnector[count($tabconnector)-1]['vartoiniter']=false;
 $tabconnector[count($tabconnector)-1]['aliasiniter']="instanceVar";
 $tabconnector[count($tabconnector)-1]['name']="variable";
 
-
-//connector includer
-$tabconnector[]=array();
-$tabconnector[count($tabconnector)-1]['classtoiniter']=true;
-$tabconnector[count($tabconnector)-1]['vartoiniter']=false;
-$tabconnector[count($tabconnector)-1]['aliasiniter']="includer";
-$tabconnector[count($tabconnector)-1]['name']="includer";
 
 
 

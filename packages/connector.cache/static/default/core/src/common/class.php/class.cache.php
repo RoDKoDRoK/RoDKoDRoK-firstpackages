@@ -10,7 +10,7 @@ class Cache extends ClassIniter
 		parent::__construct($initer);
 		
 		//select moteur requestor
-		$instance=$this->instanciator->newInstance("cache",$initer,true);
+		$instance=$this->instanciator->newInstance("cache",$initer,true,true);
 		
 		$this->cacheselected=$instance;
 	}

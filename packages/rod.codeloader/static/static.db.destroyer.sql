@@ -7,7 +7,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
 DROP TABLE IF EXISTS `codeloader` ;
 
-
+DROP TABLE IF EXISTS `chainloadcodesrc` ;
 
 
 

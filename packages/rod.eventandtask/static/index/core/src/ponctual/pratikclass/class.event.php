@@ -69,9 +69,22 @@ class PratikEvent extends ClassIniter
 	{
 		$tabevent=array();
 		
-		$req=$this->db->query("select * from `event`,`eventexectask`,`task` where `event`.nomcodeevent='".$nomcodeevent."' and `event`.nomcodeevent=`eventexectask`.nomcodeevent and `task`.nomcodetask=`eventexectask`.nomcodetask order by `eventexectask`.ordre asc");
-		while($res=$this->db->fetch_array($req))
-			$tabevent[]=$res;
+		//dbfromfile
+		$tabtmp=$this->genesisdbfromfile->join("inner", "", "event", "eventexectask", array("nomcodeevent"=>"nomcodeevent"));
+		$tabtmp=$this->genesisdbfromfile->join("inner", "", $tabtmp, "task", array("nomcodetask"=>"nomcodetask"));
+		$tabtmp=$this->genesisdbfromfile->where("", "nomcodeevent", $nomcodeevent, $tabtmp);
+		$tabtmp=$this->genesisdbfromfile->orderby("ordre", $tabtmp);
+		$tabevent=$tabtmp;
+		
+		
+		//db
+		if(isset($this->db) && $this->db!=null && method_exists($this->requestor,"checkTableExists") && $this->requestor->checkTableExists("event"))
+		{
+			$tabevent=array();
+			$req=$this->db->query("select * from `event`,`eventexectask`,`task` where `event`.nomcodeevent='".$nomcodeevent."' and `event`.nomcodeevent=`eventexectask`.nomcodeevent and `task`.nomcodetask=`eventexectask`.nomcodetask order by `eventexectask`.ordre asc");
+			while($res=$this->db->fetch_array($req))
+				$tabevent[]=$res;
+		}
 		
 		return $tabevent;
 	}
@@ -84,26 +97,64 @@ class PratikEvent extends ClassIniter
 		$nomcodeevent=strtolower($nomcodeevent);
 		$nomcodetask=strtolower($nomcodetask);
 		
+		//dbfromfile
 		//cas ordre
-		$sqlordre="";
+		$sqlordre=false;
 		if($ordre!="")
-			$sqlordre=" and ordre='".$ordre."'";
+			$sqlordre=true;
 		else
 		{
 			$ordre="0";
-			$req=$this->db->query("select max(ordre) as maxordre FROM `eventexectask` WHERE nomcodeevent='".$nomcodeevent."';");
-			if($res=$this->db->fetch_array($req))
-				$ordre=$res['maxordre']+1;
+			
+			$tabtmp=$this->genesisdbfromfile->where("", "nomcodeevent", $nomcodeevent, "eventexectask");
+			$ordre=$this->genesisdbfromfile->max("ordre",$tabtmp);
+			$ordre++;
 		}
 		
 		//test doublons
-		$req=$this->db->query("select ideventexectask FROM `eventexectask` WHERE nomcodetask='".$nomcodetask."' and nomcodeevent='".$nomcodeevent."' ".$sqlordre.";");
-		$res=$this->db->fetch_array($req);
-		if($res)
+		$tabtmp=$this->genesisdbfromfile->where("", "nomcodetask", $nomcodetask, "eventexectask");
+		$tabtmp=$this->genesisdbfromfile->where("", "nomcodeevent", $nomcodeevent, $tabtmp);
+		if($sqlordre)
+			$tabtmp=$this->genesisdbfromfile->where("", "ordre", $ordre, $tabtmp);
+		
+		if(is_array($tabtmp) && count($tabtmp)>0)
 			return;
 		
 		//insert
-		$this->db->query("INSERT INTO `eventexectask` VALUES (NULL,'".$nomcodeevent."','".$nomcodetask."','".$ordre."');");
+		$datacour=array();
+		$datacour['ideventexectask']=$this->genesisdbfromfile->max("ideventexectask","eventexectask");
+		$datacour['ideventexectask']++;
+		$datacour['nomcodeevent']=$nomcodeevent;
+		$datacour['nomcodetask']=$nomcodetask;
+		$datacour['ordre']=$ordre;
+		
+		$this->genesisdbfromfile->insert("eventexectask",$datacour);
+	
+		
+		//db
+		if(isset($this->db) && $this->db!=null && method_exists($this->requestor,"checkTableExists") && $this->requestor->checkTableExists("event"))
+		{
+			//cas ordre
+			$sqlordre="";
+			if($ordre!="")
+				$sqlordre=" and ordre='".$ordre."'";
+			else
+			{
+				$ordre="0";
+				$req=$this->db->query("select max(ordre) as maxordre FROM `eventexectask` WHERE nomcodeevent='".$nomcodeevent."';");
+				if($res=$this->db->fetch_array($req))
+					$ordre=$res['maxordre']+1;
+			}
+			
+			//test doublons
+			$req=$this->db->query("select ideventexectask FROM `eventexectask` WHERE nomcodetask='".$nomcodetask."' and nomcodeevent='".$nomcodeevent."' ".$sqlordre.";");
+			$res=$this->db->fetch_array($req);
+			if($res)
+				return;
+			
+			//insert
+			$this->db->query("INSERT INTO `eventexectask` VALUES (NULL,'".$nomcodeevent."','".$nomcodetask."','".$ordre."');");
+		}
 	}
 	
 	
@@ -114,13 +165,32 @@ class PratikEvent extends ClassIniter
 		$nomcodeevent=strtolower($nomcodeevent);
 		$nomcodetask=strtolower($nomcodetask);
 		
+		
+		//dbfromfile
 		//cas ordre
-		$sqlordre="";
+		$sqlordre=false;
 		if($ordre!="")
-			$sqlordre=" and ordre='".$ordre."'";
+			$sqlordre=true;
 		
 		//delete
-		$this->db->query("delete from `eventexectask` where nomcodetask='".$nomcodetask."' and nomcodeevent='".$nomcodeevent."' ".$sqlordre.";");
+		$tabtmp=$this->genesisdbfromfile->where("", "nomcodetask", $nomcodetask, "eventexectask");
+		if($sqlordre)
+			$tabtmp=$this->genesisdbfromfile->where("", "ordre", $ordre, $tabtmp);
+		$index=$this->genesisdbfromfile->index("nomcodeevent",$nomcodeevent,$tabtmp,"ideventexectask");
+		$this->genesisdbfromfile->delete("eventexectask", $index);
+		
+	
+		//db
+		if(isset($this->db) && $this->db!=null && method_exists($this->requestor,"checkTableExists") && $this->requestor->checkTableExists("event"))
+		{
+			//cas ordre
+			$sqlordre="";
+			if($ordre!="")
+				$sqlordre=" and ordre='".$ordre."'";
+			
+			//delete
+			$this->db->query("delete from `eventexectask` where nomcodetask='".$nomcodetask."' and nomcodeevent='".$nomcodeevent."' ".$sqlordre.";");
+		}
 	}
 	
 	
@@ -130,23 +200,59 @@ class PratikEvent extends ClassIniter
 		//prepare data
 		$nomcodeevent=strtolower($nomcodeevent);
 		
+		
+		//dbfromfile
 		//check event already exists
-		$reqexists=$this->db->query("select * FROM `event` WHERE `event`.nomcodeevent='".$nomcodeevent."' or `event`.idevent='".$nomcodeevent."'");
-		if($resexists=$this->db->fetch_array($reqexists))
+		$idevent=$nomcodeevent;
+		if(!is_numeric($idevent))
+			$idevent=$this->genesisdbfromfile->index("nomcodeevent",$nomcodeevent,"event");
+		if($idevent!="0")
 		{
-			$idevent=$resexists['idevent'];
 			//update not used
-			/*$req=$this->db->query("update `event` set 
-										nomtask='".$nomevent."', 
-										description='".$description."'
-									where idevent='".$idevent."'
-									");
+			/*
+			$tabdata=array();
+			$tabdata['nomevent']=$nomevent;
+			$tabdata['description']=$description;
+			
+			$this->updateEvent($idevent,$tabdata);
 			*/
 		}
 		else
 		{
-			$this->db->query("insert into `event` (idevent,nomcodeevent,nomevent,description) VALUES (NULL,'".$nomcodeevent."','".$nomevent."','".$description."')");
-			$idevent=$this->db->last_insert_id();
+			//insert event
+			$datacour=array();
+			$datacour['idevent']=$this->genesisdbfromfile->max("idevent","event");
+			$datacour['idevent']++;
+			$datacour['nomcodeevent']=$nomcodeevent;
+			$datacour['nomevent']=$nomevent;
+			$datacour['description']=$description;
+			
+			$this->genesisdbfromfile->insert("event",$datacour);
+			$idevent=$datacour['idevent']; //$this->genesisdbfromfile->count("","param");
+		}
+		
+		
+		//db
+		if(isset($this->db) && $this->db!=null && method_exists($this->requestor,"checkTableExists") && $this->requestor->checkTableExists("event"))
+		{
+			//check event already exists
+			$reqexists=$this->db->query("select * FROM `event` WHERE `event`.nomcodeevent='".$nomcodeevent."' or `event`.idevent='".$nomcodeevent."'");
+			if($resexists=$this->db->fetch_array($reqexists))
+			{
+				$idevent=$resexists['idevent'];
+				//update not used
+				/*$req=$this->db->query("update `event` set 
+											nomevent='".$nomevent."', 
+											description='".$description."'
+										where idevent='".$idevent."'
+										");
+				*/
+			}
+			else
+			{
+				$this->db->query("insert into `event` (idevent,nomcodeevent,nomevent,description) VALUES (NULL,'".$nomcodeevent."','".$nomevent."','".$description."')");
+				$idevent=$this->db->last_insert_id();
+			}
 		}
 		
 		return $idevent;
@@ -155,11 +261,13 @@ class PratikEvent extends ClassIniter
 	
 	function updateEvent($nomcodeevent,$tabupdate=array())
 	{
-		if(is_array($tabupdate) && count($tabupdate)==0)
+		if(!is_array($tabupdate) || (is_array($tabupdate) && count($tabupdate)==0))
 			return;
 		
-		//check idtask to update
-		$idtask="0";
+		
+		//dbfromfile
+		//check idevent to update
+		$idevent="0";
 		if(is_numeric($nomcodeevent))
 		{
 			$idevent=$nomcodeevent;
@@ -169,25 +277,53 @@ class PratikEvent extends ClassIniter
 			//prepare data
 			$nomcodeevent=strtolower($nomcodeevent);
 			
-			//load task id
-			$reqevent=$this->db->query("select * FROM `event` WHERE `event`.nomcodeevent='".$nomcodeevent."'");
-			if($resevent=$this->db->fetch_array($reqevent))
-				$idevent=$resevent['idevent'];
+			//load event id
+			$idevent=$this->genesisdbfromfile->index("nomcodeevent",$nomcodeevent,"event");
 		}
-		
-		//prepare update
-		$update="";
-		foreach($tabupdate as $idtab=>$valuetab)
-		{
-			$update.=$idtab."='".$valuetab."' , ";
-		}
-		$update=substr($update,0,-2);
 		
 		//update
-		$this->db->query("update `event` set 
-										".$update." 
-									where idevent='".$idevent."'
-									");
+		//prepare data
+		$datacour=$tabupdate;
+		
+		//update event
+		$this->genesisdbfromfile->update("event",$idevent,$datacour);
+		
+		
+		//db
+		if(isset($this->db) && $this->db!=null && method_exists($this->requestor,"checkTableExists") && $this->requestor->checkTableExists("event"))
+		{
+			//check idevent to update
+			$idevent="0";
+			if(is_numeric($nomcodeevent))
+			{
+				$idevent=$nomcodeevent;
+			}
+			else
+			{
+				//prepare data
+				$nomcodeevent=strtolower($nomcodeevent);
+				
+				//load event id
+				$reqevent=$this->db->query("select * FROM `event` WHERE `event`.nomcodeevent='".$nomcodeevent."'");
+				if($resevent=$this->db->fetch_array($reqevent))
+					$idevent=$resevent['idevent'];
+			}
+			
+			//prepare update
+			$update="";
+			foreach($tabupdate as $idtab=>$valuetab)
+			{
+				$update.=$idtab."='".$valuetab."' , ";
+			}
+			$update=substr($update,0,-2);
+			
+			//update
+			$this->db->query("update `event` set 
+											".$update." 
+										where idevent='".$idevent."'
+										");
+			
+		}
 		
 	} 
 	
@@ -197,8 +333,27 @@ class PratikEvent extends ClassIniter
 		//prepare data
 		$nomcodeevent=strtolower($nomcodeevent);
 		
-		//delete
-		$this->db->query("delete from `event` where (idevent='".$nomcodeevent."' or nomcodeevent='".$nomcodeevent."')");
+		
+		//dbfromfile
+		if(is_numeric($nomcodeevent))
+		{
+			//delete with id
+			$this->genesisdbfromfile->delete("event", $nomcodeevent);
+		}
+		else
+		{
+			//delete with codename
+			$index=$this->genesisdbfromfile->index("nomcodeevent",$nomcodeevent,"event");
+			$this->genesisdbfromfile->delete("event", $index);
+		}
+		
+		
+		//db
+		if(isset($this->db) && $this->db!=null && method_exists($this->requestor,"checkTableExists") && $this->requestor->checkTableExists("event"))
+		{
+			//delete
+			$this->db->query("delete from `event` where (idevent='".$nomcodeevent."' or nomcodeevent='".$nomcodeevent."')");
+		}
 	}
 	
 	

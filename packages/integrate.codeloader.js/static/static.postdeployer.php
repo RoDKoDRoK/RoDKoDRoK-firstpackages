@@ -13,7 +13,7 @@ if(isset($this->includer) && $this->includer->include_pratikclass("codesrc"))
 	
 	//codesrc
 	$instanceCodeSrc->addCodeSrc('js','js','js','js');
-	$instanceCodeSrc->addCodeSrcToChain('js','all','2');
+	$instanceCodeSrc->addCodeSrcToChain('js','all','3');
 	
 }
 
